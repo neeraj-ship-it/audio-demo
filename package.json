@@ -1,0 +1,43 @@
+{
+  "name": "audio-demo",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "dev": "next dev -p 3005",
+    "build": "next build",
+    "start": "next start -p 3005",
+    "generate": "node scripts/generate-batch.js 8",
+    "generate-batch": "node scripts/generate-batch.js",
+    "setup-s3": "node scripts/setup-aws-s3.js",
+    "produce-premium": "node scripts/produce-premium-stories.js",
+    "overnight-batch": "node scripts/batch-generate-premium.js",
+    "production-complete": "node scripts/production-batch-complete.js",
+    "fast-batch": "node scripts/fast-batch-generate.js",
+    "professional": "node scripts/generate-professional-story.js",
+    "download-music": "node scripts/download-music.js",
+    "fix-thumbnails": "node scripts/fix-duplicate-thumbnails.js",
+    "automation:start": "node automation/generate-daily.js",
+    "automation:test": "node automation/generate-daily.js --now",
+    "generate:stories": "node generate-new-stories.js",
+    "generate:punarjanam": "node generate-punarjanam.js"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "@anthropic-ai/sdk": "^0.74.0",
+    "@google/generative-ai": "^0.24.1",
+    "aws-sdk": "^2.1693.0",
+    "canvas": "^3.2.1",
+    "cloudinary": "^2.0.0",
+    "dotenv": "^17.2.4",
+    "next": "^16.1.6",
+    "node-cron": "^4.2.1",
+    "node-fetch": "^2.7.0",
+    "openai": "^6.18.0",
+    "pdf-parse": "^2.4.5",
+    "react": "^19.2.4",
+    "react-dom": "^19.2.4"
+  }
+}

@@ -1,0 +1,19 @@
+{
+  "crons": [
+    {
+      "path": "/api/auto-generate-story",
+      "schedule": "0 9 * * *"
+    },
+    {
+      "path": "/api/publish-scheduled",
+      "schedule": "0 10 * * *"
+    }
+  ],
+  "functions": {
+    "pages/api/**/*.js": {
+      "memory": 1024,
+      "maxDuration": 60
+    }
+  },
+  "regions": ["bom1"]
+}

@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Corrected Spellings - AudioFlix Posters</title>
+    <style>
+        body {
+            margin: 0;
+            padding: 40px;
+            background: #141414;
+            color: white;
+            font-family: system-ui, -apple-system, sans-serif;
+        }
+        h1 {
+            text-align: center;
+            font-size: 36px;
+            margin-bottom: 10px;
+            background: linear-gradient(135deg, #10b981, #3b82f6);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+        }
+        .subtitle {
+            text-align: center;
+            color: #aaa;
+            margin-bottom: 50px;
+            font-size: 18px;
+        }
+        .comparison {
+            max-width: 1600px;
+            margin: 0 auto;
+        }
+        .row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 30px;
+            margin-bottom: 60px;
+            padding: 30px;
+            background: #1a1a1a;
+            border-radius: 15px;
+        }
+        .poster-box {
+            text-align: center;
+        }
+        .poster-box h3 {
+            margin: 0 0 15px 0;
+            font-size: 20px;
+            padding: 10px;
+            border-radius: 8px;
+        }
+        .old {
+            background: rgba(229, 9, 20, 0.1);
+            border: 2px solid #e50914;
+        }
+        .new {
+            background: rgba(16, 185, 129, 0.1);
+            border: 2px solid #10b981;
+        }
+        .poster-box img {
+            width: 100%;
+            max-width: 500px;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.7);
+        }
+        .badge {
+            display: inline-block;
+            padding: 5px 15px;
+            border-radius: 20px;
+            font-size: 12px;
+            font-weight: bold;
+            margin: 10px 0;
+        }
+        .badge-old {
+            background: rgba(229, 9, 20, 0.2);
+            color: #e50914;
+        }
+        .badge-new {
+            background: rgba(16, 185, 129, 0.2);
+            color: #10b981;
+        }
+        .features {
+            margin-top: 15px;
+            font-size: 14px;
+            color: #aaa;
+            line-height: 1.8;
+        }
+        .features span {
+            display: block;
+        }
+        .decision {
+            max-width: 800px;
+            margin: 50px auto 0;
+            text-align: center;
+            padding: 40px;
+            background: rgba(16, 185, 129, 0.1);
+            border: 3px solid #10b981;
+            border-radius: 15px;
+        }
+        .decision h2 {
+            margin-top: 0;
+            font-size: 28px;
+            color: #10b981;
+        }
+        .checkmark {
+            font-size: 60px;
+            margin-bottom: 20px;
+        }
+    </style>
+</head>
+<body>
+    <h1>✅ Fixed: Perfect Spelling!</h1>
+    <p class="subtitle">2-Step Process: AI Visual + Programmatic Text Overlay</p>
+
+    <div class="comparison">
+        <!-- Romance Comparison -->
+        <div class="row">
+            <div class="poster-box">
+                <h3 class="old">❌ OLD (AI-Generated Text - Wrong Spelling)</h3>
+                <span class="badge badge-old">REJECTED</span>
+                <img src="/posters/sample-romance.png" alt="Old Romance">
+                <div class="features">
+                    <span>❌ Text spelling errors</span>
+                    <span>❌ AI can't write correct Hindi</span>
+                    <span>❌ Unpredictable text quality</span>
+                </div>
+            </div>
+
+            <div class="poster-box">
+                <h3 class="new">✅ NEW (Programmatic Text - Perfect Spelling)</h3>
+                <span class="badge badge-new">APPROVED ✓</span>
+                <img src="/posters/test-romance.png" alt="New Romance">
+                <div class="features">
+                    <span>✅ Perfect spelling: "College Ke Din"</span>
+                    <span>✅ Professional text overlay</span>
+                    <span>✅ 100% accurate every time</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- Horror Comparison -->
+        <div class="row">
+            <div class="poster-box">
+                <h3 class="old">❌ OLD (AI-Generated Text - Wrong Spelling)</h3>
+                <span class="badge badge-old">REJECTED</span>
+                <img src="/posters/sample-horror.png" alt="Old Horror">
+                <div class="features">
+                    <span>❌ Text spelling errors</span>
+                    <span>❌ Inconsistent text placement</span>
+                    <span>❌ Hard to read</span>
+                </div>
+            </div>
+
+            <div class="poster-box">
+                <h3 class="new">✅ NEW (Programmatic Text - Perfect Spelling)</h3>
+                <span class="badge badge-new">APPROVED ✓</span>
+                <img src="/posters/test-horror.png" alt="New Horror">
+                <div class="features">
+                    <span>✅ Perfect spelling: "Purani Haveli Ka Rahasya"</span>
+                    <span>✅ Horror-style red text</span>
+                    <span>✅ Professional placement</span>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="decision">
+        <div class="checkmark">✅</div>
+        <h2>Spelling Problem SOLVED!</h2>
+        <p style="font-size: 18px; line-height: 1.8; color: #ccc;">
+            <strong>2-Step Process:</strong><br><br>
+            <strong>Step 1:</strong> AI generates realistic visual (no text)<br>
+            <strong>Step 2:</strong> We add perfect Hindi title programmatically<br><br>
+            Result: <span style="color: #10b981; font-weight: bold;">100% accurate spelling + realistic visuals</span>
+        </p>
+        <p style="margin-top: 30px; font-size: 20px; color: white;">
+            <strong>Ready to generate all 25 posters with perfect spelling?</strong><br>
+            Time: ~40 minutes | Cost: FREE
+        </p>
+    </div>
+</body>
+</html>

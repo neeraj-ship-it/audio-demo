@@ -1,0 +1,117 @@
+{
+  "stories": [
+    {
+      "id": 1770918492936,
+      "title": "पुनर्जनम के राज - Mystery of Rebirth",
+      "description": "एगो रहस्यमय कहानी प्यार, मौत, आ पुनर्जनम के। जब एक आत्मा दोबारा जनम लेके अपना अधूरा प्यार पूरा करे के कोशिश करेला...",
+      "category": "Drama",
+      "language": "Bhojpuri",
+      "duration": "15 min",
+      "audioPath": "/bhojpuri-punarjanam-1770918492913.mp3",
+      "audioUrl": "/bhojpuri-punarjanam-1770918492913.mp3",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1518709268805-4e9042af9f23?w=400",
+      "createdAt": "2026-02-12T17:48:12.936Z",
+      "generated": true,
+      "new": true,
+      "emoji": "🔮",
+      "rating": 0,
+      "ratingCount": 0,
+      "tags": [
+        "bhojpuri",
+        "automated",
+        "drama",
+        "punarjanam",
+        "reincarnation"
+      ]
+    },
+    {
+      "id": 1770917079833,
+      "title": "गाँव के मेला - Village Fair",
+      "description": "गाँव में लगल मेला के कहानी। छोटका बच्चा के खो जाला आ पूरा गाँव मिल के ढूंढेला...",
+      "category": "Culture",
+      "language": "Bhojpuri",
+      "duration": "10 min",
+      "audioPath": "/bhojpuri-1770917079831.mp3",
+      "audioUrl": "/bhojpuri-1770917079831.mp3",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400",
+      "createdAt": "2026-02-12T17:24:39.833Z",
+      "generated": true,
+      "new": true,
+      "emoji": "🎪",
+      "rating": 0,
+      "ratingCount": 0,
+      "tags": [
+        "bhojpuri",
+        "automated",
+        "culture"
+      ]
+    },
+    {
+      "id": 1770917079766,
+      "title": "माई के ममता - Mother's Love",
+      "description": "एगो मर्मस्पर्शी कहानी माँ के प्यार आ त्याग के बारे में। जब बेटा शहर जाके माई के भुला देला...",
+      "category": "Family",
+      "language": "Bhojpuri",
+      "duration": "10 min",
+      "audioPath": "/bhojpuri-1770917079762.mp3",
+      "audioUrl": "/bhojpuri-1770917079762.mp3",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400",
+      "createdAt": "2026-02-12T17:24:39.766Z",
+      "generated": true,
+      "new": true,
+      "emoji": "❤️",
+      "rating": 0,
+      "ratingCount": 0,
+      "tags": [
+        "bhojpuri",
+        "automated",
+        "family"
+      ]
+    },
+    {
+      "id": 1770900000001,
+      "title": "बाबूजी के सीख (Babuji Ki Seekh)",
+      "description": "एगो प्रेरक कहानी बाबूजी के सीख के बारे में, जवन सिखावेला कि एकता में बल बा। Unity is strength!",
+      "category": "Motivation",
+      "language": "Bhojpuri",
+      "duration": 360,
+      "audioPath": "/bhojpuri-test-story.mp3",
+      "audioUrl": "/bhojpuri-test-story.mp3",
+      "thumbnailUrl": "https://images.unsplash.com/photo-1484480974693-6ca0a78fb36b?w=400",
+      "createdAt": "2026-02-12T10:47:12.362Z",
+      "generated": true,
+      "new": true,
+      "emoji": "💪",
+      "rating": 0,
+      "ratingCount": 0,
+      "tags": [
+        "bhojpuri",
+        "motivation",
+        "family",
+        "unity",
+        "babuji"
+      ]
+    },
+    {
+      "id": 1770812991992,
+      "title": "PHAANS - Haryanvi Crime Drama (फाँस)",
+      "description": "Crime reporter Adarsh Poonia ki kahani. Gaon mein elections, rajneeti, aur crime ka investigation. Haryanvi narration.",
+      "category": "Thriller",
+      "language": "Haryanvi",
+      "duration": 420,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1770812991992-phaans-haryanvi-full.mp3",
+      "thumbnailUrl": "https://images.pexels.com/photos/4061662/pexels-photo-4061662.jpeg?w=400",
+      "createdAt": "2026-02-11T12:29:53.183Z",
+      "generated": true,
+      "generatedAt": "2026-02-11T12:29:53.183Z",
+      "isHaryanvi": true,
+      "tags": [
+        "haryanvi",
+        "phaans",
+        "crime",
+        "thriller",
+        "village"
+      ]
+    }
+  ]
+}
