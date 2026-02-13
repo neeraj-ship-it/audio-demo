@@ -1,6 +1,10 @@
 {
   "crons": [
     {
+      "path": "/api/auto-generate-multi-dialect",
+      "schedule": "0 2 * * *"
+    },
+    {
       "path": "/api/auto-generate-story",
       "schedule": "0 9 * * *"
     },
