@@ -1082,7 +1082,7 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))',
+              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
               gap:'18px',
               justifyContent:'center'
             }}>
@@ -1232,7 +1232,7 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))',
+              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
               gap:'20px',
               justifyContent:'center'
             }}>
@@ -1429,7 +1429,7 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))',
+              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
               gap:'18px',
               justifyContent:'center'
             }}>
@@ -1590,7 +1590,7 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(180px, 1fr))',
+              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
               gap:'18px',
               justifyContent:'center'
             }}>
