@@ -1,7 +1,11 @@
 import fs from 'fs'
 import path from 'path'
 
+const { apiLimiter } = require('../../lib/rateLimit')
+
 export default function handler(req, res) {
+  if (!apiLimiter(req, res)) return
+
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
@@ -19,9 +23,9 @@ export default function handler(req, res) {
 
   } catch (error) {
     console.error('Error reading stories:', error)
+    console.error('Stories error:', error.message)
     res.status(500).json({
-      error: 'Failed to load stories',
-      details: error.message
+      error: 'Failed to load stories'
     })
   }
 }

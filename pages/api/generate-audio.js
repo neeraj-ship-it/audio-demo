@@ -1,9 +1,13 @@
+const { generationLimiter } = require('../../lib/rateLimit')
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
-  const { text, voiceId = 'pNInz6obpgDQGcFmaJgB' } = req.body // Adam voice
+  if (!generationLimiter(req, res)) return
+
+  const { text, voiceId = process.env.DEFAULT_VOICE_ID || 'pNInz6obpgDQGcFmaJgB' } = req.body
 
   if (!text) {
     return res.status(400).json({ error: 'Text is required' })
@@ -48,9 +52,9 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Audio generation error:', error)
+    console.error('Audio generation error:', error.message)
     res.status(500).json({
-      error: 'Failed to generate audio',
-      details: error.message
+      error: 'Failed to generate audio'
     })
   }
 }

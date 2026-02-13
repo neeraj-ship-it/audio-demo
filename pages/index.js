@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react'
+import Head from 'next/head'
 import { useRouter } from 'next/router'
 import ComingSoon from '../components/ComingSoon'
 import Categories from '../components/Categories'
@@ -9,9 +10,13 @@ import RatingModal from '../components/RatingModal'
 import ShareModal from '../components/ShareModal'
 import MiniPlayer from '../components/MiniPlayer'
 import ThemeToggle from '../components/ThemeToggle'
+import { useTheme } from '../contexts/ThemeContext'
+import { useToast } from '../contexts/ToastContext'
 
 export default function AudioFlix() {
   const router = useRouter()
+  const { isDarkMode, toggleTheme, currentTheme } = useTheme()
+  const toast = useToast()
   const [stories, setStories] = useState([])
   const [showComingSoon, setShowComingSoon] = useState(false)
   const [showCategories, setShowCategories] = useState(false)
@@ -66,49 +71,8 @@ export default function AudioFlix() {
   // Mini Player state
   const [showMiniPlayer, setShowMiniPlayer] = useState(true) // true = mini, false = full player
 
-  // Theme state
-  const [isDarkMode, setIsDarkMode] = useState(true)
-
   const audioRef = useRef(null)
   const sleepTimerRef = useRef(null)
-
-  // Theme colors
-  const theme = {
-    dark: {
-      bg: '#0a0a0a',
-      bgSecondary: '#1a1a1a',
-      bgCard: '#111111',
-      text: '#ffffff',
-      textSecondary: '#aaaaaa',
-      border: '#333333',
-      accent: '#667eea',
-      accentSecondary: '#764ba2'
-    },
-    light: {
-      bg: '#ffffff',
-      bgSecondary: '#f5f5f5',
-      bgCard: '#fafafa',
-      text: '#1a1a1a',
-      textSecondary: '#666666',
-      border: '#e0e0e0',
-      accent: '#667eea',
-      accentSecondary: '#f5576c'
-    }
-  }
-  const currentTheme = isDarkMode ? theme.dark : theme.light
-
-  // Load theme from localStorage
-  useEffect(() => {
-    const savedTheme = localStorage.getItem('audioflix_theme')
-    if (savedTheme) {
-      setIsDarkMode(savedTheme === 'dark')
-    }
-  }, [])
-
-  // Save theme to localStorage
-  useEffect(() => {
-    localStorage.setItem('audioflix_theme', isDarkMode ? 'dark' : 'light')
-  }, [isDarkMode])
 
   useEffect(() => {
     // Load published content from API
@@ -545,18 +509,32 @@ export default function AudioFlix() {
   const categories = ['🔥 Trending', '💕 Romance', '🎭 Drama', '🚀 Tech', '💪 Health', '🙏 Spiritual']
 
   return (
+    <>
+    <Head>
+      <title>Stage FM - Hindi Audio Stories | Romance, Thriller, Comedy & More</title>
+      <meta name="description" content="Listen to premium Hindi audio stories in Bhojpuri, Gujarati, Haryanvi, and Rajasthani dialects. Multi-voice AI narration with background music." />
+      <meta name="viewport" content="width=device-width, initial-scale=1" />
+      <meta name="theme-color" content={currentTheme.bg} />
+      <link rel="icon" href="/favicon.ico" />
+      <html lang="hi" />
+    </Head>
     <div style={{background:currentTheme.bg,minHeight:'100vh',color:currentTheme.text,fontFamily:'system-ui, -apple-system, sans-serif',margin:0,padding:0,transition:'background 0.3s ease, color 0.3s ease'}}>
+      {/* Skip to content link for keyboard navigation */}
+      <a href="#main-content" style={{position:'absolute',top:'-40px',left:0,background:'#667eea',color:'white',padding:'8px 16px',zIndex:9999,fontSize:'14px',textDecoration:'none',borderRadius:'0 0 4px 0'}} onFocus={(e)=>e.currentTarget.style.top='0'} onBlur={(e)=>e.currentTarget.style.top='-40px'}>
+        Skip to content
+      </a>
+
       {/* Theme Toggle */}
-      <ThemeToggle isDark={isDarkMode} onToggle={() => setIsDarkMode(!isDarkMode)} />
+      <ThemeToggle />
 
       {/* Header */}
-      <div style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 40px',background:isDarkMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.95)',position:'sticky',top:0,zIndex:100,borderBottom:`1px solid ${currentTheme.border}`,backdropFilter:'blur(10px)'}}>
+      <header role="banner" style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 40px',background:isDarkMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.95)',position:'sticky',top:0,zIndex:100,borderBottom:`1px solid ${currentTheme.border}`,backdropFilter:'blur(10px)'}}>
         <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
           {/* Logo */}
           <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
             <img
               src="/stage-logo.png"
-              alt="Stage FM"
+              alt="Stage FM - Audio Stories Platform"
               style={{height:'45px',width:'auto'}}
             />
             <span style={{
@@ -572,7 +550,7 @@ export default function AudioFlix() {
           </div>
 
           {/* Dialect Buttons */}
-          <div style={{display:'flex',gap:'8px',alignItems:'center',borderLeft:`2px solid ${currentTheme.border}`,paddingLeft:'20px'}}>
+          <nav aria-label="Filter by dialect" style={{display:'flex',gap:'8px',alignItems:'center',borderLeft:`2px solid ${currentTheme.border}`,paddingLeft:'20px'}}>
             {[
               {value: 'All', emoji: '🌐', color: '#667eea'},
               {value: 'Haryanvi', emoji: '🎭', color: '#ff6b6b'},
@@ -583,6 +561,8 @@ export default function AudioFlix() {
               <button
                 key={dialect.value}
                 onClick={() => setSelectedDialect(dialect.value)}
+                aria-label={`Filter: ${dialect.value}`}
+                aria-pressed={selectedDialect === dialect.value}
                 style={{
                   padding: '6px 14px',
                   background: selectedDialect === dialect.value
@@ -623,7 +603,7 @@ export default function AudioFlix() {
                 <span>{dialect.value}</span>
               </button>
             ))}
-          </div>
+          </nav>
         </div>
         <div style={{display:'flex',gap:'15px',alignItems:'center'}}>
           {/* Categories button - Hidden for now */}
@@ -732,8 +712,9 @@ export default function AudioFlix() {
             </button>
           )}
         </div>
-      </div>
+      </header>
 
+      <main id="main-content" role="main">
       {/* Search Bar */}
       {showSearchBar && (
         <div style={{
@@ -1086,8 +1067,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
-              gap:'20px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',
+              gap:'24px',
               justifyContent:'center'
             }}>
               {userHistory.slice(0, 6).map(storyId => {
@@ -1111,7 +1092,7 @@ export default function AudioFlix() {
                   >
                     <div style={{
                       width:'100%',
-                      height:'320px',
+                      height:'340px',
                       background: story.thumbnailUrl
                         ? `url(${story.thumbnailUrl}) center/cover`
                         : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -1236,8 +1217,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
-              gap:'20px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',
+              gap:'24px',
               justifyContent:'center'
             }}>
               {trendingStories.slice(0, 5).map((story, index) => (
@@ -1278,7 +1259,7 @@ export default function AudioFlix() {
 
                   <div style={{
                     width:'100%',
-                    height:'320px',
+                    height:'340px',
                     background: story.thumbnailUrl
                       ? `url(${story.thumbnailUrl}) center/cover`
                       : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -1433,8 +1414,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
-              gap:'20px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',
+              gap:'24px',
               justifyContent:'center'
             }}>
               {userFavorites.slice(0, 6).map(storyId => {
@@ -1458,7 +1439,7 @@ export default function AudioFlix() {
                   >
                     <div style={{
                       width:'100%',
-                      height:'320px',
+                      height:'340px',
                       background: story.thumbnailUrl
                         ? `url(${story.thumbnailUrl}) center/cover`
                         : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -1594,8 +1575,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
-              gap:'20px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(220px, 1fr))',
+              gap:'24px',
               justifyContent:'center'
             }}>
               {categoryStories.map(story => (
@@ -1616,7 +1597,7 @@ export default function AudioFlix() {
                 >
                   <div style={{
                     width:'100%',
-                    height:'320px',
+                    height:'340px',
                     background: story.thumbnailUrl
                       ? `url(${story.thumbnailUrl}) center/cover`
                       : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -2134,8 +2115,10 @@ export default function AudioFlix() {
         />
       )}
 
+      </main>
+
       {/* Hidden Audio Element */}
-      <audio ref={audioRef} />
+      <audio ref={audioRef} aria-hidden="true" />
 
       {/* User Auth Modal */}
       {showAuthModal && (
@@ -2286,5 +2269,6 @@ export default function AudioFlix() {
         }
       `}</style>
     </div>
+    </>
   )
 }

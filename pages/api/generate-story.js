@@ -1,7 +1,11 @@
+const { generationLimiter } = require('../../lib/rateLimit')
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
+
+  if (!generationLimiter(req, res)) return
 
   const { title, category } = req.body
 
@@ -47,9 +51,9 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Story generation error:', error)
+    console.error('Story generation error:', error.message)
     res.status(500).json({
-      error: 'Failed to generate story',
-      details: error.message
+      error: 'Failed to generate story'
     })
   }
 }

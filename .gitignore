@@ -39,3 +39,20 @@ tmp/
 # IDE
 .vscode/
 .idea/
+
+# Claude Code
+.claude/
+
+# BMAD output (planning docs)
+_bmad-output/
+_bmad/
+
+# Generated story audio segments
+generated-stories/
+demo-output/
+bhojpuri-test-story.mp3
+fix-audio-mapping.py
+assets/music/
+
+# User data
+data/users.json

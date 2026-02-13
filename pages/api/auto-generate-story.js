@@ -130,7 +130,7 @@ async function generateStoryScript() {
 
 async function generateAudioFromScript(script) {
   // ElevenLabs Voice IDs (use Hindi/Indian voice)
-  const voiceId = 'pNInz6obpgDQGcFmaJgB' // Adam voice (change to Hindi voice when available)
+  const voiceId = process.env.DEFAULT_VOICE_ID || 'pNInz6obpgDQGcFmaJgB'
 
   const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${voiceId}`, {
     method: 'POST',

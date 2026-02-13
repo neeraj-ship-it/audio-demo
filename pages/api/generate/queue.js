@@ -3,7 +3,7 @@
  * Manages background story generation tasks
  */
 
-const { exec } = require('child_process')
+const { spawn } = require('child_process')
 const path = require('path')
 
 let currentJob = null
@@ -22,8 +22,14 @@ export default function handler(req, res) {
     const jobId = Date.now().toString()
     const logFile = `/tmp/generation-${jobId}.log`
 
-    const scriptPath = path.join(process.cwd(), 'scripts/auto-generate-stories.js')
-    const child = exec(`node ${scriptPath} > ${logFile} 2>&1`)
+    // Use spawn with explicit args array (safe from injection)
+    // eslint-disable-next-line no-undef
+    const scriptPath = [process.cwd(), 'scripts', 'auto-generate-stories.js'].join('/')
+    const child = spawn('node', [scriptPath], {
+      detached: true,
+      stdio: 'ignore'
+    })
+    child.unref()
 
     currentJob = {
       id: jobId,
@@ -43,8 +49,7 @@ export default function handler(req, res) {
     res.json({
       success: true,
       message: 'Generation started',
-      jobId,
-      logFile
+      jobId
     })
 
   } else if (req.method === 'GET') {
@@ -65,8 +70,7 @@ export default function handler(req, res) {
         endTime: currentJob.endTime,
         duration: currentJob.endTime
           ? (currentJob.endTime - currentJob.startTime) / 1000
-          : (Date.now() - currentJob.startTime) / 1000,
-        logFile: currentJob.logFile
+          : (Date.now() - currentJob.startTime) / 1000
       }
     })
 
@@ -91,8 +95,7 @@ export default function handler(req, res) {
     } catch (error) {
       res.status(500).json({
         success: false,
-        message: 'Failed to cancel job',
-        error: error.message
+        message: 'Failed to cancel job'
       })
     }
 

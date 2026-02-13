@@ -195,7 +195,7 @@ Make it PREMIUM quality - like Netflix/Spotify level production!`;
 
 async function generateNarration(script) {
   try {
-    const response = await fetch('https://api.elevenlabs.io/v1/text-to-speech/21m00Tcm4TlvDq8ikWAM', {
+    const response = await fetch(`https://api.elevenlabs.io/v1/text-to-speech/${process.env.DEFAULT_FEMALE_VOICE_ID || '21m00Tcm4TlvDq8ikWAM'}`, {
       method: 'POST',
       headers: {
         'Accept': 'audio/mpeg',

@@ -1,69 +1,71 @@
 import { useState } from 'react'
+import { useAuth } from '../contexts/AuthContext'
+import { useToast } from '../contexts/ToastContext'
 
-export default function UserAuth({ onClose, onLogin }) {
+export default function UserAuth({ onClose }) {
+  const { login, signup } = useAuth()
+  const toast = useToast()
   const [isLogin, setIsLogin] = useState(true)
+  const [loading, setLoading] = useState(false)
   const [formData, setFormData] = useState({
     name: '',
     email: '',
     password: ''
   })
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault()
+    setLoading(true)
 
-    if (isLogin) {
-      // Login logic
-      const users = JSON.parse(localStorage.getItem('audioflix_users') || '[]')
-      const user = users.find(u => u.email === formData.email && u.password === formData.password)
-
-      if (user) {
-        localStorage.setItem('audioflix_current_user', JSON.stringify(user))
-        onLogin(user)
-        onClose()
+    try {
+      if (isLogin) {
+        const result = await login(formData.email, formData.password)
+        if (result.success) {
+          toast.success('Login successful!')
+          onClose()
+        } else {
+          toast.error(result.error || 'Invalid email or password')
+        }
       } else {
-        alert('Invalid email or password!')
+        if (formData.password.length < 8) {
+          toast.error('Password must be at least 8 characters')
+          setLoading(false)
+          return
+        }
+        const result = await signup(formData.name, formData.email, formData.password)
+        if (result.success) {
+          toast.success('Account created!')
+          onClose()
+        } else {
+          toast.error(result.error || 'Signup failed')
+        }
       }
-    } else {
-      // Signup logic
-      const users = JSON.parse(localStorage.getItem('audioflix_users') || '[]')
-
-      if (users.find(u => u.email === formData.email)) {
-        alert('Email already registered!')
-        return
-      }
-
-      const newUser = {
-        id: Date.now(),
-        name: formData.name,
-        email: formData.email,
-        password: formData.password,
-        favorites: [],
-        history: [],
-        createdAt: new Date().toISOString()
-      }
-
-      users.push(newUser)
-      localStorage.setItem('audioflix_users', JSON.stringify(users))
-      localStorage.setItem('audioflix_current_user', JSON.stringify(newUser))
-
-      onLogin(newUser)
-      onClose()
+    } catch {
+      toast.error('Something went wrong. Please try again.')
+    } finally {
+      setLoading(false)
     }
   }
 
   return (
-    <div style={{
-      position: 'fixed',
-      top: 0,
-      left: 0,
-      right: 0,
-      bottom: 0,
-      background: 'rgba(0,0,0,0.9)',
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      zIndex: 10000
-    }}>
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label={isLogin ? 'Login' : 'Sign Up'}
+      style={{
+        position: 'fixed',
+        top: 0,
+        left: 0,
+        right: 0,
+        bottom: 0,
+        background: 'rgba(0,0,0,0.9)',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        zIndex: 10000
+      }}
+      onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
+    >
       <div style={{
         background: '#1a1a1a',
         borderRadius: '15px',
@@ -72,9 +74,9 @@ export default function UserAuth({ onClose, onLogin }) {
         width: '90%',
         position: 'relative'
       }}>
-        {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close"
           style={{
             position: 'absolute',
             top: '15px',
@@ -86,10 +88,9 @@ export default function UserAuth({ onClose, onLogin }) {
             cursor: 'pointer'
           }}
         >
-          ✕
+          &#x2715;
         </button>
 
-        {/* Logo */}
         <h2 style={{
           margin: '0 0 10px 0',
           fontSize: '32px',
@@ -98,7 +99,7 @@ export default function UserAuth({ onClose, onLogin }) {
           WebkitTextFillColor: 'transparent',
           textAlign: 'center'
         }}>
-          🎵 STAGE fm
+          STAGE fm
         </h2>
 
         <p style={{
@@ -110,16 +111,17 @@ export default function UserAuth({ onClose, onLogin }) {
           {isLogin ? 'Login to your account' : 'Create a new account'}
         </p>
 
-        {/* Form */}
         <form onSubmit={handleSubmit}>
           {!isLogin && (
             <div style={{ marginBottom: '20px' }}>
-              <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
+              <label htmlFor="auth-name" style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
                 Name
               </label>
               <input
+                id="auth-name"
                 type="text"
                 required
+                autoComplete="name"
                 value={formData.name}
                 onChange={(e) => setFormData({...formData, name: e.target.value})}
                 style={{
@@ -130,7 +132,8 @@ export default function UserAuth({ onClose, onLogin }) {
                   borderRadius: '8px',
                   color: 'white',
                   fontSize: '15px',
-                  outline: 'none'
+                  outline: 'none',
+                  boxSizing: 'border-box'
                 }}
                 onFocus={(e) => e.target.style.borderColor = '#667eea'}
                 onBlur={(e) => e.target.style.borderColor = '#333'}
@@ -139,12 +142,14 @@ export default function UserAuth({ onClose, onLogin }) {
           )}
 
           <div style={{ marginBottom: '20px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
+            <label htmlFor="auth-email" style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
               Email
             </label>
             <input
+              id="auth-email"
               type="email"
               required
+              autoComplete="email"
               value={formData.email}
               onChange={(e) => setFormData({...formData, email: e.target.value})}
               style={{
@@ -155,7 +160,8 @@ export default function UserAuth({ onClose, onLogin }) {
                 borderRadius: '8px',
                 color: 'white',
                 fontSize: '15px',
-                outline: 'none'
+                outline: 'none',
+                boxSizing: 'border-box'
               }}
               onFocus={(e) => e.target.style.borderColor = '#667eea'}
               onBlur={(e) => e.target.style.borderColor = '#333'}
@@ -163,12 +169,15 @@ export default function UserAuth({ onClose, onLogin }) {
           </div>
 
           <div style={{ marginBottom: '25px' }}>
-            <label style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
+            <label htmlFor="auth-password" style={{ display: 'block', marginBottom: '8px', fontSize: '14px', color: '#ccc' }}>
               Password
             </label>
             <input
+              id="auth-password"
               type="password"
               required
+              autoComplete={isLogin ? 'current-password' : 'new-password'}
+              minLength={8}
               value={formData.password}
               onChange={(e) => setFormData({...formData, password: e.target.value})}
               style={{
@@ -179,43 +188,56 @@ export default function UserAuth({ onClose, onLogin }) {
                 borderRadius: '8px',
                 color: 'white',
                 fontSize: '15px',
-                outline: 'none'
+                outline: 'none',
+                boxSizing: 'border-box'
               }}
               onFocus={(e) => e.target.style.borderColor = '#667eea'}
               onBlur={(e) => e.target.style.borderColor = '#333'}
             />
+            {!isLogin && (
+              <p style={{ fontSize: '12px', color: '#666', marginTop: '6px' }}>
+                Min 8 characters, include a number and special character
+              </p>
+            )}
           </div>
 
           <button
             type="submit"
+            disabled={loading}
             style={{
               width: '100%',
               padding: '14px',
-              background: 'linear-gradient(135deg, #e50914, #ff6b6b)',
+              background: loading ? '#666' : 'linear-gradient(135deg, #e50914, #ff6b6b)',
               border: 'none',
               borderRadius: '8px',
               color: 'white',
               fontSize: '16px',
               fontWeight: 'bold',
-              cursor: 'pointer',
-              marginBottom: '15px'
+              cursor: loading ? 'not-allowed' : 'pointer',
+              marginBottom: '15px',
+              opacity: loading ? 0.7 : 1,
             }}
           >
-            {isLogin ? 'Login' : 'Sign Up'}
+            {loading ? 'Please wait...' : (isLogin ? 'Login' : 'Sign Up')}
           </button>
 
           <p style={{ textAlign: 'center', fontSize: '14px', color: '#aaa' }}>
             {isLogin ? "Don't have an account? " : "Already have an account? "}
-            <span
+            <button
+              type="button"
               onClick={() => setIsLogin(!isLogin)}
               style={{
                 color: '#667eea',
                 cursor: 'pointer',
-                fontWeight: 'bold'
+                fontWeight: 'bold',
+                background: 'none',
+                border: 'none',
+                fontSize: '14px',
+                padding: 0
               }}
             >
               {isLogin ? 'Sign Up' : 'Login'}
-            </span>
+            </button>
           </p>
         </form>
       </div>

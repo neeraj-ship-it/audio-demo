@@ -40,6 +40,9 @@ const nextConfig = {
     ];
   },
 
+  // Server-side Node.js packages
+  serverExternalPackages: ['child_process', 'bcryptjs'],
+
   // Empty turbopack config to silence warning
   turbopack: {},
 };

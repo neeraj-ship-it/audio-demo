@@ -1,7 +1,11 @@
+const { generationLimiter } = require('../../lib/rateLimit')
+
 export default async function handler(req, res) {
   if (req.method !== 'POST') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
+
+  if (!generationLimiter(req, res)) return
 
   const { title, category, emoji } = req.body
 
@@ -44,7 +48,7 @@ export default async function handler(req, res) {
 
     // Step 2: Generate audio with ElevenLabs
     const elevenLabsResponse = await fetch(
-      'https://api.elevenlabs.io/v1/text-to-speech/pNInz6obpgDQGcFmaJgB', // Adam voice
+      `https://api.elevenlabs.io/v1/text-to-speech/${process.env.DEFAULT_VOICE_ID || 'pNInz6obpgDQGcFmaJgB'}`,
       {
         method: 'POST',
         headers: {
@@ -88,9 +92,9 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Content generation error:', error)
+    console.error('Content generation error:', error.message)
     res.status(500).json({
-      error: 'Failed to generate content',
-      details: error.message
+      error: 'Failed to generate content'
     })
   }
 }
