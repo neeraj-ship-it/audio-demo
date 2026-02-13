@@ -1086,8 +1086,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
-              gap:'18px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
+              gap:'20px',
               justifyContent:'center'
             }}>
               {userHistory.slice(0, 6).map(storyId => {
@@ -1111,7 +1111,7 @@ export default function AudioFlix() {
                   >
                     <div style={{
                       width:'100%',
-                      height:'280px',
+                      height:'320px',
                       background: story.thumbnailUrl
                         ? `url(${story.thumbnailUrl}) center/cover`
                         : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -1236,7 +1236,7 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
+              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
               gap:'20px',
               justifyContent:'center'
             }}>
@@ -1278,7 +1278,7 @@ export default function AudioFlix() {
 
                   <div style={{
                     width:'100%',
-                    height:'280px',
+                    height:'320px',
                     background: story.thumbnailUrl
                       ? `url(${story.thumbnailUrl}) center/cover`
                       : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -1433,8 +1433,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
-              gap:'18px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
+              gap:'20px',
               justifyContent:'center'
             }}>
               {userFavorites.slice(0, 6).map(storyId => {
@@ -1458,7 +1458,7 @@ export default function AudioFlix() {
                   >
                     <div style={{
                       width:'100%',
-                      height:'280px',
+                      height:'320px',
                       background: story.thumbnailUrl
                         ? `url(${story.thumbnailUrl}) center/cover`
                         : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
@@ -1594,8 +1594,8 @@ export default function AudioFlix() {
             </h3>
             <div style={{
               display:'grid',
-              gridTemplateColumns:'repeat(auto-fit, minmax(160px, 1fr))',
-              gap:'18px',
+              gridTemplateColumns:'repeat(auto-fit, minmax(200px, 1fr))',
+              gap:'20px',
               justifyContent:'center'
             }}>
               {categoryStories.map(story => (
@@ -1616,7 +1616,7 @@ export default function AudioFlix() {
                 >
                   <div style={{
                     width:'100%',
-                    height:'280px',
+                    height:'320px',
                     background: story.thumbnailUrl
                       ? `url(${story.thumbnailUrl}) center/cover`
                       : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
