@@ -35,6 +35,8 @@ export default function handler(req, res) {
           id: story.id,
           title: story.title,
           category: story.category,
+          language: story.language || 'Hindi',
+          dialect: story.dialect,
           emoji: story.emoji,
           plays: story.plays,
           duration: story.duration,
