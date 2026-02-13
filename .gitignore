@@ -29,10 +29,10 @@ yarn-error.log*
 # Vercel
 .vercel
 
-# Audio files
-*.mp3
-*.wav
-public/audio/*.mp3
+# Audio files (commented out to deploy audio)
+# *.mp3
+# *.wav
+# public/audio/*.mp3
 temp/
 tmp/
 
