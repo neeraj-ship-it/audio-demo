@@ -217,7 +217,8 @@
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/________________Love_Story.mp3",
       "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/________________Love_Story.png",
       "generatedAt": "2026-02-13T06:19:26.977Z",
-      "wordCount": 1337
+      "wordCount": 1337,
+      "generated": true
     },
     {
       "id": 1770963566979,
@@ -235,7 +236,8 @@
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/_____________Village_Festival.mp3",
       "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/_____________Village_Festival.png",
       "generatedAt": "2026-02-13T06:19:26.978Z",
-      "wordCount": 1550
+      "wordCount": 1550,
+      "generated": true
     },
     {
       "id": 1770963566982,
@@ -253,7 +255,8 @@
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/________________Village_Shock.mp3",
       "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/________________Village_Shock.png",
       "generatedAt": "2026-02-13T06:19:26.980Z",
-      "wordCount": 1587
+      "wordCount": 1587,
+      "generated": true
     },
     {
       "id": 1770963566984,
@@ -271,7 +274,8 @@
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/__________________Council_Decision.mp3",
       "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/__________________Council_Decision.png",
       "generatedAt": "2026-02-13T06:19:26.981Z",
-      "wordCount": 1670
+      "wordCount": 1670,
+      "generated": true
     },
     {
       "id": 1770963566986,
@@ -289,7 +293,8 @@
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_____________________Desert_Story.mp3",
       "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_____________________Desert_Story.png",
       "generatedAt": "2026-02-13T06:19:26.982Z",
-      "wordCount": 1377
+      "wordCount": 1377,
+      "generated": true
     },
     {
       "id": 1770963566988,
@@ -307,7 +312,8 @@
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_______________Queen_of_Fort.mp3",
       "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_______________Queen_of_Fort.png",
       "generatedAt": "2026-02-13T06:19:26.983Z",
-      "wordCount": 1492
+      "wordCount": 1492,
+      "generated": true
     }
   ]
 }
