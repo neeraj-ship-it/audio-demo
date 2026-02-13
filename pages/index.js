@@ -233,8 +233,12 @@ export default function AudioFlix() {
     // Check if story has pre-generated audio
     if (story.generated && (story.audioPath || story.audioUrl)) {
       const audio = audioRef.current
+      // Force reload audio by pausing, resetting, and loading new src
+      audio.pause()
+      audio.currentTime = 0
       audio.src = story.audioPath || story.audioUrl
-      audio.play()
+      audio.load() // Force reload from src
+      audio.play().catch(err => console.error('Audio play error:', err))
       setIsPlaying(true)
       return
     }
