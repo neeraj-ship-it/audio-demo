@@ -33,6 +33,9 @@ export default function ShareModal({ story, onClose }) {
     <div
       onClick={onClose}
       className="modal-overlay"
+      role="dialog"
+      aria-modal="true"
+      aria-labelledby="share-modal-title"
       style={{
         position: 'fixed',
         top: 0,
@@ -50,6 +53,7 @@ export default function ShareModal({ story, onClose }) {
       <div
         onClick={(e) => e.stopPropagation()}
         className="modal-content"
+        tabIndex={-1}
         style={{
           background: '#1a1a1a',
           borderRadius: '15px',
@@ -65,6 +69,7 @@ export default function ShareModal({ story, onClose }) {
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close share dialog"
           style={{
             position: 'absolute',
             top: '15px',
@@ -87,7 +92,7 @@ export default function ShareModal({ story, onClose }) {
           <div style={{ fontSize: '60px', marginBottom: '10px' }}>
             {story.emoji}
           </div>
-          <h2 style={{ margin: '0 0 5px 0', fontSize: '22px' }}>
+          <h2 id="share-modal-title" style={{ margin: '0 0 5px 0', fontSize: '22px' }}>
             Share "{story.title}"
           </h2>
           <p style={{ color: '#aaa', fontSize: '14px', margin: 0 }}>
@@ -104,6 +109,7 @@ export default function ShareModal({ story, onClose }) {
           {/* WhatsApp */}
           <button
             onClick={shareOnWhatsApp}
+            aria-label="Share on WhatsApp"
             style={{
               background: 'linear-gradient(135deg, #25D366, #128C7E)',
               border: 'none',
@@ -129,6 +135,7 @@ export default function ShareModal({ story, onClose }) {
           {/* Twitter */}
           <button
             onClick={shareOnTwitter}
+            aria-label="Share on Twitter"
             style={{
               background: 'linear-gradient(135deg, #1DA1F2, #0D8BD9)',
               border: 'none',
@@ -154,6 +161,7 @@ export default function ShareModal({ story, onClose }) {
           {/* Facebook */}
           <button
             onClick={shareOnFacebook}
+            aria-label="Share on Facebook"
             style={{
               background: 'linear-gradient(135deg, #4267B2, #365899)',
               border: 'none',
@@ -179,6 +187,7 @@ export default function ShareModal({ story, onClose }) {
           {/* Copy Link */}
           <button
             onClick={copyToClipboard}
+            aria-label={copied ? 'Link copied to clipboard' : 'Copy share link to clipboard'}
             style={{
               background: copied ? '#10b981' : 'rgba(255,255,255,0.1)',
               border: '2px solid ' + (copied ? '#10b981' : '#666'),

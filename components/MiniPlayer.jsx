@@ -25,6 +25,8 @@ export default function MiniPlayer({
       {!isExpanded && (
         <div
           className="mini-player-collapsed"
+          role="region"
+          aria-label="Mini audio player"
           onClick={() => setIsExpanded(true)}
           style={{
             position: 'fixed',
@@ -118,6 +120,7 @@ export default function MiniPlayer({
                   e.stopPropagation()
                   onPlayPause()
                 }}
+                aria-label={isPlaying ? 'Pause' : 'Play'}
                 style={{
                   background: 'rgba(255,255,255,0.25)',
                   border: 'none',
@@ -150,6 +153,7 @@ export default function MiniPlayer({
                   e.stopPropagation()
                   onClose()
                 }}
+                aria-label="Close mini player"
                 style={{
                   background: 'rgba(255,255,255,0.15)',
                   border: 'none',
@@ -184,6 +188,8 @@ export default function MiniPlayer({
       {isExpanded && (
         <div
           className="mini-player-expanded"
+          role="region"
+          aria-label="Expanded audio player"
           style={{
             position: 'fixed',
             bottom: 0,
@@ -211,6 +217,7 @@ export default function MiniPlayer({
             </div>
             <button
               onClick={() => setIsExpanded(false)}
+              aria-label="Minimize player"
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
@@ -268,6 +275,13 @@ export default function MiniPlayer({
           {/* Progress Bar */}
           <div style={{marginBottom: '10px'}}>
             <div
+              role="slider"
+              aria-label="Audio progress"
+              aria-valuemin={0}
+              aria-valuemax={Math.round(duration) || 0}
+              aria-valuenow={Math.round(currentTime) || 0}
+              aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
+              tabIndex={0}
               style={{
                 width: '100%',
                 height: '8px',
@@ -308,6 +322,7 @@ export default function MiniPlayer({
             {/* Skip Backward */}
             <button
               onClick={onSkipBackward}
+              aria-label="Skip backward 10 seconds"
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
@@ -337,6 +352,7 @@ export default function MiniPlayer({
             {/* Play/Pause */}
             <button
               onClick={onPlayPause}
+              aria-label={isPlaying ? 'Pause' : 'Play'}
               style={{
                 background: 'linear-gradient(135deg, #667eea, #764ba2)',
                 border: 'none',
@@ -367,6 +383,7 @@ export default function MiniPlayer({
             {/* Skip Forward */}
             <button
               onClick={onSkipForward}
+              aria-label="Skip forward 10 seconds"
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
@@ -398,6 +415,7 @@ export default function MiniPlayer({
           {toggleFavorite && (
             <button
               onClick={() => toggleFavorite(currentPlaying.id)}
+              aria-label={userFavorites.includes(currentPlaying.id) ? 'Remove from favorites' : 'Add to favorites'}
               style={{
                 width: '100%',
                 marginTop: '16px',
@@ -440,6 +458,7 @@ export default function MiniPlayer({
           {/* Close Button */}
           <button
             onClick={onClose}
+            aria-label="Close player"
             style={{
               width: '100%',
               marginTop: '20px',

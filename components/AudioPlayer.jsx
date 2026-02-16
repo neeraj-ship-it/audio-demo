@@ -23,7 +23,7 @@ export default function AudioPlayer({
   if (!currentPlaying) return null
 
   return (
-    <div className="audio-player" style={{
+    <div className="audio-player" role="region" aria-label="Audio player" style={{
       position: 'fixed',
       bottom: 0,
       left: 0,
@@ -38,6 +38,7 @@ export default function AudioPlayer({
       <button
         className="audio-player-close"
         onClick={onClose}
+        aria-label="Close audio player"
         style={{
           position: 'absolute',
           top: 'clamp(8px, 1.5vw, 15px)',
@@ -104,6 +105,7 @@ export default function AudioPlayer({
             <button
               className="audio-player-skip"
               onClick={onSkipBackward}
+              aria-label="Skip backward 10 seconds"
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
@@ -130,6 +132,7 @@ export default function AudioPlayer({
             <button
               className="audio-player-play"
               onClick={onPlayPause}
+              aria-label={isPlaying ? 'Pause' : 'Play'}
               style={{
                 background: '#10b981',
                 border: 'none',
@@ -154,6 +157,7 @@ export default function AudioPlayer({
             <button
               className="audio-player-skip"
               onClick={onSkipForward}
+              aria-label="Skip forward 10 seconds"
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
@@ -180,6 +184,13 @@ export default function AudioPlayer({
             <div className="audio-player-progress" style={{ flex: 1, minWidth: '120px' }}>
               <div
                 onClick={onSeek}
+                role="slider"
+                aria-label="Audio progress"
+                aria-valuemin={0}
+                aria-valuemax={Math.round(duration) || 0}
+                aria-valuenow={Math.round(currentTime) || 0}
+                aria-valuetext={`${formatTime(currentTime)} of ${formatTime(duration)}`}
+                tabIndex={0}
                 style={{
                   height: '8px',
                   background: '#333',
@@ -197,7 +208,7 @@ export default function AudioPlayer({
                   transition: 'width 0.1s linear'
                 }} />
               </div>
-              <div style={{
+              <div aria-live="polite" aria-atomic="true" style={{
                 display: 'flex',
                 justifyContent: 'space-between',
                 fontSize: '12px',
@@ -213,6 +224,8 @@ export default function AudioPlayer({
             <div className="audio-player-volume" style={{ position: 'relative' }}>
               <button
                 onClick={() => setShowVolumeSlider(!showVolumeSlider)}
+                aria-label="Volume"
+                aria-expanded={showVolumeSlider}
                 style={{
                   background: 'none',
                   border: 'none',
@@ -248,6 +261,10 @@ export default function AudioPlayer({
                     step="0.1"
                     value={volume}
                     onChange={(e) => onVolumeChange(parseFloat(e.target.value))}
+                    aria-label="Volume level"
+                    aria-valuemin={0}
+                    aria-valuemax={1}
+                    aria-valuenow={volume}
                     style={{
                       width: '80px',
                       transform: 'rotate(-90deg)',
@@ -263,6 +280,8 @@ export default function AudioPlayer({
             <div className="audio-player-speed" style={{ position: 'relative' }}>
               <button
                 onClick={() => setShowSpeedMenu(!showSpeedMenu)}
+                aria-label={`Playback speed ${playbackSpeed}x`}
+                aria-expanded={showSpeedMenu}
                 style={{
                   background: 'rgba(255,255,255,0.1)',
                   border: '1px solid #666',
@@ -295,6 +314,8 @@ export default function AudioPlayer({
                     <button
                       key={speed}
                       onClick={() => onSpeedChange(speed)}
+                      aria-label={`Set playback speed to ${speed}x`}
+                      aria-pressed={speed === playbackSpeed}
                       style={{
                         width: '100%',
                         padding: '10px 15px',
@@ -323,6 +344,7 @@ export default function AudioPlayer({
             {/* Sleep Timer */}
             <div className="audio-player-sleep" style={{ position: 'relative' }}>
               <button
+                aria-label={sleepTimer ? `Sleep timer active: ${sleepTimer} minutes remaining` : 'Set sleep timer'}
                 style={{
                   background: sleepTimer ? '#10b981' : 'none',
                   border: 'none',

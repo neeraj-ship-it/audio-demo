@@ -63,7 +63,7 @@ export default function RatingModal({ story, currentUser, onClose }) {
   }
 
   return (
-    <div className="modal-overlay" style={{
+    <div className="modal-overlay" role="dialog" aria-modal="true" aria-labelledby="rating-modal-title" style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -76,7 +76,7 @@ export default function RatingModal({ story, currentUser, onClose }) {
       zIndex: 10000,
       padding: '20px'
     }}>
-      <div className="modal-content" style={{
+      <div className="modal-content" tabIndex={-1} style={{
         background: '#1a1a1a',
         borderRadius: '15px',
         padding: 'clamp(20px, 3vw, 30px)',
@@ -89,6 +89,7 @@ export default function RatingModal({ story, currentUser, onClose }) {
         {/* Close Button */}
         <button
           onClick={onClose}
+          aria-label="Close rating dialog"
           style={{
             float: 'right',
             background: 'none',
@@ -102,7 +103,7 @@ export default function RatingModal({ story, currentUser, onClose }) {
         </button>
 
         {/* Story Info */}
-        <h2 style={{ margin: '0 0 10px 0', fontSize: '24px' }}>
+        <h2 id="rating-modal-title" style={{ margin: '0 0 10px 0', fontSize: '24px' }}>
           {story.title}
         </h2>
         <p style={{ color: '#aaa', fontSize: '14px', marginBottom: '20px' }}>
@@ -142,19 +143,26 @@ export default function RatingModal({ story, currentUser, onClose }) {
             justifyContent: 'center'
           }}>
             {[1, 2, 3, 4, 5].map((star) => (
-              <span
+              <button
+                type="button"
                 key={star}
                 onClick={() => setRating(star)}
                 onMouseEnter={() => setHoverRating(star)}
                 onMouseLeave={() => setHoverRating(0)}
+                aria-label={`Rate ${star} star${star !== 1 ? 's' : ''}`}
+                aria-pressed={star === rating}
                 style={{
                   cursor: 'pointer',
                   color: star <= (hoverRating || rating) ? '#ffd700' : '#333',
-                  transition: 'all 0.2s'
+                  transition: 'all 0.2s',
+                  background: 'none',
+                  border: 'none',
+                  fontSize: 'inherit',
+                  padding: 0,
                 }}
               >
                 ⭐
-              </span>
+              </button>
             ))}
           </div>
 
@@ -163,6 +171,7 @@ export default function RatingModal({ story, currentUser, onClose }) {
             placeholder="Write your review (optional)..."
             value={review}
             onChange={(e) => setReview(e.target.value)}
+            aria-label="Write your review"
             style={{
               width: '100%',
               minHeight: '100px',

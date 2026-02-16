@@ -1,4 +1,4 @@
-import { useState, useEffect, useRef } from 'react'
+import { useState, useEffect, useRef, useCallback } from 'react'
 import Head from 'next/head'
 import { useRouter } from 'next/router'
 import ComingSoon from '../components/ComingSoon'
@@ -14,6 +14,8 @@ import StoryCard from '../components/StoryCard'
 import HeroCarousel from '../components/HeroCarousel'
 import AudioPlayer from '../components/AudioPlayer'
 import SearchBar from '../components/SearchBar'
+import PlaylistManager from '../components/PlaylistManager'
+import useAudio from '../hooks/useAudio'
 import { useTheme } from '../contexts/ThemeContext'
 import { useToast } from '../contexts/ToastContext'
 
@@ -29,27 +31,14 @@ export default function AudioFlix() {
 
   const [liveCount, setLiveCount] = useState(247)
   const [generating, setGenerating] = useState(true)
-  const [currentPlaying, setCurrentPlaying] = useState(null)
-  const [isPlaying, setIsPlaying] = useState(false)
-  const [currentTime, setCurrentTime] = useState(0)
-  const [duration, setDuration] = useState(0)
   const [isGenerating, setIsGenerating] = useState(false)
-  const [generatedContent, setGeneratedContent] = useState({})
   const [nextStoryTime, setNextStoryTime] = useState(12)
-
-  // Enhanced audio controls
-  const [playbackSpeed, setPlaybackSpeed] = useState(1)
-  const [volume, setVolume] = useState(1)
-  const [showSpeedMenu, setShowSpeedMenu] = useState(false)
-  const [showVolumeSlider, setShowVolumeSlider] = useState(false)
-  const [sleepTimer, setSleepTimer] = useState(null)
-  const [sleepTimerMinutes, setSleepTimerMinutes] = useState(0)
 
   // Search & Filter states
   const [searchQuery, setSearchQuery] = useState('')
   const [selectedCategory, setSelectedCategory] = useState('All')
-  const [selectedDialect, setSelectedDialect] = useState('All') // NEW: Dialect filter
-  const [sortBy, setSortBy] = useState('title') // Changed to 'title' for A to Z by default
+  const [selectedDialect, setSelectedDialect] = useState('All')
+  const [sortBy, setSortBy] = useState('title')
   const [showSearchBar, setShowSearchBar] = useState(false)
   const [filteredStories, setFilteredStories] = useState([])
 
@@ -73,10 +62,38 @@ export default function AudioFlix() {
   const [shareStory, setShareStory] = useState(null)
 
   // Mini Player state
-  const [showMiniPlayer, setShowMiniPlayer] = useState(true) // true = mini, false = full player
+  const [showMiniPlayer, setShowMiniPlayer] = useState(true)
 
-  const audioRef = useRef(null)
-  const sleepTimerRef = useRef(null)
+  // Playlist state
+  const [showPlaylistManager, setShowPlaylistManager] = useState(false)
+  const [playlistStoryToAdd, setPlaylistStoryToAdd] = useState(null)
+
+  // addToHistory callback for the audio hook
+  const addToHistory = useCallback((storyId) => {
+    if (!currentUser) return
+    setUserHistory(prev => {
+      const newHistory = [storyId, ...prev.filter(id => id !== storyId)].slice(0, 50)
+      const users = JSON.parse(localStorage.getItem('audioflix_users') || '[]')
+      const userIndex = users.findIndex(u => u.id === currentUser.id)
+      if (userIndex !== -1) {
+        users[userIndex].history = newHistory
+        localStorage.setItem('audioflix_users', JSON.stringify(users))
+        localStorage.setItem('audioflix_current_user', JSON.stringify(users[userIndex]))
+      }
+      return newHistory
+    })
+  }, [currentUser])
+
+  // Audio hook - replaces 10+ useState, 2 useRef, audio event useEffect, and all audio functions
+  const {
+    currentPlaying, isPlaying, currentTime, duration,
+    playbackSpeed, volume, sleepTimer, sleepTimerMinutes,
+    showSpeedMenu, setShowSpeedMenu, showVolumeSlider, setShowVolumeSlider,
+    audioRef,
+    playStory, togglePlayPause, seekTo, formatTime,
+    changePlaybackSpeed, changeVolume, skipForward, skipBackward,
+    setSleepTimerFunc, closePlayer,
+  } = useAudio({ onAddToHistory: addToHistory })
 
   useEffect(() => {
     // Load published content from API
@@ -163,218 +180,6 @@ export default function AudioFlix() {
     return () => clearInterval(timer)
   }, [])
 
-  useEffect(() => {
-    const audio = audioRef.current
-    if (!audio) return
-
-    const updateTime = () => setCurrentTime(audio.currentTime)
-    const updateDuration = () => setDuration(audio.duration)
-    const handleEnded = () => setIsPlaying(false)
-
-    audio.addEventListener('timeupdate', updateTime)
-    audio.addEventListener('loadedmetadata', updateDuration)
-    audio.addEventListener('ended', handleEnded)
-
-    return () => {
-      audio.removeEventListener('timeupdate', updateTime)
-      audio.removeEventListener('loadedmetadata', updateDuration)
-      audio.removeEventListener('ended', handleEnded)
-    }
-  }, [])
-
-  const playStory = async (story) => {
-    setCurrentPlaying(story)
-
-    // Add to history if user is logged in
-    addToHistory(story.id)
-
-    // Check if story has pre-generated audio
-    if (story.generated && (story.audioPath || story.audioUrl)) {
-      const audio = audioRef.current
-      // Force reload audio by pausing, resetting, and loading new src
-      audio.pause()
-      audio.currentTime = 0
-      audio.src = story.audioPath || story.audioUrl
-      audio.load() // Force reload from src
-      audio.play().catch(err => console.error('Audio play error:', err))
-      setIsPlaying(true)
-      return
-    }
-
-    // If not generated, show message
-    alert(`Story "${story.title}" is not ready yet!\n\nPlease run: npm run generate\n\nThis will pre-generate all stories with AI.`)
-    setCurrentPlaying(null)
-  }
-
-  const togglePlayPause = () => {
-    const audio = audioRef.current
-    if (isPlaying) {
-      audio.pause()
-    } else {
-      audio.play()
-    }
-    setIsPlaying(!isPlaying)
-  }
-
-  const seekTo = (e) => {
-    const audio = audioRef.current
-    const progressBar = e.currentTarget
-    const rect = progressBar.getBoundingClientRect()
-    const x = e.clientX - rect.left
-    const percentage = x / rect.width
-    audio.currentTime = percentage * audio.duration
-  }
-
-  const formatTime = (seconds) => {
-    if (!seconds || isNaN(seconds)) return '0:00'
-    const mins = Math.floor(seconds / 60)
-    const secs = Math.floor(seconds % 60)
-    return `${mins}:${secs.toString().padStart(2, '0')}`
-  }
-
-  // Enhanced audio controls
-  const changePlaybackSpeed = (speed) => {
-    const audio = audioRef.current
-    if (audio) {
-      audio.playbackRate = speed
-      setPlaybackSpeed(speed)
-      setShowSpeedMenu(false)
-    }
-  }
-
-  const changeVolume = (newVolume) => {
-    const audio = audioRef.current
-    if (audio) {
-      audio.volume = newVolume
-      setVolume(newVolume)
-    }
-  }
-
-  const skipForward = () => {
-    const audio = audioRef.current
-    if (!audio || !audio.src) {
-      console.warn('⚠️ No audio loaded')
-      return
-    }
-
-    const wasPlaying = !audio.paused
-    const currentPosition = audio.currentTime || 0
-    const targetTime = Math.min(currentPosition + 10, (audio.duration || 0) - 1)
-
-    console.log(`⏩ Forward: ${currentPosition.toFixed(2)}s → ${targetTime.toFixed(2)}s`)
-
-    // Seek completed handler
-    const handleSeeked = () => {
-      audio.removeEventListener('seeked', handleSeeked)
-      if (wasPlaying) {
-        audio.play().catch(err => console.error('Play error:', err))
-        setIsPlaying(true)
-      }
-      console.log(`✓ Seeked to ${audio.currentTime.toFixed(2)}s`)
-    }
-
-    // Add seeked event listener
-    audio.addEventListener('seeked', handleSeeked)
-
-    // Pause and seek
-    if (wasPlaying) {
-      audio.pause()
-      setIsPlaying(false)
-    }
-
-    // Perform the seek
-    try {
-      audio.currentTime = targetTime
-    } catch (err) {
-      console.error('Seek error:', err)
-      audio.removeEventListener('seeked', handleSeeked)
-      if (wasPlaying) {
-        audio.play()
-        setIsPlaying(true)
-      }
-    }
-  }
-
-  const skipBackward = () => {
-    const audio = audioRef.current
-    if (!audio || !audio.src) {
-      console.warn('⚠️ No audio loaded')
-      return
-    }
-
-    const wasPlaying = !audio.paused
-    const currentPosition = audio.currentTime || 0
-    const targetTime = Math.max(currentPosition - 10, 0)
-
-    console.log(`⏪ Backward: ${currentPosition.toFixed(2)}s → ${targetTime.toFixed(2)}s`)
-
-    // Seek completed handler
-    const handleSeeked = () => {
-      audio.removeEventListener('seeked', handleSeeked)
-      if (wasPlaying) {
-        audio.play().catch(err => console.error('Play error:', err))
-        setIsPlaying(true)
-      }
-      console.log(`✓ Seeked to ${audio.currentTime.toFixed(2)}s`)
-    }
-
-    // Add seeked event listener
-    audio.addEventListener('seeked', handleSeeked)
-
-    // Pause and seek
-    if (wasPlaying) {
-      audio.pause()
-      setIsPlaying(false)
-    }
-
-    // Perform the seek
-    try {
-      audio.currentTime = targetTime
-    } catch (err) {
-      console.error('Seek error:', err)
-      audio.removeEventListener('seeked', handleSeeked)
-      if (wasPlaying) {
-        audio.play()
-        setIsPlaying(true)
-      }
-    }
-  }
-
-  const setSleepTimerFunc = (minutes) => {
-    // Clear existing timer
-    if (sleepTimerRef.current) {
-      clearTimeout(sleepTimerRef.current)
-    }
-
-    if (minutes === 0) {
-      setSleepTimer(null)
-      setSleepTimerMinutes(0)
-      return
-    }
-
-    setSleepTimerMinutes(minutes)
-    const endTime = Date.now() + minutes * 60 * 1000
-
-    // Update timer every second
-    const updateTimer = () => {
-      const remaining = Math.max(0, Math.ceil((endTime - Date.now()) / 1000 / 60))
-      setSleepTimer(remaining)
-
-      if (remaining <= 0) {
-        const audio = audioRef.current
-        if (audio) {
-          audio.pause()
-          setIsPlaying(false)
-        }
-        setSleepTimerMinutes(0)
-      } else {
-        sleepTimerRef.current = setTimeout(updateTimer, 1000)
-      }
-    }
-
-    updateTimer()
-  }
-
   // User functions
   const handleLogin = (user) => {
     setCurrentUser(user)
@@ -406,22 +211,6 @@ export default function AudioFlix() {
     const userIndex = users.findIndex(u => u.id === currentUser.id)
     if (userIndex !== -1) {
       users[userIndex].favorites = newFavorites
-      localStorage.setItem('audioflix_users', JSON.stringify(users))
-      localStorage.setItem('audioflix_current_user', JSON.stringify(users[userIndex]))
-    }
-  }
-
-  const addToHistory = (storyId) => {
-    if (!currentUser) return
-
-    const newHistory = [storyId, ...userHistory.filter(id => id !== storyId)].slice(0, 50)
-    setUserHistory(newHistory)
-
-    // Update user in localStorage
-    const users = JSON.parse(localStorage.getItem('audioflix_users') || '[]')
-    const userIndex = users.findIndex(u => u.id === currentUser.id)
-    if (userIndex !== -1) {
-      users[userIndex].history = newHistory
       localStorage.setItem('audioflix_users', JSON.stringify(users))
       localStorage.setItem('audioflix_current_user', JSON.stringify(users[userIndex]))
     }
@@ -887,7 +676,7 @@ export default function AudioFlix() {
             const minutes = prompt('Sleep timer (minutes):\n\n15 - 15 minutes\n30 - 30 minutes\n45 - 45 minutes\n60 - 1 hour\n0 - Cancel timer', sleepTimerMinutes || '30')
             if (minutes !== null) setSleepTimerFunc(parseInt(minutes) || 0)
           }}
-          onClose={() => { audioRef.current.pause(); setCurrentPlaying(null); setIsPlaying(false) }}
+          onClose={closePlayer}
           formatTime={formatTime}
         />
       )}
@@ -900,11 +689,7 @@ export default function AudioFlix() {
           currentTime={currentTime}
           duration={duration}
           onPlayPause={togglePlayPause}
-          onClose={() => {
-            audioRef.current.pause()
-            setCurrentPlaying(null)
-            setIsPlaying(false)
-          }}
+          onClose={closePlayer}
           onSkipForward={skipForward}
           onSkipBackward={skipBackward}
           formatTime={formatTime}
@@ -942,6 +727,20 @@ export default function AudioFlix() {
           onClose={closeShareModal}
         />
       )}
+
+      {/* Playlist Manager Modal */}
+      <PlaylistManager
+        isOpen={showPlaylistManager}
+        onClose={() => { setShowPlaylistManager(false); setPlaylistStoryToAdd(null) }}
+        currentUser={currentUser}
+        stories={stories}
+        storyToAdd={playlistStoryToAdd}
+        onPlayPlaylist={(storyIds) => {
+          const first = stories.find(s => s.id === storyIds[0])
+          if (first) playStory(first)
+          setShowPlaylistManager(false)
+        }}
+      />
 
       {/* Loading Overlay */}
       {isGenerating && (

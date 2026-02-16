@@ -23,6 +23,8 @@ export default function StoryCard({
 
   return (
     <div
+      role="article"
+      aria-label={story.title}
       style={{
         position: 'relative',
         borderRadius: '12px',
@@ -234,6 +236,7 @@ export default function StoryCard({
             <button
               className="story-card-action"
               onClick={(e) => { e.stopPropagation(); router.push(`/story/${story.id}`) }}
+              aria-label={`View details for ${story.title}`}
               style={{
                 flex: 1,
                 background: 'rgba(16,185,129,0.15)',
@@ -264,6 +267,7 @@ export default function StoryCard({
               <button
                 className="story-card-action"
                 onClick={(e) => { e.stopPropagation(); onRate(story, e) }}
+                aria-label={`Rate ${story.title}`}
                 style={{
                   flex: 1,
                   background: 'rgba(16,185,129,0.15)',

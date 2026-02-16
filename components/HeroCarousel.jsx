@@ -23,6 +23,9 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
   return (
     <div
       className="hero-carousel"
+      role="region"
+      aria-label="Featured stories carousel"
+      aria-roledescription="carousel"
       style={{
         position: 'relative',
         width: '100%',
@@ -50,6 +53,8 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
       {/* Text content */}
       <div
         className="hero-content"
+        aria-live="off"
+        aria-atomic="true"
         style={{
           position: 'relative',
           zIndex: 1,
@@ -158,6 +163,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
         <div className="hero-buttons" style={{ display: 'flex', gap: 'clamp(8px, 1.5vw, 14px)' }}>
           <button
             onClick={() => onPlay && onPlay(currentStory)}
+            aria-label={`Play ${currentStory?.title}`}
             style={{
               backgroundColor: '#fff',
               color: '#000',
@@ -181,6 +187,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
           </button>
           <button
             onClick={() => onMoreInfo && onMoreInfo(currentStory)}
+            aria-label={`More info about ${currentStory?.title}`}
             style={{
               backgroundColor: 'rgba(109,109,110,0.7)',
               color: '#fff',
@@ -208,6 +215,8 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
       {/* Slide indicators */}
       <div
         className="hero-indicators"
+        role="tablist"
+        aria-label="Carousel slide indicators"
         style={{
           position: 'absolute',
           bottom: 'clamp(12px, 2vw, 24px)',
@@ -222,6 +231,8 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
         {Array.from({ length: maxSlides }).map((_, i) => (
           <button
             key={i}
+            role="tab"
+            aria-selected={i === heroIndex}
             onClick={() => setHeroIndex(i)}
             style={{
               width: i === heroIndex ? '32px' : '10px',
