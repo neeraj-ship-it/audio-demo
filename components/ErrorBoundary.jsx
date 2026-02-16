@@ -45,6 +45,13 @@ export default class ErrorBoundary extends Component {
           <p style={{ fontSize: '15px', color: '#888', maxWidth: '440px', marginBottom: '24px', lineHeight: 1.5 }}>
             An unexpected error occurred. You can try again or refresh the page.
           </p>
+          {this.state.error && (
+            <pre style={{ fontSize: '12px', color: '#ef4444', maxWidth: '600px', textAlign: 'left', padding: '12px', background: '#1a1a1a', borderRadius: '8px', overflow: 'auto', marginBottom: '16px' }}>
+              {this.state.error.message}
+              {'\n'}
+              {this.state.error.stack}
+            </pre>
+          )}
           <div style={{ display: 'flex', gap: '12px' }}>
             <button
               onClick={this.handleRetry}

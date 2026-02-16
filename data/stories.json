@@ -14,10 +14,10 @@
       "published": false,
       "comingSoon": true,
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_______________Queen_of_Fort.mp3",
-      "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_______________Queen_of_Fort.png",
+      "thumbnailUrl": "/thumbnails/kile-ri-rani.png",
       "generatedAt": "2026-02-13T06:19:26.983Z",
       "wordCount": 1492,
-      "generated": false
+      "generated": true
     },
     {
       "id": 1770963566986,
@@ -33,10 +33,10 @@
       "published": false,
       "comingSoon": true,
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_____________________Desert_Story.mp3",
-      "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_____________________Desert_Story.png",
+      "thumbnailUrl": "/thumbnails/desert-story.png",
       "generatedAt": "2026-02-13T06:19:26.982Z",
       "wordCount": 1377,
-      "generated": false
+      "generated": true
     },
     {
       "id": 1770963566984,
@@ -52,10 +52,10 @@
       "published": false,
       "comingSoon": true,
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/__________________Council_Decision.mp3",
-      "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/__________________Council_Decision.png",
+      "thumbnailUrl": "/thumbnails/panchayat.png",
       "generatedAt": "2026-02-13T06:19:26.981Z",
       "wordCount": 1670,
-      "generated": false
+      "generated": true
     },
     {
       "id": 1770963566982,
@@ -71,10 +71,10 @@
       "published": false,
       "comingSoon": true,
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/________________Village_Shock.mp3",
-      "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/________________Village_Shock.png",
+      "thumbnailUrl": "/thumbnails/village-shock.png",
       "generatedAt": "2026-02-13T06:19:26.980Z",
       "wordCount": 1587,
-      "generated": false
+      "generated": true
     },
     {
       "id": 1770963566979,
@@ -90,10 +90,10 @@
       "published": false,
       "comingSoon": true,
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/_____________Village_Festival.mp3",
-      "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/_____________Village_Festival.png",
+      "thumbnailUrl": "/thumbnails/gujarati-festival.png",
       "generatedAt": "2026-02-13T06:19:26.978Z",
       "wordCount": 1550,
-      "generated": false
+      "generated": true
     },
     {
       "id": 1770963566977,
@@ -109,10 +109,10 @@
       "published": false,
       "comingSoon": true,
       "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/________________Love_Story.mp3",
-      "thumbnailUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/________________Love_Story.png",
+      "thumbnailUrl": "/thumbnails/gujarati-love.png",
       "generatedAt": "2026-02-13T06:19:26.977Z",
       "wordCount": 1337,
-      "generated": false
+      "generated": true
     },
     {
       "id": 1770963013343,
@@ -197,9 +197,9 @@
       "duration": 360,
       "audioPath": "https://raw.githubusercontent.com/neeraj-ship-it/audio-demo/main/public/bhojpuri-test-story.mp3",
       "audioUrl": "https://raw.githubusercontent.com/neeraj-ship-it/audio-demo/main/public/bhojpuri-test-story.mp3",
-      "thumbnailUrl": "/posters/story-43.png",
+      "thumbnailUrl": "/thumbnails/babuji-seekh.png",
       "createdAt": "2026-02-12T10:47:12.362Z",
-      "generated": false,
+      "generated": true,
       "new": true,
       "emoji": "💪",
       "rating": 0,
@@ -222,9 +222,9 @@
       "language": "Haryanvi",
       "duration": 420,
       "audioPath": "https://raw.githubusercontent.com/neeraj-ship-it/audio-demo/main/public/bhojpuri-test-story.mp3",
-      "thumbnailUrl": "/posters/story-33.png",
+      "thumbnailUrl": "/thumbnails/phaans.png",
       "createdAt": "2026-02-11T12:29:53.183Z",
-      "generated": false,
+      "generated": true,
       "generatedAt": "2026-02-11T12:29:53.183Z",
       "isHaryanvi": true,
       "tags": [
