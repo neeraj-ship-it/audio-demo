@@ -7,7 +7,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
     if (maxSlides === 0) return;
     const interval = setInterval(() => {
       setHeroIndex((prev) => (prev + 1) % maxSlides);
-    }, 2000);
+    }, 7000);
     return () => clearInterval(interval);
   }, [maxSlides, setHeroIndex]);
 
@@ -134,11 +134,16 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
         <h1
           className="hero-title"
           style={{
-            fontSize: 'clamp(22px, 5vw, 56px)',
+            fontSize: 'clamp(20px, 4vw, 48px)',
             fontWeight: 'bold',
             color: '#fff',
-            margin: '0 0 clamp(8px, 1.5vw, 16px) 0',
-            lineHeight: 1.1,
+            margin: '0 0 clamp(8px, 1.5vw, 14px) 0',
+            lineHeight: 1.15,
+            textShadow: '0 2px 8px rgba(0,0,0,0.6)',
+            display: '-webkit-box',
+            WebkitLineClamp: 3,
+            WebkitBoxOrient: 'vertical',
+            overflow: 'hidden',
           }}
         >
           {currentStory?.emoji && <span>{currentStory.emoji} </span>}
@@ -149,21 +154,23 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
         <p
           className="hero-description"
           style={{
-            fontSize: 'clamp(14px, 2vw, 18px)',
-            color: 'rgba(255,255,255,0.85)',
+            fontSize: 'clamp(13px, 1.8vw, 17px)',
+            color: 'rgba(255,255,255,0.9)',
             lineHeight: 1.5,
-            margin: '0 0 clamp(14px, 3vw, 28px) 0',
+            margin: '0 0 clamp(12px, 2vw, 24px) 0',
             display: '-webkit-box',
-            WebkitLineClamp: 3,
+            WebkitLineClamp: 2,
             WebkitBoxOrient: 'vertical',
             overflow: 'hidden',
+            textShadow: '0 1px 4px rgba(0,0,0,0.8)',
+            flexShrink: 0,
           }}
         >
           {currentStory?.description}
         </p>
 
         {/* Buttons */}
-        <div className="hero-buttons" style={{ display: 'flex', gap: 'clamp(8px, 1.5vw, 14px)' }}>
+        <div className="hero-buttons" style={{ display: 'flex', gap: 'clamp(8px, 1.5vw, 14px)', flexShrink: 0 }}>
           <button
             onClick={() => onPlay && onPlay(currentStory)}
             aria-label={`Play ${currentStory?.title}`}
