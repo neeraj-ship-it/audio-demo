@@ -63,7 +63,7 @@ export default function RatingModal({ story, currentUser, onClose }) {
   }
 
   return (
-    <div style={{
+    <div className="modal-overlay" style={{
       position: 'fixed',
       top: 0,
       left: 0,
@@ -76,13 +76,14 @@ export default function RatingModal({ story, currentUser, onClose }) {
       zIndex: 10000,
       padding: '20px'
     }}>
-      <div style={{
+      <div className="modal-content" style={{
         background: '#1a1a1a',
         borderRadius: '15px',
-        padding: '30px',
+        padding: 'clamp(20px, 3vw, 30px)',
         maxWidth: '600px',
         width: '100%',
-        maxHeight: '80vh',
+        maxHeight: '90vh',
+        maxHeight: '90dvh',
         overflow: 'auto'
       }}>
         {/* Close Button */}

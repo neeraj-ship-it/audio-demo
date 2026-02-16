@@ -23,29 +23,30 @@ export default function AudioPlayer({
   if (!currentPlaying) return null
 
   return (
-    <div style={{
+    <div className="audio-player" style={{
       position: 'fixed',
       bottom: 0,
       left: 0,
       right: 0,
       background: 'linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.98))',
-      padding: '20px 40px',
+      padding: 'clamp(12px, 2vw, 20px) clamp(15px, 3vw, 40px)',
       borderTop: '1px solid #333',
       zIndex: 1001,
       backdropFilter: 'blur(10px)'
     }}>
       {/* Close Button */}
       <button
+        className="audio-player-close"
         onClick={onClose}
         style={{
           position: 'absolute',
-          top: '15px',
-          right: '15px',
+          top: 'clamp(8px, 1.5vw, 15px)',
+          right: 'clamp(8px, 1.5vw, 15px)',
           background: 'rgba(255,255,255,0.1)',
           border: 'none',
           borderRadius: '50%',
-          width: '32px',
-          height: '32px',
+          width: '44px',
+          height: '44px',
           fontSize: '18px',
           cursor: 'pointer',
           display: 'flex',
@@ -63,30 +64,30 @@ export default function AudioPlayer({
           e.currentTarget.style.transform = 'scale(1)'
         }}
       >
-        ✕
+        x
       </button>
 
-      <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+      <div className="audio-player-inner" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(12px, 2vw, 20px)', flexWrap: 'wrap' }}>
         {/* Story Emoji */}
-        <div style={{
-          fontSize: '60px',
-          minWidth: '80px',
+        <div className="audio-player-emoji" style={{
+          fontSize: 'clamp(32px, 5vw, 60px)',
+          minWidth: 'clamp(50px, 7vw, 80px)',
           textAlign: 'center',
           background: 'linear-gradient(135deg, #667eea, #764ba2)',
-          borderRadius: '12px',
-          padding: '10px'
+          borderRadius: 'clamp(8px, 1vw, 12px)',
+          padding: 'clamp(6px, 1vw, 10px)'
         }}>
           {currentPlaying.emoji}
         </div>
 
         {/* Controls Section */}
-        <div style={{ flex: 1 }}>
+        <div style={{ flex: 1, minWidth: 0 }}>
           {/* Title + Category + Duration */}
-          <div style={{ fontWeight: 'bold', fontSize: '18px', marginBottom: '5px', color: 'white' }}>
+          <div className="audio-player-title" style={{ fontWeight: 'bold', fontSize: 'clamp(14px, 1.5vw, 18px)', marginBottom: '5px', color: 'white', overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap' }}>
             {currentPlaying.title}
           </div>
-          <div style={{
-            fontSize: '14px',
+          <div className="audio-player-meta" style={{
+            fontSize: 'clamp(12px, 1.3vw, 14px)',
             color: '#aaa',
             marginBottom: '10px',
             display: 'flex',
@@ -94,97 +95,100 @@ export default function AudioPlayer({
             alignItems: 'center'
           }}>
             <span>{currentPlaying.category}</span>
-            <span>•</span>
-            <span style={{ color: '#10b981' }}>⏱️ {formatTime(duration)}</span>
+            <span style={{ color: '#10b981' }}>{formatTime(duration)}</span>
           </div>
 
           {/* Controls Row */}
-          <div style={{ display: 'flex', alignItems: 'center', gap: '20px' }}>
+          <div className="audio-player-controls" style={{ display: 'flex', alignItems: 'center', gap: 'clamp(10px, 1.5vw, 20px)', flexWrap: 'wrap' }}>
             {/* Skip Backward 10s */}
             <button
+              className="audio-player-skip"
               onClick={onSkipBackward}
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
                 borderRadius: '50%',
-                width: '40px',
-                height: '40px',
+                width: '44px',
+                height: '44px',
                 fontSize: '16px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
               title="Rewind 10s"
             >
-              ⏪
+              -10
             </button>
 
             {/* Play/Pause */}
             <button
+              className="audio-player-play"
               onClick={onPlayPause}
               style={{
                 background: '#10b981',
                 border: 'none',
                 borderRadius: '50%',
-                width: '55px',
-                height: '55px',
-                fontSize: '26px',
+                width: 'clamp(48px, 5vw, 55px)',
+                height: 'clamp(48px, 5vw, 55px)',
+                fontSize: 'clamp(22px, 2.5vw, 26px)',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
               onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
             >
-              {isPlaying ? '⏸️' : '▶️'}
+              {isPlaying ? '||' : '> '}
             </button>
 
             {/* Skip Forward 10s */}
             <button
+              className="audio-player-skip"
               onClick={onSkipForward}
               style={{
                 background: 'rgba(255,255,255,0.1)',
                 border: 'none',
                 borderRadius: '50%',
-                width: '40px',
-                height: '40px',
+                width: '44px',
+                height: '44px',
                 fontSize: '16px',
                 cursor: 'pointer',
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
                 color: 'white',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                flexShrink: 0,
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
               title="Forward 10s"
             >
-              ⏩
+              +10
             </button>
 
             {/* Progress Bar */}
-            <div style={{ flex: 1 }}>
+            <div className="audio-player-progress" style={{ flex: 1, minWidth: '120px' }}>
               <div
                 onClick={onSeek}
                 style={{
-                  height: '6px',
+                  height: '8px',
                   background: '#333',
-                  borderRadius: '3px',
+                  borderRadius: '4px',
                   overflow: 'hidden',
                   marginBottom: '5px',
                   cursor: 'pointer',
                   position: 'relative'
                 }}
-                onMouseEnter={(e) => e.currentTarget.style.height = '8px'}
-                onMouseLeave={(e) => e.currentTarget.style.height = '6px'}
               >
                 <div style={{
                   height: '100%',
@@ -206,7 +210,7 @@ export default function AudioPlayer({
             </div>
 
             {/* Volume Control */}
-            <div style={{ position: 'relative' }}>
+            <div className="audio-player-volume" style={{ position: 'relative' }}>
               <button
                 onClick={() => setShowVolumeSlider(!showVolumeSlider)}
                 style={{
@@ -215,11 +219,16 @@ export default function AudioPlayer({
                   color: 'white',
                   cursor: 'pointer',
                   fontSize: '22px',
-                  padding: '5px'
+                  padding: '5px',
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
                 title="Volume"
               >
-                {volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
+                {volume === 0 ? 'x' : volume < 0.5 ? 'v' : 'V'}
               </button>
               {showVolumeSlider && (
                 <div style={{
@@ -251,7 +260,7 @@ export default function AudioPlayer({
             </div>
 
             {/* Playback Speed */}
-            <div style={{ position: 'relative' }}>
+            <div className="audio-player-speed" style={{ position: 'relative' }}>
               <button
                 onClick={() => setShowSpeedMenu(!showSpeedMenu)}
                 style={{
@@ -262,7 +271,9 @@ export default function AudioPlayer({
                   color: 'white',
                   cursor: 'pointer',
                   fontSize: '13px',
-                  fontWeight: 'bold'
+                  fontWeight: 'bold',
+                  minHeight: '44px',
+                  minWidth: '44px',
                 }}
                 title="Playback Speed"
               >
@@ -292,7 +303,8 @@ export default function AudioPlayer({
                         color: 'white',
                         cursor: 'pointer',
                         fontSize: '14px',
-                        textAlign: 'center'
+                        textAlign: 'center',
+                        minHeight: '44px',
                       }}
                       onMouseEnter={(e) => {
                         if (speed !== playbackSpeed) e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
@@ -309,7 +321,7 @@ export default function AudioPlayer({
             </div>
 
             {/* Sleep Timer */}
-            <div style={{ position: 'relative' }}>
+            <div className="audio-player-sleep" style={{ position: 'relative' }}>
               <button
                 style={{
                   background: sleepTimer ? '#10b981' : 'none',
@@ -318,12 +330,17 @@ export default function AudioPlayer({
                   cursor: 'pointer',
                   fontSize: '22px',
                   padding: '5px',
-                  position: 'relative'
+                  position: 'relative',
+                  minWidth: '44px',
+                  minHeight: '44px',
+                  display: 'flex',
+                  alignItems: 'center',
+                  justifyContent: 'center',
                 }}
                 onClick={onSleepTimer}
                 title={sleepTimer ? `Sleep timer: ${sleepTimer} min` : 'Set sleep timer'}
               >
-                ⏰
+                zZ
                 {sleepTimer > 0 && (
                   <span style={{
                     position: 'absolute',

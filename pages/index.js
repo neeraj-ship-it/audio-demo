@@ -562,17 +562,17 @@ export default function AudioFlix() {
       <ThemeToggle />
 
       {/* Header */}
-      <header role="banner" style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 40px',background:isDarkMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.95)',position:'sticky',top:0,zIndex:100,borderBottom:`1px solid ${currentTheme.border}`,backdropFilter:'blur(10px)'}}>
-        <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
+      <header role="banner" style={{display:'flex',justifyContent:'space-between',alignItems:'center',padding:'15px 40px',background:isDarkMode ? 'rgba(0,0,0,0.9)' : 'rgba(255,255,255,0.95)',position:'sticky',top:0,zIndex:100,borderBottom:`1px solid ${currentTheme.border}`,backdropFilter:'blur(10px)',flexWrap:'wrap',gap:'10px'}}>
+        <div style={{display:'flex',alignItems:'center',gap:'clamp(10px, 2vw, 20px)',flexWrap:'wrap'}}>
           {/* Logo */}
-          <div style={{display:'flex',alignItems:'center',gap:'10px'}}>
+          <div className="header-logo" style={{display:'flex',alignItems:'center',gap:'10px',flexShrink:0}}>
             <img
               src="/stage-logo.png"
               alt="Stage FM - Audio Stories Platform"
-              style={{height:'45px',width:'auto'}}
+              style={{height:'clamp(30px, 5vw, 45px)',width:'auto'}}
             />
-            <span style={{
-              fontSize:'32px',
+            <span className="fm-text" style={{
+              fontSize:'clamp(22px, 3vw, 32px)',
               fontWeight:'900',
               background:'linear-gradient(135deg, #e50914, #ff6b6b)',
               WebkitBackgroundClip:'text',
@@ -618,7 +618,8 @@ export default function AudioFlix() {
                   boxShadow: selectedDialect === dialect.value
                     ? `0 2px 10px ${dialect.color}60`
                     : 'none',
-                  whiteSpace: 'nowrap'
+                  whiteSpace: 'nowrap',
+                  minHeight: '44px'
                 }}
                 onMouseEnter={(e) => {
                   if (selectedDialect !== dialect.value) {
@@ -639,7 +640,7 @@ export default function AudioFlix() {
             ))}
           </nav>
         </div>
-        <div style={{display:'flex',gap:'15px',alignItems:'center'}}>
+        <div className="header-right" style={{display:'flex',gap:'clamp(8px, 1.5vw, 15px)',alignItems:'center',flexShrink:0}}>
           {/* Categories button - Hidden for now */}
           {false && (
             <button onClick={() => {
@@ -684,7 +685,11 @@ export default function AudioFlix() {
           )}
           <div
             onClick={() => setShowSearchBar(!showSearchBar)}
-            style={{fontSize:'24px',cursor:'pointer',transition:'all 0.2s'}}
+            role="button"
+            tabIndex={0}
+            onKeyDown={(e) => { if (e.key === 'Enter' || e.key === ' ') { e.preventDefault(); setShowSearchBar(!showSearchBar) }}}
+            aria-label="Toggle search"
+            style={{fontSize:'24px',cursor:'pointer',transition:'all 0.2s',minWidth:'44px',minHeight:'44px',display:'flex',alignItems:'center',justifyContent:'center'}}
             onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
             onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
           >
@@ -706,7 +711,7 @@ export default function AudioFlix() {
               }}>
                 {currentUser.name.charAt(0).toUpperCase()}
               </div>
-              <div style={{fontSize:'14px',color:'#ccc',cursor:'pointer'}}>
+              <div className="user-name" style={{fontSize:'14px',color:'#ccc',cursor:'pointer'}}>
                 {currentUser.name}
               </div>
               <button
@@ -757,6 +762,7 @@ export default function AudioFlix() {
           sortBy={sortBy}
           onSortChange={setSortBy}
           resultCount={filteredStories.length}
+          stories={stories}
         />
       )}
 
@@ -817,13 +823,13 @@ export default function AudioFlix() {
           currentPlaying={currentPlaying}
         />
       ) : !loading && !error && !showComingSoon && (
-      <div style={{padding:'30px 40px 100px',maxWidth:'1600px',margin:'0 auto'}}>
+      <div className="content-grid-wrapper" style={{padding:'clamp(10px, 3vw, 30px) clamp(10px, 3vw, 40px) 100px',maxWidth:'1600px',margin:'0 auto'}}>
 
         {/* Stories Grid - Flat layout matching reference */}
-        <div style={{
+        <div className="story-grid" style={{
           display:'grid',
           gridTemplateColumns:'repeat(auto-fill, minmax(220px, 1fr))',
-          gap:'20px',
+          gap:'clamp(8px, 2vw, 20px)',
         }}>
           {filteredStories.map(story => (
             <StoryCard
@@ -1002,62 +1008,9 @@ export default function AudioFlix() {
           to { opacity: 1; }
         }
 
-        /* Mobile Responsive Styles */
-        @media (max-width: 768px) {
-          h1 {
-            font-size: 24px !important;
-          }
-          .header {
-            padding: 10px 20px !important;
-            flex-wrap: wrap;
-          }
-          .header-buttons {
-            font-size: 11px !important;
-            padding: 6px 12px !important;
-          }
-          .hero-banner {
-            height: 300px !important;
-            padding: 20px !important;
-          }
-          .hero-title {
-            font-size: 28px !important;
-          }
-          .story-grid {
-            grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)) !important;
-            gap: 15px !important;
-            padding: 0 20px !important;
-          }
-          .audio-player {
-            padding: 15px 20px !important;
-          }
-          .generation-indicator {
-            bottom: 15px !important;
-            right: 15px !important;
-            min-width: 200px !important;
-            padding: 15px !important;
-          }
-        }
-
-        @media (max-width: 480px) {
-          h1 {
-            font-size: 20px !important;
-          }
-          .story-grid {
-            grid-template-columns: repeat(auto-fill, minmax(130px, 1fr)) !important;
-            gap: 10px !important;
-            padding: 0 15px !important;
-          }
-          .hero-banner {
-            height: 250px !important;
-          }
-          .hero-title {
-            font-size: 24px !important;
-          }
-        }
-
-        /* Smooth transitions */
-        * {
-          transition: all 0.3s ease;
+        /* Smooth transitions - only for color and background */
+        a, button, input, select {
+          transition: background 0.2s ease, color 0.2s ease, transform 0.2s ease, opacity 0.2s ease;
         }
       `}</style>
     </div>

@@ -32,6 +32,7 @@ export default function ShareModal({ story, onClose }) {
   return (
     <div
       onClick={onClose}
+      className="modal-overlay"
       style={{
         position: 'fixed',
         top: 0,
@@ -48,13 +49,17 @@ export default function ShareModal({ story, onClose }) {
     >
       <div
         onClick={(e) => e.stopPropagation()}
+        className="modal-content"
         style={{
           background: '#1a1a1a',
           borderRadius: '15px',
-          padding: '30px',
+          padding: 'clamp(20px, 3vw, 30px)',
           maxWidth: '450px',
           width: '100%',
-          position: 'relative'
+          position: 'relative',
+          maxHeight: '100vh',
+          maxHeight: '100dvh',
+          overflowY: 'auto'
         }}
       >
         {/* Close Button */}

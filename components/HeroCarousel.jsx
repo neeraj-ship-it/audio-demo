@@ -22,10 +22,11 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
 
   return (
     <div
+      className="hero-carousel"
       style={{
         position: 'relative',
         width: '100%',
-        height: '600px',
+        height: 'clamp(250px, 50vh, 600px)',
         backgroundImage: backgroundImage,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
@@ -48,11 +49,12 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
 
       {/* Text content */}
       <div
+        className="hero-content"
         style={{
           position: 'relative',
           zIndex: 1,
           maxWidth: '55%',
-          padding: '60px',
+          padding: 'clamp(15px, 4vw, 60px)',
           display: 'flex',
           flexDirection: 'column',
           justifyContent: 'center',
@@ -61,14 +63,14 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
         }}
       >
         {/* Badges row */}
-        <div style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: '16px', flexWrap: 'wrap' }}>
+        <div className="hero-badges" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 'clamp(8px, 2vw, 16px)', flexWrap: 'wrap' }}>
           <span
             style={{
               backgroundColor: '#e50914',
               color: '#fff',
               padding: '4px 10px',
               borderRadius: '4px',
-              fontSize: '12px',
+              fontSize: 'clamp(10px, 1.5vw, 12px)',
               fontWeight: 'bold',
               textTransform: 'uppercase',
               letterSpacing: '1px',
@@ -83,11 +85,11 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
                 color: '#ffd700',
                 padding: '4px 10px',
                 borderRadius: '4px',
-                fontSize: '13px',
+                fontSize: 'clamp(11px, 1.5vw, 13px)',
                 fontWeight: '600',
               }}
             >
-              ⭐ {typeof rating === 'number' ? rating.toFixed(1) : rating}
+              {typeof rating === 'number' ? rating.toFixed(1) : rating}
             </span>
           )}
           {currentStory?.category && (
@@ -97,7 +99,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
                 color: '#fff',
                 padding: '4px 10px',
                 borderRadius: '4px',
-                fontSize: '13px',
+                fontSize: 'clamp(11px, 1.5vw, 13px)',
                 fontWeight: '500',
               }}
             >
@@ -111,7 +113,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
                 color: '#fff',
                 padding: '4px 10px',
                 borderRadius: '4px',
-                fontSize: '13px',
+                fontSize: 'clamp(11px, 1.5vw, 13px)',
                 fontWeight: '500',
               }}
             >
@@ -122,11 +124,12 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
 
         {/* Title */}
         <h1
+          className="hero-title"
           style={{
-            fontSize: '56px',
+            fontSize: 'clamp(22px, 5vw, 56px)',
             fontWeight: 'bold',
             color: '#fff',
-            margin: '0 0 16px 0',
+            margin: '0 0 clamp(8px, 1.5vw, 16px) 0',
             lineHeight: 1.1,
           }}
         >
@@ -136,11 +139,12 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
 
         {/* Description */}
         <p
+          className="hero-description"
           style={{
-            fontSize: '18px',
+            fontSize: 'clamp(14px, 2vw, 18px)',
             color: 'rgba(255,255,255,0.85)',
             lineHeight: 1.5,
-            margin: '0 0 28px 0',
+            margin: '0 0 clamp(14px, 3vw, 28px) 0',
             display: '-webkit-box',
             WebkitLineClamp: 3,
             WebkitBoxOrient: 'vertical',
@@ -151,15 +155,15 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
         </p>
 
         {/* Buttons */}
-        <div style={{ display: 'flex', gap: '14px' }}>
+        <div className="hero-buttons" style={{ display: 'flex', gap: 'clamp(8px, 1.5vw, 14px)' }}>
           <button
             onClick={() => onPlay && onPlay(currentStory)}
             style={{
               backgroundColor: '#fff',
               color: '#000',
               border: 'none',
-              padding: '14px 32px',
-              fontSize: '16px',
+              padding: 'clamp(10px, 1.5vw, 14px) clamp(18px, 3vw, 32px)',
+              fontSize: 'clamp(13px, 1.5vw, 16px)',
               fontWeight: 'bold',
               borderRadius: '6px',
               cursor: 'pointer',
@@ -167,11 +171,13 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
               alignItems: 'center',
               gap: '8px',
               transition: 'opacity 0.2s',
+              minHeight: '44px',
+              minWidth: '44px',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
           >
-            ▶ Play Now
+            Play Now
           </button>
           <button
             onClick={() => onMoreInfo && onMoreInfo(currentStory)}
@@ -179,8 +185,8 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
               backgroundColor: 'rgba(109,109,110,0.7)',
               color: '#fff',
               border: '1px solid rgba(255,255,255,0.5)',
-              padding: '14px 32px',
-              fontSize: '16px',
+              padding: 'clamp(10px, 1.5vw, 14px) clamp(18px, 3vw, 32px)',
+              fontSize: 'clamp(13px, 1.5vw, 16px)',
               fontWeight: 'bold',
               borderRadius: '6px',
               cursor: 'pointer',
@@ -188,20 +194,23 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
               alignItems: 'center',
               gap: '8px',
               transition: 'opacity 0.2s',
+              minHeight: '44px',
+              minWidth: '44px',
             }}
             onMouseEnter={(e) => (e.currentTarget.style.opacity = '0.85')}
             onMouseLeave={(e) => (e.currentTarget.style.opacity = '1')}
           >
-            ℹ More Info
+            More Info
           </button>
         </div>
       </div>
 
       {/* Slide indicators */}
       <div
+        className="hero-indicators"
         style={{
           position: 'absolute',
-          bottom: '24px',
+          bottom: 'clamp(12px, 2vw, 24px)',
           left: '50%',
           transform: 'translateX(-50%)',
           display: 'flex',

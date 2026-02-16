@@ -24,6 +24,7 @@ export default function MiniPlayer({
       {/* Mini Player - Collapsed */}
       {!isExpanded && (
         <div
+          className="mini-player-collapsed"
           onClick={() => setIsExpanded(true)}
           style={{
             position: 'fixed',
@@ -106,13 +107,12 @@ export default function MiniPlayer({
                 gap: '8px'
               }}>
                 <span>{currentPlaying.category}</span>
-                <span>•</span>
                 <span>{formatTime(currentTime)} / {formatTime(duration)}</span>
               </div>
             </div>
 
             {/* Quick Controls */}
-            <div style={{display: 'flex', alignItems: 'center', gap: '8px', flexShrink: 0}}>
+            <div style={{display: 'flex', alignItems: 'center', gap: '6px', flexShrink: 0}}>
               <button
                 onClick={(e) => {
                   e.stopPropagation()
@@ -122,8 +122,8 @@ export default function MiniPlayer({
                   background: 'rgba(255,255,255,0.25)',
                   border: 'none',
                   borderRadius: '50%',
-                  width: '36px',
-                  height: '36px',
+                  width: '44px',
+                  height: '44px',
                   fontSize: '16px',
                   cursor: 'pointer',
                   display: 'flex',
@@ -142,42 +142,8 @@ export default function MiniPlayer({
                   e.currentTarget.style.transform = 'scale(1)'
                 }}
               >
-                {isPlaying ? '⏸️' : '▶️'}
+                {isPlaying ? '||' : '> '}
               </button>
-
-              {toggleFavorite && (
-                <button
-                  onClick={(e) => {
-                    e.stopPropagation()
-                    toggleFavorite(currentPlaying.id)
-                  }}
-                  style={{
-                    background: 'rgba(255,255,255,0.15)',
-                    border: 'none',
-                    borderRadius: '50%',
-                    width: '32px',
-                    height: '32px',
-                    fontSize: '16px',
-                    cursor: 'pointer',
-                    display: 'flex',
-                    alignItems: 'center',
-                    justifyContent: 'center',
-                    color: 'white',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.25)'
-                    e.currentTarget.style.transform = 'scale(1.1)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.15)'
-                    e.currentTarget.style.transform = 'scale(1)'
-                  }}
-                  title={userFavorites.includes(currentPlaying.id) ? 'Remove from favorites' : 'Add to favorites'}
-                >
-                  {userFavorites.includes(currentPlaying.id) ? '❤️' : '🤍'}
-                </button>
-              )}
 
               <button
                 onClick={(e) => {
@@ -188,8 +154,8 @@ export default function MiniPlayer({
                   background: 'rgba(255,255,255,0.15)',
                   border: 'none',
                   borderRadius: '50%',
-                  width: '28px',
-                  height: '28px',
+                  width: '44px',
+                  height: '44px',
                   fontSize: '14px',
                   cursor: 'pointer',
                   display: 'flex',
@@ -207,7 +173,7 @@ export default function MiniPlayer({
                   e.currentTarget.style.transform = 'scale(1)'
                 }}
               >
-                ✕
+                x
               </button>
             </div>
           </div>
@@ -217,27 +183,31 @@ export default function MiniPlayer({
       {/* Expanded Player - Full Controls */}
       {isExpanded && (
         <div
+          className="mini-player-expanded"
           style={{
             position: 'fixed',
             bottom: 0,
             right: 0,
             width: '420px',
-            maxWidth: '90vw',
+            maxWidth: '100vw',
             background: 'linear-gradient(180deg, rgba(17, 24, 39, 0.98), rgba(31, 41, 55, 0.98))',
             borderRadius: '16px 16px 0 0',
-            padding: '24px',
+            padding: 'clamp(16px, 3vw, 24px)',
             boxShadow: '0 -8px 32px rgba(0,0,0,0.5)',
             zIndex: 1001,
             backdropFilter: 'blur(20px)',
             border: '1px solid rgba(255,255,255,0.1)',
             borderBottom: 'none',
-            animation: 'slideUp 0.3s ease'
+            animation: 'slideUp 0.3s ease',
+            maxHeight: '90vh',
+            maxHeight: '90dvh',
+            overflowY: 'auto'
           }}
         >
           {/* Header */}
           <div style={{display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: '20px'}}>
             <div style={{fontSize: '14px', fontWeight: 'bold', color: '#667eea'}}>
-              🎵 Now Playing
+              Now Playing
             </div>
             <button
               onClick={() => setIsExpanded(false)}
@@ -249,19 +219,20 @@ export default function MiniPlayer({
                 fontSize: '12px',
                 cursor: 'pointer',
                 color: 'white',
-                transition: 'all 0.2s'
+                transition: 'all 0.2s',
+                minHeight: '44px',
               }}
               onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
               onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
             >
-              Minimize ▼
+              Minimize
             </button>
           </div>
 
           {/* Artwork */}
           <div style={{
             width: '100%',
-            height: '240px',
+            height: 'clamp(160px, 30vh, 240px)',
             background: currentPlaying.thumbnailUrl
               ? `url(${currentPlaying.thumbnailUrl}) center/cover`
               : 'linear-gradient(135deg, #667eea, #764ba2)',
@@ -269,7 +240,7 @@ export default function MiniPlayer({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '100px',
+            fontSize: 'clamp(60px, 10vw, 100px)',
             marginBottom: '20px',
             boxShadow: '0 8px 24px rgba(0,0,0,0.3)'
           }}>
@@ -280,7 +251,7 @@ export default function MiniPlayer({
           <div style={{marginBottom: '20px', textAlign: 'center'}}>
             <div style={{
               fontWeight: 'bold',
-              fontSize: '18px',
+              fontSize: 'clamp(16px, 2vw, 18px)',
               color: 'white',
               marginBottom: '6px'
             }}>
@@ -299,9 +270,9 @@ export default function MiniPlayer({
             <div
               style={{
                 width: '100%',
-                height: '6px',
+                height: '8px',
                 background: 'rgba(255,255,255,0.1)',
-                borderRadius: '3px',
+                borderRadius: '4px',
                 overflow: 'hidden',
                 cursor: 'pointer'
               }}
@@ -311,7 +282,7 @@ export default function MiniPlayer({
                 width: `${progressPercentage}%`,
                 background: 'linear-gradient(90deg, #667eea, #764ba2)',
                 transition: 'width 0.1s linear',
-                borderRadius: '3px'
+                borderRadius: '4px'
               }} />
             </div>
             <div style={{
@@ -360,7 +331,7 @@ export default function MiniPlayer({
                 e.currentTarget.style.transform = 'scale(1)'
               }}
             >
-              ⏪
+              -10
             </button>
 
             {/* Play/Pause */}
@@ -390,7 +361,7 @@ export default function MiniPlayer({
                 e.currentTarget.style.boxShadow = '0 4px 16px rgba(102, 126, 234, 0.4)'
               }}
             >
-              {isPlaying ? '⏸️' : '▶️'}
+              {isPlaying ? '||' : '> '}
             </button>
 
             {/* Skip Forward */}
@@ -419,7 +390,7 @@ export default function MiniPlayer({
                 e.currentTarget.style.transform = 'scale(1)'
               }}
             >
-              ⏩
+              +10
             </button>
           </div>
 
@@ -446,7 +417,8 @@ export default function MiniPlayer({
                 display: 'flex',
                 alignItems: 'center',
                 justifyContent: 'center',
-                gap: '8px'
+                gap: '8px',
+                minHeight: '48px',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = userFavorites.includes(currentPlaying.id)
@@ -461,7 +433,7 @@ export default function MiniPlayer({
                 e.currentTarget.style.transform = 'scale(1)'
               }}
             >
-              {userFavorites.includes(currentPlaying.id) ? '❤️ Remove from Favorites' : '🤍 Add to Favorites'}
+              {userFavorites.includes(currentPlaying.id) ? 'Remove from Favorites' : 'Add to Favorites'}
             </button>
           )}
 
@@ -479,7 +451,8 @@ export default function MiniPlayer({
               fontWeight: 'bold',
               color: '#ef4444',
               cursor: 'pointer',
-              transition: 'all 0.2s'
+              transition: 'all 0.2s',
+              minHeight: '48px',
             }}
             onMouseEnter={(e) => {
               e.currentTarget.style.background = 'rgba(239, 68, 68, 0.3)'
@@ -490,7 +463,7 @@ export default function MiniPlayer({
               e.currentTarget.style.transform = 'scale(1)'
             }}
           >
-            ✕ Close Player
+            Close Player
           </button>
         </div>
       )}
@@ -505,10 +478,6 @@ export default function MiniPlayer({
             opacity: 1;
             transform: translateY(0);
           }
-        }
-
-        @media (max-width: 768px) {
-          /* Mobile optimizations */
         }
       `}</style>
     </>

@@ -52,6 +52,7 @@ export default function UserAuth({ onClose }) {
       role="dialog"
       aria-modal="true"
       aria-label={isLogin ? 'Login' : 'Sign Up'}
+      className="modal-overlay"
       style={{
         position: 'fixed',
         top: 0,
@@ -62,17 +63,21 @@ export default function UserAuth({ onClose }) {
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        zIndex: 10000
+        zIndex: 10000,
+        padding: '20px'
       }}
       onClick={(e) => { if (e.target === e.currentTarget) onClose() }}
     >
-      <div style={{
+      <div className="modal-content" style={{
         background: '#1a1a1a',
         borderRadius: '15px',
-        padding: '40px',
+        padding: 'clamp(20px, 4vw, 40px)',
         maxWidth: '450px',
-        width: '90%',
-        position: 'relative'
+        width: '100%',
+        position: 'relative',
+        maxHeight: '100vh',
+        maxHeight: '100dvh',
+        overflowY: 'auto'
       }}>
         <button
           onClick={onClose}

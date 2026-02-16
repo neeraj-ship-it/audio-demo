@@ -60,21 +60,21 @@ export default function StoryCard({
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'center',
-          fontSize: '70px',
+          fontSize: 'clamp(40px, 8vw, 70px)',
         }}
       >
         {!story.thumbnailUrl && <span>{story.emoji}</span>}
 
-        {/* Play Button - Green circle top-left */}
+        {/* Play Button - Green circle top-left - 44px touch target */}
         <button
           onClick={(e) => { e.stopPropagation(); onPlay(story) }}
           aria-label={`Play ${story.title}`}
           style={{
             position: 'absolute',
-            top: '10px',
-            left: '10px',
-            width: '38px',
-            height: '38px',
+            top: '8px',
+            left: '8px',
+            width: '44px',
+            height: '44px',
             borderRadius: '50%',
             background: '#10b981',
             border: 'none',
@@ -82,7 +82,7 @@ export default function StoryCard({
             display: 'flex',
             alignItems: 'center',
             justifyContent: 'center',
-            fontSize: '16px',
+            fontSize: '18px',
             color: 'white',
             boxShadow: '0 2px 8px rgba(16,185,129,0.5)',
             transition: 'transform 0.2s',
@@ -113,17 +113,17 @@ export default function StoryCard({
           </div>
         )}
 
-        {/* Favorite/Heart Button - Dark circle top-right */}
+        {/* Favorite/Heart Button - Dark circle top-right - 44px touch target */}
         {onFavorite && (
           <button
             onClick={(e) => { e.stopPropagation(); onFavorite(story.id) }}
             aria-label={isFavorite ? 'Remove from favorites' : 'Add to favorites'}
             style={{
               position: 'absolute',
-              top: '10px',
-              right: '10px',
-              width: '38px',
-              height: '38px',
+              top: '8px',
+              right: '8px',
+              width: '44px',
+              height: '44px',
               borderRadius: '50%',
               background: 'rgba(0,0,0,0.6)',
               border: 'none',
@@ -168,15 +168,15 @@ export default function StoryCard({
           bottom: 0,
           left: 0,
           right: 0,
-          padding: '0 12px 12px',
+          padding: '0 10px 10px',
           zIndex: 2,
         }}>
           {/* Title */}
           <div style={{
             fontWeight: '700',
-            fontSize: '15px',
+            fontSize: 'clamp(13px, 1.5vw, 15px)',
             color: 'white',
-            marginBottom: '6px',
+            marginBottom: '5px',
             lineHeight: '1.3',
             overflow: 'hidden',
             textOverflow: 'ellipsis',
@@ -189,10 +189,11 @@ export default function StoryCard({
           <div style={{
             display: 'flex',
             alignItems: 'center',
-            gap: '8px',
-            marginBottom: '6px',
+            gap: '6px',
+            marginBottom: '5px',
+            flexWrap: 'wrap',
           }}>
-            <span style={{ fontSize: '12px', color: '#aaa' }}>
+            <span style={{ fontSize: 'clamp(10px, 1.2vw, 12px)', color: '#aaa' }}>
               {story.category}
             </span>
             <span style={{
@@ -200,9 +201,9 @@ export default function StoryCard({
               alignItems: 'center',
               gap: '4px',
               background: 'rgba(16,185,129,0.15)',
-              padding: '2px 8px',
+              padding: '2px 6px',
               borderRadius: '10px',
-              fontSize: '11px',
+              fontSize: 'clamp(10px, 1.1vw, 11px)',
               fontWeight: '600',
               color: '#10b981',
             }}>
@@ -218,27 +219,28 @@ export default function StoryCard({
           </div>
 
           {/* Rating */}
-          <div style={{ fontSize: '12px', color: '#888', marginBottom: '8px' }}>
+          <div style={{ fontSize: 'clamp(10px, 1.2vw, 12px)', color: '#888', marginBottom: '6px' }}>
             {storyRating && storyRating.total > 0 ? (
               <span style={{ color: '#ffd700', fontWeight: '600' }}>
-                \u2B50 {storyRating.average.toFixed(1)} ({storyRating.total})
+                {storyRating.average.toFixed(1)} ({storyRating.total})
               </span>
             ) : (
               'No ratings yet'
             )}
           </div>
 
-          {/* Action Buttons */}
-          <div style={{ display: 'flex', gap: '8px' }}>
+          {/* Action Buttons - 44px min touch targets */}
+          <div className="story-card-actions" style={{ display: 'flex', gap: '6px' }}>
             <button
+              className="story-card-action"
               onClick={(e) => { e.stopPropagation(); router.push(`/story/${story.id}`) }}
               style={{
                 flex: 1,
                 background: 'rgba(16,185,129,0.15)',
                 border: '1.5px solid #10b981',
-                padding: '6px 0',
+                padding: '8px 0',
                 borderRadius: '20px',
-                fontSize: '12px',
+                fontSize: 'clamp(11px, 1.2vw, 12px)',
                 fontWeight: '600',
                 color: '#10b981',
                 cursor: 'pointer',
@@ -247,6 +249,7 @@ export default function StoryCard({
                 alignItems: 'center',
                 justifyContent: 'center',
                 gap: '4px',
+                minHeight: '44px',
               }}
               onMouseEnter={(e) => {
                 e.currentTarget.style.background = 'rgba(16,185,129,0.3)'
@@ -255,18 +258,19 @@ export default function StoryCard({
                 e.currentTarget.style.background = 'rgba(16,185,129,0.15)'
               }}
             >
-              \u2139\uFE0F Details
+              Details
             </button>
             {onRate && (
               <button
+                className="story-card-action"
                 onClick={(e) => { e.stopPropagation(); onRate(story, e) }}
                 style={{
                   flex: 1,
                   background: 'rgba(16,185,129,0.15)',
                   border: '1.5px solid #10b981',
-                  padding: '6px 0',
+                  padding: '8px 0',
                   borderRadius: '20px',
-                  fontSize: '12px',
+                  fontSize: 'clamp(11px, 1.2vw, 12px)',
                   fontWeight: '600',
                   color: '#10b981',
                   cursor: 'pointer',
@@ -275,6 +279,7 @@ export default function StoryCard({
                   alignItems: 'center',
                   justifyContent: 'center',
                   gap: '4px',
+                  minHeight: '44px',
                 }}
                 onMouseEnter={(e) => {
                   e.currentTarget.style.background = 'rgba(16,185,129,0.3)'
@@ -283,7 +288,7 @@ export default function StoryCard({
                   e.currentTarget.style.background = 'rgba(16,185,129,0.15)'
                 }}
               >
-                \u2B50 Rate
+                Rate
               </button>
             )}
           </div>
