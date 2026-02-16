@@ -13,11 +13,12 @@
       "new": true,
       "published": false,
       "comingSoon": true,
-      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_______________Queen_of_Fort.mp3",
+      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242438279----------------Queen-of-Fort.mp3",
       "thumbnailUrl": "/thumbnails/kile-ri-rani.png",
       "generatedAt": "2026-02-13T06:19:26.983Z",
       "wordCount": 1492,
-      "generated": true
+      "generated": true,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242438279----------------Queen-of-Fort.mp3"
     },
     {
       "id": 1770963566986,
@@ -32,11 +33,12 @@
       "new": true,
       "published": false,
       "comingSoon": true,
-      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/rajasthani/_____________________Desert_Story.mp3",
+      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242501676----------------------Desert-Story.mp3",
       "thumbnailUrl": "/thumbnails/desert-story.png",
       "generatedAt": "2026-02-13T06:19:26.982Z",
       "wordCount": 1377,
-      "generated": true
+      "generated": true,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242501676----------------------Desert-Story.mp3"
     },
     {
       "id": 1770963566984,
@@ -51,11 +53,12 @@
       "new": true,
       "published": false,
       "comingSoon": true,
-      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/__________________Council_Decision.mp3",
+      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242565628-------------------Council-Decision.mp3",
       "thumbnailUrl": "/thumbnails/panchayat.png",
       "generatedAt": "2026-02-13T06:19:26.981Z",
       "wordCount": 1670,
-      "generated": true
+      "generated": true,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242565628-------------------Council-Decision.mp3"
     },
     {
       "id": 1770963566982,
@@ -70,11 +73,12 @@
       "new": true,
       "published": false,
       "comingSoon": true,
-      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/haryanvi/________________Village_Shock.mp3",
+      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242629585-----------------Village-Shock.mp3",
       "thumbnailUrl": "/thumbnails/village-shock.png",
       "generatedAt": "2026-02-13T06:19:26.980Z",
       "wordCount": 1587,
-      "generated": true
+      "generated": true,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242629585-----------------Village-Shock.mp3"
     },
     {
       "id": 1770963566979,
@@ -89,11 +93,12 @@
       "new": true,
       "published": false,
       "comingSoon": true,
-      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/_____________Village_Festival.mp3",
+      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242707149--------------Village-Festival.mp3",
       "thumbnailUrl": "/thumbnails/gujarati-festival.png",
       "generatedAt": "2026-02-13T06:19:26.978Z",
       "wordCount": 1550,
-      "generated": true
+      "generated": true,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242707149--------------Village-Festival.mp3"
     },
     {
       "id": 1770963566977,
@@ -108,11 +113,12 @@
       "new": true,
       "published": false,
       "comingSoon": true,
-      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/gujarati/________________Love_Story.mp3",
+      "audioUrl": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242784299-----------------Love-Story.mp3",
       "thumbnailUrl": "/thumbnails/gujarati-love.png",
       "generatedAt": "2026-02-13T06:19:26.977Z",
       "wordCount": 1337,
-      "generated": true
+      "generated": true,
+      "audioPath": "https://stagefm-audio.s3.ap-south-1.amazonaws.com/audio/1771242784299-----------------Love-Story.mp3"
     },
     {
       "id": 1770963013343,
