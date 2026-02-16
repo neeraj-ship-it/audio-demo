@@ -35,9 +35,9 @@ export default async function handler(req, res) {
     const audioUrl = await generateAndUploadAudio(storyScript.script, storyScript.title)
     console.log('✅ Audio:', audioUrl)
 
-    // Step 3: Generate AI thumbnail (DALL-E → S3)
-    console.log('🎨 Generating thumbnail...')
-    const thumbnailUrl = await generateAIThumbnail(storyScript.title, category)
+    // Step 3: Generate AI thumbnail from story description (Gemini → S3)
+    console.log('🎨 Generating thumbnail from story content...')
+    const thumbnailUrl = await generateAIThumbnail(storyScript.title, category, storyScript.description)
     console.log('✅ Thumbnail:', thumbnailUrl)
 
     // Step 4: Save to S3 persistent storage
@@ -175,60 +175,72 @@ async function generateAndUploadAudio(script, title) {
 }
 
 // ═══════════════════════════════════════════════════════
-// AI THUMBNAIL (DALL-E via OpenAI API)
+// AI THUMBNAIL (Gemini Image Generation → S3)
+// SOP: Uses actual story SCRIPT to create scene-accurate prompt
 // ═══════════════════════════════════════════════════════
 
-async function generateAIThumbnail(title, category) {
-  const categoryStyle = {
-    Romance: 'romantic Indian scene, warm sunset, emotional, Bollywood style',
-    Horror: 'dark spooky Indian village, haunted atmosphere, scary night',
-    Thriller: 'mysterious dark city, suspense, detective, cinematic noir',
-    Comedy: 'colorful funny Indian scene, humor, bright, festive',
-    Spiritual: 'peaceful Indian temple, meditation, divine golden light',
-    Motivation: 'powerful sunrise over mountains, achievement, determination',
-    Culture: 'vibrant Indian village festival, colorful decorations, traditional',
-    Family: 'warm Indian family scene, emotional, motherly love',
-    Drama: 'dramatic cinematic Indian scene, emotional, intense'
-  }
+async function generateAIThumbnail(title, category, description) {
+  // Step 1: Create visual scene prompt from story description (not just title)
+  const scenePrompt = await createScenePrompt(title, category, description)
 
-  const style = categoryStyle[category] || 'cinematic Indian story illustration'
-  const prompt = `${title}, ${style}, digital art poster, cinematic, vibrant colors, high quality, 16:9 aspect ratio`
-
+  // Step 2: Generate image with Gemini
   try {
-    const response = await fetch('https://api.openai.com/v1/images/generations', {
-      method: 'POST',
-      headers: {
-        'Authorization': `Bearer ${process.env.OPENAI_API_KEY}`,
-        'Content-Type': 'application/json'
-      },
-      body: JSON.stringify({
-        model: 'dall-e-3',
-        prompt,
-        n: 1,
-        size: '1792x1024',
-        quality: 'standard'
-      })
-    })
+    const response = await fetch(
+      `https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash-exp-image-generation:generateContent?key=${process.env.GEMINI_API_KEY}`,
+      {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          contents: [{
+            parts: [{ text: `Generate a cinematic story poster image (NO text/letters in the image): ${scenePrompt}` }]
+          }],
+          generationConfig: {
+            responseModalities: ['IMAGE', 'TEXT'],
+            responseMimeType: 'text/plain'
+          }
+        })
+      }
+    )
 
-    if (!response.ok) {
-      throw new Error(`DALL-E error: ${response.status}`)
-    }
+    if (!response.ok) throw new Error(`Gemini image error: ${response.status}`)
 
     const data = await response.json()
-    const imageUrl = data.data?.[0]?.url
-    if (!imageUrl) throw new Error('No image URL in response')
+    const parts = data.candidates?.[0]?.content?.parts || []
 
-    // Download and upload to S3 for persistent storage
-    const imgResponse = await fetch(imageUrl)
-    const imgBuffer = Buffer.from(await imgResponse.arrayBuffer())
-    const { uploadImageBuffer } = require('../../lib/s3-storage')
-    const fileName = `${Date.now()}-${title.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 40)}.jpg`
-    return await uploadImageBuffer(imgBuffer, fileName)
+    for (const part of parts) {
+      if (part.inlineData) {
+        const buffer = Buffer.from(part.inlineData.data, 'base64')
+        const { uploadImageBuffer } = require('../../lib/s3-storage')
+        const fileName = `${Date.now()}-${title.replace(/[^a-zA-Z0-9]/g, '-').substring(0, 40)}.png`
+        return await uploadImageBuffer(buffer, fileName)
+      }
+    }
 
+    throw new Error('No image in Gemini response')
   } catch (err) {
-    console.warn('DALL-E thumbnail failed, using fallback:', err.message)
+    console.warn('Gemini thumbnail failed, using fallback:', err.message)
     return getFallbackThumbnail(category)
   }
+}
+
+// SOP: Extract visual scene from story description for accurate thumbnail
+async function createScenePrompt(title, category, description) {
+  const categoryStyle = {
+    Romance: 'romantic Indian scene, warm colors, Bollywood style',
+    Horror: 'dark spooky Indian setting, scary atmosphere',
+    Thriller: 'mysterious dark scene, suspense, cinematic noir',
+    Comedy: 'colorful bright Indian scene, festive, fun',
+    Spiritual: 'peaceful Indian temple, divine golden light',
+    Motivation: 'powerful sunrise, achievement, determination',
+    Culture: 'vibrant Indian village festival, colorful traditional',
+    Family: 'warm Indian family scene, emotional',
+    Drama: 'dramatic cinematic Indian scene, intense'
+  }
+
+  const style = categoryStyle[category] || 'cinematic Indian story'
+  // Use description (which comes from story script) to build accurate visual
+  const storyContext = description ? description.substring(0, 200) : title
+  return `${storyContext}, ${style}, cinematic dramatic lighting, digital painting, Bollywood movie poster quality, widescreen 16:9`
 }
 
 function getFallbackThumbnail(category) {
