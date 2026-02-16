@@ -3,7 +3,7 @@ import path from 'path'
 
 const { apiLimiter } = require('../../lib/rateLimit')
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (!apiLimiter(req, res)) return
 
   if (req.method !== 'GET') {
@@ -12,7 +12,7 @@ export default function handler(req, res) {
 
   try {
     const dbPath = path.join(process.cwd(), 'data', 'stories.json')
-    const data = JSON.parse(fs.readFileSync(dbPath, 'utf8'))
+    const data = JSON.parse(await fs.promises.readFile(dbPath, 'utf8'))
 
     res.status(200).json({
       success: true,

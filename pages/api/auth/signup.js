@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   const { name, email, password, preferredLanguage } = result.data;
 
   // Check if user exists
-  const users = getUsers();
+  const users = await getUsers();
   if (users.find(u => u.email === email)) {
     return res.status(409).json({ success: false, error: 'An account with this email already exists' });
   }
@@ -36,7 +36,7 @@ export default async function handler(req, res) {
   };
 
   users.push(newUser);
-  saveUsers(users);
+  await saveUsers(users);
 
   // Generate token
   const token = generateToken(newUser);

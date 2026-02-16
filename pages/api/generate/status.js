@@ -6,7 +6,7 @@
 const fs = require('fs')
 const ContentLibrary = require('../../../utils/contentLibrary')
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ message: 'Method not allowed' })
   }
@@ -24,15 +24,16 @@ export default function handler(req, res) {
     let lastLogLine = ''
 
     for (const logFile of logFiles) {
-      if (fs.existsSync(logFile)) {
-        const logContent = fs.readFileSync(logFile, 'utf8')
+      try {
+        await fs.promises.access(logFile)
+        const logContent = await fs.promises.readFile(logFile, 'utf8')
         const lines = logContent.split('\n').filter(l => l.trim())
 
         if (lines.length > 0) {
           lastLogLine = lines[lines.length - 1]
 
           // Check if generation is active (log updated recently)
-          const logStat = fs.statSync(logFile)
+          const logStat = await fs.promises.stat(logFile)
           const lastModified = new Date(logStat.mtime)
           const minutesAgo = (Date.now() - lastModified) / 1000 / 60
 
@@ -40,6 +41,8 @@ export default function handler(req, res) {
             isGenerating = true
           }
         }
+      } catch {
+        // Log file doesn't exist, skip
       }
     }
 

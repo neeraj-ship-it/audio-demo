@@ -250,7 +250,7 @@ async function generateProfessionalStory(storyTemplate) {
       category: storyTemplate.category,
       duration: storyTemplate.duration,
       audioUrl: audioUrl,
-      thumbnailUrl: getUniqueThumbnail(storyTemplate.category),
+      thumbnailUrl: await getUniqueThumbnail(storyTemplate.category),
       generated: true,
       new: true,
       isPremium: true,

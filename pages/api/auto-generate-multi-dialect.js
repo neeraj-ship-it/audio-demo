@@ -110,10 +110,9 @@ async function addStoryToLibrary(storyData) {
 
   let stories = [];
   try {
-    if (fs.existsSync(storiesPath)) {
-      const content = fs.readFileSync(storiesPath, 'utf8');
-      stories = JSON.parse(content);
-    }
+    await fs.promises.access(storiesPath);
+    const content = await fs.promises.readFile(storiesPath, 'utf8');
+    stories = JSON.parse(content);
   } catch (error) {
     console.log('Creating new stories.json file');
     stories = [];
@@ -130,7 +129,7 @@ async function addStoryToLibrary(storyData) {
   stories.push(newStory);
 
   // Save back
-  fs.writeFileSync(storiesPath, JSON.stringify(stories, null, 2));
+  await fs.promises.writeFile(storiesPath, JSON.stringify(stories, null, 2));
 
   return newStory;
 }

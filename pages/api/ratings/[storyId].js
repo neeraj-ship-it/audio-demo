@@ -4,7 +4,7 @@ import path from 'path'
 const { validate, ratingSchema, storyIdSchema } = require('../../../lib/validate')
 const { apiLimiter } = require('../../../lib/rateLimit')
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (!apiLimiter(req, res)) return
 
   const { storyId } = req.query
@@ -18,8 +18,11 @@ export default function handler(req, res) {
 
   try {
     let data = { ratings: [] }
-    if (fs.existsSync(ratingsPath)) {
-      data = JSON.parse(fs.readFileSync(ratingsPath, 'utf8'))
+    try {
+      await fs.promises.access(ratingsPath)
+      data = JSON.parse(await fs.promises.readFile(ratingsPath, 'utf8'))
+    } catch {
+      // File doesn't exist yet, use default empty data
     }
     if (!data.ratings) data.ratings = []
 
@@ -58,7 +61,7 @@ export default function handler(req, res) {
         createdAt: new Date().toISOString()
       })
 
-      fs.writeFileSync(ratingsPath, JSON.stringify(data, null, 2))
+      await fs.promises.writeFile(ratingsPath, JSON.stringify(data, null, 2))
       res.status(200).json({ success: true, message: 'Rating added successfully' })
 
     } else {

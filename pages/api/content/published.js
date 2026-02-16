@@ -6,14 +6,14 @@ import path from 'path'
  * Returns all published (ready-to-play) content
  */
 
-export default function handler(req, res) {
+export default async function handler(req, res) {
   if (req.method !== 'GET') {
     return res.status(405).json({ error: 'Method not allowed' })
   }
 
   try {
     const dbPath = path.join(process.cwd(), 'data', 'stories.json')
-    const data = JSON.parse(fs.readFileSync(dbPath, 'utf8'))
+    const data = JSON.parse(await fs.promises.readFile(dbPath, 'utf8'))
 
     // Filter only generated/published content (support both audioPath and audioUrl)
     const published = data.stories

@@ -18,7 +18,7 @@ export default async function handler(req, res) {
   const { email, password } = result.data;
 
   // Find user
-  const users = getUsers();
+  const users = await getUsers();
   const user = users.find(u => u.email === email);
 
   if (!user || !(await verifyPassword(password, user.password))) {

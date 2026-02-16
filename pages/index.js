@@ -11,6 +11,9 @@ import ShareModal from '../components/ShareModal'
 import MiniPlayer from '../components/MiniPlayer'
 import ThemeToggle from '../components/ThemeToggle'
 import StoryCard from '../components/StoryCard'
+import HeroCarousel from '../components/HeroCarousel'
+import AudioPlayer from '../components/AudioPlayer'
+import SearchBar from '../components/SearchBar'
 import { useTheme } from '../contexts/ThemeContext'
 import { useToast } from '../contexts/ToastContext'
 
@@ -159,16 +162,6 @@ export default function AudioFlix() {
     }, 8000)
     return () => clearInterval(timer)
   }, [])
-
-  // Hero carousel auto-rotation - 2 seconds
-  useEffect(() => {
-    const timer = setInterval(() => {
-      if (filteredStories.length > 0) {
-        setHeroIndex((prev) => (prev + 1) % Math.min(filteredStories.length, 5))
-      }
-    }, 2000) // Change every 2 seconds
-    return () => clearInterval(timer)
-  }, [filteredStories])
 
   useEffect(() => {
     const audio = audioRef.current
@@ -507,6 +500,46 @@ export default function AudioFlix() {
     }
   }, [storyRatings, stories])
 
+  // Keyboard shortcuts for audio control
+  useEffect(() => {
+    const handleKeyDown = (e) => {
+      // Don't trigger shortcuts when typing in inputs
+      if (e.target.tagName === 'INPUT' || e.target.tagName === 'TEXTAREA' || e.target.tagName === 'SELECT') return
+
+      switch (e.key) {
+        case ' ': // Space = play/pause
+          e.preventDefault()
+          if (currentPlaying) togglePlayPause()
+          break
+        case 'ArrowRight': // → = skip forward 10s
+          if (currentPlaying) skipForward()
+          break
+        case 'ArrowLeft': // ← = skip backward 10s
+          if (currentPlaying) skipBackward()
+          break
+        case 'ArrowUp': // ↑ = volume up
+          e.preventDefault()
+          changeVolume(Math.min(1, volume + 0.1))
+          break
+        case 'ArrowDown': // ↓ = volume down
+          e.preventDefault()
+          changeVolume(Math.max(0, volume - 0.1))
+          break
+        case 'm': // M = mute/unmute
+          changeVolume(volume === 0 ? 1 : 0)
+          break
+        case 'Escape': // Escape = close modals
+          if (showRatingModal) closeRatingModal()
+          if (showShareModal) closeShareModal()
+          if (showAuthModal) setShowAuthModal(false)
+          break
+      }
+    }
+
+    window.addEventListener('keydown', handleKeyDown)
+    return () => window.removeEventListener('keydown', handleKeyDown)
+  }, [currentPlaying, isPlaying, volume, showRatingModal, showShareModal, showAuthModal])
+
   const categories = ['🔥 Trending', '💕 Romance', '🎭 Drama', '🚀 Tech', '💪 Health', '🙏 Spiritual']
 
   return (
@@ -718,299 +751,24 @@ export default function AudioFlix() {
       <main id="main-content" role="main">
       {/* Search Bar */}
       {showSearchBar && (
-        <div style={{
-          background:'rgba(0,0,0,0.95)',
-          padding:'20px 40px',
-          borderBottom:'1px solid #333',
-          position:'sticky',
-          top:'72px',
-          zIndex:99
-        }}>
-          <div style={{
-            display:'flex',
-            gap:'15px',
-            alignItems:'center',
-            maxWidth:'1200px',
-            margin:'0 auto'
-          }}>
-            {/* Search Input */}
-            <div style={{flex:1,position:'relative',display:'flex',alignItems:'center'}}>
-              <input
-                type="text"
-                placeholder="Search stories by title or category..."
-                value={searchQuery}
-                onChange={(e) => setSearchQuery(e.target.value)}
-                style={{
-                  width:'100%',
-                  padding:'14px 50px 14px 20px',
-                  background:'#2a2a2a',
-                  border:'2px solid #667eea',
-                  borderRadius:'25px',
-                  color:'white',
-                  fontSize:'15px',
-                  outline:'none',
-                  boxSizing:'border-box'
-                }}
-              />
-              {searchQuery && (
-                <button
-                  onClick={() => setSearchQuery('')}
-                  style={{
-                    position:'absolute',
-                    right:'18px',
-                    top:'50%',
-                    transform:'translateY(-50%)',
-                    background:'rgba(255,255,255,0.1)',
-                    border:'none',
-                    borderRadius:'50%',
-                    width:'28px',
-                    height:'28px',
-                    display:'flex',
-                    alignItems:'center',
-                    justifyContent:'center',
-                    color:'#aaa',
-                    cursor:'pointer',
-                    fontSize:'16px',
-                    transition:'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.2)'
-                    e.currentTarget.style.color = 'white'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
-                    e.currentTarget.style.color = '#aaa'
-                  }}
-                >
-                  ✕
-                </button>
-              )}
-            </div>
-
-            {/* Category Filter - Hidden for now */}
-            {false && (
-              <select
-                value={selectedCategory}
-                onChange={(e) => setSelectedCategory(e.target.value)}
-                style={{
-                  padding:'12px 15px',
-                  background:'#2a2a2a',
-                  border:'2px solid #667eea',
-                  borderRadius:'25px',
-                  color:'white',
-                  fontSize:'14px',
-                  cursor:'pointer',
-                  outline:'none'
-                }}
-              >
-                <option value="All">All Categories</option>
-                <option value="Romance">💕 Romance</option>
-                <option value="Horror">👻 Horror</option>
-                <option value="Thriller">🔪 Thriller</option>
-                <option value="Comedy">😂 Comedy</option>
-                <option value="Spiritual">🙏 Spiritual</option>
-                <option value="Motivation">💪 Motivation</option>
-              </select>
-            )}
-
-            {/* Sort By */}
-            <select
-              value={sortBy}
-              onChange={(e) => setSortBy(e.target.value)}
-              style={{
-                padding:'12px 15px',
-                background:'#2a2a2a',
-                border:'2px solid #667eea',
-                borderRadius:'25px',
-                color:'white',
-                fontSize:'14px',
-                cursor:'pointer',
-                outline:'none'
-              }}
-            >
-              <option value="latest">⏰ Latest First</option>
-              <option value="title">🔤 A-Z</option>
-            </select>
-
-            {/* Results Count */}
-            <div style={{
-              padding:'8px 15px',
-              background:'rgba(16, 185, 129, 0.2)',
-              borderRadius:'20px',
-              fontSize:'13px',
-              fontWeight:'bold',
-              color:'#10b981',
-              whiteSpace:'nowrap'
-            }}>
-              {filteredStories.length} stories
-            </div>
-          </div>
-        </div>
+        <SearchBar
+          searchQuery={searchQuery}
+          onSearchChange={setSearchQuery}
+          sortBy={sortBy}
+          onSortChange={setSortBy}
+          resultCount={filteredStories.length}
+        />
       )}
 
-      {/* Auto-Playing Hero Carousel - Rotates every 2 seconds */}
-      {filteredStories.length > 0 && (
-        <div style={{
-          height:'600px',
-          position:'relative',
-          overflow:'hidden',
-          backgroundImage: filteredStories[heroIndex]?.thumbnailUrl
-            ? `url(${filteredStories[heroIndex].thumbnailUrl})`
-            : `linear-gradient(135deg, #${((filteredStories[heroIndex]?.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((filteredStories[heroIndex]?.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
-          backgroundSize:'cover',
-          backgroundPosition:'center',
-          backgroundRepeat:'no-repeat',
-          transition:'background-image 0.8s ease-in-out'
-        }}>
-          {/* Black Gradient Overlay - Feathers from left */}
-          <div style={{
-            position:'absolute',
-            top:0,
-            left:0,
-            right:0,
-            bottom:0,
-            background:'linear-gradient(to right, rgba(0,0,0,0.95) 0%, rgba(0,0,0,0.85) 30%, rgba(0,0,0,0.4) 60%, transparent 100%)',
-            zIndex:1
-          }} />
-
-          {/* Text Content - Positioned on left over gradient */}
-          <div style={{
-            position:'absolute',
-            top:0,
-            left:0,
-            bottom:0,
-            display:'flex',
-            alignItems:'center',
-            padding:'0 60px',
-            zIndex:2,
-            maxWidth:'55%'
-          }}>
-            <div style={{maxWidth:'600px'}}>
-              <div style={{display:'flex',gap:'12px',marginBottom:'15px',flexWrap:'wrap'}}>
-                {filteredStories[heroIndex]?.new && (
-                  <span style={{background:'#e50914',padding:'6px 14px',borderRadius:'20px',fontSize:'12px',fontWeight:'bold',color:'white'}}>NEW</span>
-                )}
-                {storyRatings[filteredStories[heroIndex]?.id]?.average > 0 && (
-                  <span style={{background:'rgba(0,0,0,0.6)',padding:'6px 14px',borderRadius:'20px',fontSize:'12px',color:'white',backdropFilter:'blur(10px)'}}>
-                    ⭐ {storyRatings[filteredStories[heroIndex]?.id].average.toFixed(1)}
-                  </span>
-                )}
-                <span style={{background:'rgba(0,0,0,0.6)',padding:'6px 14px',borderRadius:'20px',fontSize:'12px',color:'white',backdropFilter:'blur(10px)'}}>
-                  {filteredStories[heroIndex]?.category}
-                </span>
-                <span style={{background:'rgba(0,0,0,0.6)',padding:'6px 14px',borderRadius:'20px',fontSize:'12px',color:'white',backdropFilter:'blur(10px)'}}>
-                  ⏱️ {filteredStories[heroIndex]?.duration || '5-15 min'}
-                </span>
-              </div>
-
-              <h2 style={{
-                fontSize:'56px',
-                margin:'0 0 20px',
-                fontWeight:'bold',
-                textShadow:'2px 2px 10px rgba(0,0,0,0.8)',
-                color:'white',
-                animation:'fadeIn 0.6s ease-in'
-              }}>
-                {filteredStories[heroIndex]?.emoji} {filteredStories[heroIndex]?.title}
-              </h2>
-
-              <p style={{
-                fontSize:'18px',
-                marginBottom:'30px',
-                lineHeight:'1.6',
-                textShadow:'1px 1px 5px rgba(0,0,0,0.8)',
-                color:'rgba(255,255,255,0.95)',
-                display:'-webkit-box',
-                WebkitLineClamp:3,
-                WebkitBoxOrient:'vertical',
-                overflow:'hidden'
-              }}>
-                {filteredStories[heroIndex]?.description || filteredStories[heroIndex]?.prompt || 'An amazing audio story waiting for you to discover. Experience immersive storytelling with professional narration.'}
-              </p>
-
-              <div style={{display:'flex',gap:'15px'}}>
-                <button
-                  onClick={() => playStory(filteredStories[heroIndex])}
-                  style={{
-                    background:'white',
-                    color:'black',
-                    border:'none',
-                    padding:'15px 45px',
-                    fontSize:'18px',
-                    fontWeight:'bold',
-                    borderRadius:'6px',
-                    cursor:'pointer',
-                    display:'flex',
-                    alignItems:'center',
-                    gap:'10px',
-                    boxShadow:'0 4px 15px rgba(0,0,0,0.3)',
-                    transition:'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
-                  onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                  ▶️ Play Now
-                </button>
-
-                <button
-                  onClick={() => router.push(`/story/${filteredStories[heroIndex]?.id}`)}
-                  style={{
-                    background:'rgba(109, 109, 110, 0.7)',
-                    color:'white',
-                    border:'2px solid white',
-                    padding:'15px 35px',
-                    fontSize:'18px',
-                    fontWeight:'bold',
-                    borderRadius:'6px',
-                    cursor:'pointer',
-                    display:'flex',
-                    alignItems:'center',
-                    gap:'10px',
-                    backdropFilter:'blur(10px)',
-                    transition:'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => {
-                    e.currentTarget.style.background = 'rgba(109, 109, 110, 0.9)'
-                    e.currentTarget.style.transform = 'scale(1.05)'
-                  }}
-                  onMouseLeave={(e) => {
-                    e.currentTarget.style.background = 'rgba(109, 109, 110, 0.7)'
-                    e.currentTarget.style.transform = 'scale(1)'
-                  }}
-                >
-                  ℹ️ More Info
-                </button>
-              </div>
-            </div>
-          </div>
-
-          {/* Slide Indicators */}
-          <div style={{
-            position:'absolute',
-            bottom:'30px',
-            left:'50%',
-            transform:'translateX(-50%)',
-            display:'flex',
-            gap:'8px',
-            zIndex:3
-          }}>
-            {filteredStories.slice(0, 5).map((_, idx) => (
-              <div
-                key={idx}
-                onClick={() => setHeroIndex(idx)}
-                style={{
-                  width: idx === heroIndex ? '32px' : '10px',
-                  height:'10px',
-                  borderRadius:'5px',
-                  background: idx === heroIndex ? 'white' : 'rgba(255,255,255,0.5)',
-                  cursor:'pointer',
-                  transition:'all 0.3s ease'
-                }}
-              />
-            ))}
-          </div>
-        </div>
-      )}
+      {/* Hero Carousel */}
+      <HeroCarousel
+        stories={filteredStories}
+        heroIndex={heroIndex}
+        setHeroIndex={setHeroIndex}
+        storyRatings={storyRatings}
+        onPlay={playStory}
+        onMoreInfo={(story) => router.push(`/story/${story?.id}`)}
+      />
 
       {/* Loading State */}
       {loading && (
@@ -1100,315 +858,32 @@ export default function AudioFlix() {
       {showComingSoon && <ComingSoon />}
 
       {/* Full Audio Player */}
-      {!showMiniPlayer && currentPlaying && (
-        <div style={{
-          position:'fixed',
-          bottom:0,
-          left:0,
-          right:0,
-          background:'linear-gradient(180deg, rgba(0,0,0,0.9), rgba(0,0,0,0.98))',
-          padding:'20px 40px',
-          borderTop:'1px solid #333',
-          zIndex:1001,
-          backdropFilter:'blur(10px)'
-        }}>
-          {/* Close Button */}
-          <button
-            onClick={() => {
-              audioRef.current.pause()
-              setCurrentPlaying(null)
-              setIsPlaying(false)
-            }}
-            style={{
-              position:'absolute',
-              top:'15px',
-              right:'15px',
-              background:'rgba(255,255,255,0.1)',
-              border:'none',
-              borderRadius:'50%',
-              width:'32px',
-              height:'32px',
-              fontSize:'18px',
-              cursor:'pointer',
-              display:'flex',
-              alignItems:'center',
-              justifyContent:'center',
-              color:'white',
-              transition:'all 0.2s'
-            }}
-            onMouseEnter={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.2)'
-              e.currentTarget.style.transform = 'scale(1.1)'
-            }}
-            onMouseLeave={(e) => {
-              e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
-              e.currentTarget.style.transform = 'scale(1)'
-            }}
-          >
-            ✕
-          </button>
-          <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
-            <div style={{
-              fontSize:'60px',
-              minWidth:'80px',
-              textAlign:'center',
-              background:'linear-gradient(135deg, #667eea, #764ba2)',
-              borderRadius:'12px',
-              padding:'10px'
-            }}>
-              {currentPlaying.emoji}
-            </div>
-            <div style={{flex:1}}>
-              <div style={{fontWeight:'bold',fontSize:'18px',marginBottom:'5px'}}>
-                {currentPlaying.title}
-              </div>
-              <div style={{fontSize:'14px',color:'#aaa',marginBottom:'10px',display:'flex',gap:'10px',alignItems:'center'}}>
-                <span>{currentPlaying.category}</span>
-                <span>•</span>
-                <span style={{color:'#10b981'}}>⏱️ {formatTime(duration)}</span>
-              </div>
-              <div style={{display:'flex',alignItems:'center',gap:'20px'}}>
-                {/* Skip Backward 10s */}
-                <button
-                  onClick={skipBackward}
-                  style={{
-                    background:'rgba(255,255,255,0.1)',
-                    border:'none',
-                    borderRadius:'50%',
-                    width:'40px',
-                    height:'40px',
-                    fontSize:'16px',
-                    cursor:'pointer',
-                    display:'flex',
-                    alignItems:'center',
-                    justifyContent:'center',
-                    color:'white',
-                    transition:'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                  title="Rewind 10s"
-                >
-                  ⏪
-                </button>
-
-                {/* Play/Pause */}
-                <button onClick={togglePlayPause} style={{
-                  background:'#10b981',
-                  border:'none',
-                  borderRadius:'50%',
-                  width:'55px',
-                  height:'55px',
-                  fontSize:'26px',
-                  cursor:'pointer',
-                  display:'flex',
-                  alignItems:'center',
-                  justifyContent:'center',
-                  transition:'all 0.2s'
-                }}
-                onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.1)'}
-                onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
-                >
-                  {isPlaying ? '⏸️' : '▶️'}
-                </button>
-
-                {/* Skip Forward 10s */}
-                <button
-                  onClick={skipForward}
-                  style={{
-                    background:'rgba(255,255,255,0.1)',
-                    border:'none',
-                    borderRadius:'50%',
-                    width:'40px',
-                    height:'40px',
-                    fontSize:'16px',
-                    cursor:'pointer',
-                    display:'flex',
-                    alignItems:'center',
-                    justifyContent:'center',
-                    color:'white',
-                    transition:'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                  title="Forward 10s"
-                >
-                  ⏩
-                </button>
-
-                {/* Progress Bar */}
-                <div style={{flex:1}}>
-                  <div
-                    onClick={seekTo}
-                    style={{
-                      height:'6px',
-                      background:'#333',
-                      borderRadius:'3px',
-                      overflow:'hidden',
-                      marginBottom:'5px',
-                      cursor:'pointer',
-                      position:'relative'
-                    }}
-                    onMouseEnter={(e) => e.currentTarget.style.height = '8px'}
-                    onMouseLeave={(e) => e.currentTarget.style.height = '6px'}
-                  >
-                    <div style={{
-                      height:'100%',
-                      width:`${duration ? (currentTime/duration)*100 : 0}%`,
-                      background:'linear-gradient(90deg, #10b981, #3b82f6)',
-                      transition:'width 0.1s linear'
-                    }}/>
-                  </div>
-                  <div style={{display:'flex',justifyContent:'space-between',fontSize:'12px',color:'#aaa',fontWeight:'500'}}>
-                    <span>{formatTime(currentTime)}</span>
-                    <span>{formatTime(duration)}</span>
-                  </div>
-                </div>
-
-                {/* Volume Control */}
-                <div style={{position:'relative'}}>
-                  <button
-                    onClick={() => setShowVolumeSlider(!showVolumeSlider)}
-                    style={{
-                      background:'none',
-                      border:'none',
-                      color:'white',
-                      cursor:'pointer',
-                      fontSize:'22px',
-                      padding:'5px'
-                    }}
-                    title="Volume"
-                  >
-                    {volume === 0 ? '🔇' : volume < 0.5 ? '🔉' : '🔊'}
-                  </button>
-                  {showVolumeSlider && (
-                    <div style={{
-                      position:'absolute',
-                      bottom:'45px',
-                      left:'50%',
-                      transform:'translateX(-50%)',
-                      background:'rgba(0,0,0,0.95)',
-                      padding:'15px 10px',
-                      borderRadius:'10px',
-                      border:'1px solid #333'
-                    }}>
-                      <input
-                        type="range"
-                        min="0"
-                        max="1"
-                        step="0.1"
-                        value={volume}
-                        onChange={(e) => changeVolume(parseFloat(e.target.value))}
-                        style={{
-                          width:'80px',
-                          transform:'rotate(-90deg)',
-                          transformOrigin:'center',
-                          margin:'30px 0'
-                        }}
-                      />
-                    </div>
-                  )}
-                </div>
-
-                {/* Playback Speed */}
-                <div style={{position:'relative'}}>
-                  <button
-                    onClick={() => setShowSpeedMenu(!showSpeedMenu)}
-                    style={{
-                      background:'rgba(255,255,255,0.1)',
-                      border:'1px solid #666',
-                      borderRadius:'8px',
-                      padding:'6px 12px',
-                      color:'white',
-                      cursor:'pointer',
-                      fontSize:'13px',
-                      fontWeight:'bold'
-                    }}
-                    title="Playback Speed"
-                  >
-                    {playbackSpeed}x
-                  </button>
-                  {showSpeedMenu && (
-                    <div style={{
-                      position:'absolute',
-                      bottom:'45px',
-                      left:'50%',
-                      transform:'translateX(-50%)',
-                      background:'rgba(0,0,0,0.95)',
-                      borderRadius:'10px',
-                      border:'1px solid #333',
-                      overflow:'hidden',
-                      minWidth:'100px'
-                    }}>
-                      {[0.5, 0.75, 1, 1.25, 1.5, 1.75, 2].map(speed => (
-                        <button
-                          key={speed}
-                          onClick={() => changePlaybackSpeed(speed)}
-                          style={{
-                            width:'100%',
-                            padding:'10px 15px',
-                            background: speed === playbackSpeed ? '#10b981' : 'transparent',
-                            border:'none',
-                            color:'white',
-                            cursor:'pointer',
-                            fontSize:'14px',
-                            textAlign:'center'
-                          }}
-                          onMouseEnter={(e) => {
-                            if (speed !== playbackSpeed) e.currentTarget.style.background = 'rgba(255,255,255,0.1)'
-                          }}
-                          onMouseLeave={(e) => {
-                            if (speed !== playbackSpeed) e.currentTarget.style.background = 'transparent'
-                          }}
-                        >
-                          {speed}x
-                        </button>
-                      ))}
-                    </div>
-                  )}
-                </div>
-
-                {/* Sleep Timer */}
-                <div style={{position:'relative'}}>
-                  <button
-                    style={{
-                      background: sleepTimer ? '#10b981' : 'none',
-                      border:'none',
-                      color:'white',
-                      cursor:'pointer',
-                      fontSize:'22px',
-                      padding:'5px',
-                      position:'relative'
-                    }}
-                    onClick={() => {
-                      const minutes = prompt('Sleep timer (minutes):\n\n15 - 15 minutes\n30 - 30 minutes\n45 - 45 minutes\n60 - 1 hour\n0 - Cancel timer', sleepTimerMinutes || '30')
-                      if (minutes !== null) {
-                        setSleepTimerFunc(parseInt(minutes) || 0)
-                      }
-                    }}
-                    title={sleepTimer ? `Sleep timer: ${sleepTimer} min` : 'Set sleep timer'}
-                  >
-                    ⏰
-                    {sleepTimer > 0 && (
-                      <span style={{
-                        position:'absolute',
-                        top:'-5px',
-                        right:'-5px',
-                        background:'#e50914',
-                        borderRadius:'50%',
-                        padding:'2px 6px',
-                        fontSize:'10px',
-                        fontWeight:'bold'
-                      }}>
-                        {sleepTimer}
-                      </span>
-                    )}
-                  </button>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
+      {!showMiniPlayer && (
+        <AudioPlayer
+          currentPlaying={currentPlaying}
+          isPlaying={isPlaying}
+          currentTime={currentTime}
+          duration={duration}
+          volume={volume}
+          playbackSpeed={playbackSpeed}
+          showVolumeSlider={showVolumeSlider}
+          setShowVolumeSlider={setShowVolumeSlider}
+          showSpeedMenu={showSpeedMenu}
+          setShowSpeedMenu={setShowSpeedMenu}
+          sleepTimer={sleepTimer}
+          onPlayPause={togglePlayPause}
+          onSkipForward={skipForward}
+          onSkipBackward={skipBackward}
+          onSeek={seekTo}
+          onVolumeChange={changeVolume}
+          onSpeedChange={changePlaybackSpeed}
+          onSleepTimer={() => {
+            const minutes = prompt('Sleep timer (minutes):\n\n15 - 15 minutes\n30 - 30 minutes\n45 - 45 minutes\n60 - 1 hour\n0 - Cancel timer', sleepTimerMinutes || '30')
+            if (minutes !== null) setSleepTimerFunc(parseInt(minutes) || 0)
+          }}
+          onClose={() => { audioRef.current.pause(); setCurrentPlaying(null); setIsPlaying(false) }}
+          formatTime={formatTime}
+        />
       )}
 
       {/* Mini Player */}
