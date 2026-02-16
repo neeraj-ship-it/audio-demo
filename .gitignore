@@ -56,3 +56,5 @@ assets/music/
 
 # User data
 data/users.json
+data/favorites.json
+data/history.json

@@ -20,7 +20,8 @@
     "automation:start": "node automation/generate-daily.js",
     "automation:test": "node automation/generate-daily.js --now",
     "generate:stories": "node generate-new-stories.js",
-    "generate:punarjanam": "node generate-punarjanam.js"
+    "generate:punarjanam": "node generate-punarjanam.js",
+    "lint": "next lint"
   },
   "keywords": [],
   "author": "",
@@ -45,6 +46,8 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "eslint": "^9.39.2",
+    "eslint-config-next": "^16.1.6",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18"
   }
