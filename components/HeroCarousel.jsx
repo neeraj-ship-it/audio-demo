@@ -13,8 +13,11 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
 
   if (stories.length === 0) return null;
 
-  const currentStory = stories[heroIndex];
-  const rating = storyRatings?.[currentStory?.id];
+  // Guard against heroIndex going out of bounds when stories array shrinks
+  const safeIndex = heroIndex >= stories.length ? 0 : heroIndex;
+  const currentStory = stories[safeIndex];
+  const ratingData = storyRatings?.[currentStory?.id];
+  const rating = ratingData?.average != null ? Number(ratingData.average).toFixed(1) : null;
 
   const backgroundImage = currentStory?.thumbnailUrl
     ? `url(${currentStory.thumbnailUrl})`
@@ -83,7 +86,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
           >
             NEW
           </span>
-          {rating !== undefined && rating !== null && (
+          {rating !== null && (
             <span
               style={{
                 backgroundColor: 'rgba(255,255,255,0.15)',
@@ -94,7 +97,7 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
                 fontWeight: '600',
               }}
             >
-              {typeof rating === 'number' ? rating.toFixed(1) : rating}
+              &#11088; {rating}
             </span>
           )}
           {currentStory?.category && (
