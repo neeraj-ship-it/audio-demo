@@ -21,6 +21,8 @@
     "automation:test": "node automation/generate-daily.js --now",
     "generate:stories": "node generate-new-stories.js",
     "generate:punarjanam": "node generate-punarjanam.js",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "lint": "next lint"
   },
   "keywords": [],
@@ -46,8 +48,12 @@
   },
   "devDependencies": {
     "@tailwindcss/postcss": "^4.1.18",
+    "@testing-library/jest-dom": "^6.9.1",
+    "@testing-library/react": "^16.3.2",
     "eslint": "^9.39.2",
     "eslint-config-next": "^16.1.6",
+    "jest": "^30.2.0",
+    "jest-environment-jsdom": "^30.2.0",
     "postcss": "^8.5.6",
     "tailwindcss": "^4.1.18"
   }

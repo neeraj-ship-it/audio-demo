@@ -16,6 +16,7 @@ import AudioPlayer from '../components/AudioPlayer'
 import SearchBar from '../components/SearchBar'
 import PlaylistManager from '../components/PlaylistManager'
 import useAudio from '../hooks/useAudio'
+import useUser from '../hooks/useUser'
 import { useTheme } from '../contexts/ThemeContext'
 import { useToast } from '../contexts/ToastContext'
 
@@ -42,11 +43,8 @@ export default function AudioFlix() {
   const [showSearchBar, setShowSearchBar] = useState(false)
   const [filteredStories, setFilteredStories] = useState([])
 
-  // User states
-  const [currentUser, setCurrentUser] = useState(null)
-  const [showAuthModal, setShowAuthModal] = useState(false)
-  const [userFavorites, setUserFavorites] = useState([])
-  const [userHistory, setUserHistory] = useState([])
+  // User hook - consolidates user state, auth, favorites, and history
+  const { currentUser, showAuthModal, setShowAuthModal, userFavorites, userHistory, setUserHistory, handleLogin, handleLogout, toggleFavorite } = useUser()
 
   // Content Discovery states
   const [heroIndex, setHeroIndex] = useState(0)
@@ -160,15 +158,6 @@ export default function AudioFlix() {
   useEffect(() => {
     // Set random time on client side only
     setNextStoryTime(Math.floor(Math.random() * 15) + 1)
-
-    // Load current user from localStorage
-    const savedUser = localStorage.getItem('audioflix_current_user')
-    if (savedUser) {
-      const user = JSON.parse(savedUser)
-      setCurrentUser(user)
-      setUserFavorites(user.favorites || [])
-      setUserHistory(user.history || [])
-    }
   }, [])
 
   useEffect(() => {
@@ -179,42 +168,6 @@ export default function AudioFlix() {
     }, 8000)
     return () => clearInterval(timer)
   }, [])
-
-  // User functions
-  const handleLogin = (user) => {
-    setCurrentUser(user)
-    setUserFavorites(user.favorites || [])
-    setUserHistory(user.history || [])
-  }
-
-  const handleLogout = () => {
-    localStorage.removeItem('audioflix_current_user')
-    setCurrentUser(null)
-    setUserFavorites([])
-    setUserHistory([])
-  }
-
-  const toggleFavorite = (storyId) => {
-    if (!currentUser) {
-      setShowAuthModal(true)
-      return
-    }
-
-    const newFavorites = userFavorites.includes(storyId)
-      ? userFavorites.filter(id => id !== storyId)
-      : [...userFavorites, storyId]
-
-    setUserFavorites(newFavorites)
-
-    // Update user in localStorage
-    const users = JSON.parse(localStorage.getItem('audioflix_users') || '[]')
-    const userIndex = users.findIndex(u => u.id === currentUser.id)
-    if (userIndex !== -1) {
-      users[userIndex].favorites = newFavorites
-      localStorage.setItem('audioflix_users', JSON.stringify(users))
-      localStorage.setItem('audioflix_current_user', JSON.stringify(users[userIndex]))
-    }
-  }
 
   const openRatingModal = (story, e) => {
     e.stopPropagation()
