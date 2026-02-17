@@ -53,6 +53,20 @@ export default async function handler(req, res) {
             }
           }
 
+          // Presign thumbnail URL if it's on S3
+          let thumbnailUrl = story.thumbnail || story.thumbnailUrl || ''
+          if (thumbnailUrl && (thumbnailUrl.includes('.s3.') || thumbnailUrl.includes('amazonaws.com'))) {
+            try {
+              thumbnailUrl = getPresignedUrl(thumbnailUrl)
+            } catch (err) {
+              console.warn('Presign thumb failed for', story.title, err.message)
+              thumbnailUrl = ''
+            }
+          }
+          if (!thumbnailUrl) {
+            thumbnailUrl = `https://via.placeholder.com/400x600/${getColorForCategory(story.category)}/ffffff?text=${story.emoji || '🎵'}`
+          }
+
           return {
             id: story.id,
             title: story.title,
@@ -64,7 +78,7 @@ export default async function handler(req, res) {
             plays: story.plays,
             duration: story.duration,
             audioPath: audioPath,
-            thumbnailUrl: story.thumbnail || story.thumbnailUrl || `https://via.placeholder.com/400x600/${getColorForCategory(story.category)}/ffffff?text=${story.emoji || '🎵'}`,
+            thumbnailUrl,
             new: story.new || false,
             generated: true,
             generatedAt: story.generatedAt || story.createdAt,

@@ -32,9 +32,17 @@ export async function getServerSideProps({ params }) {
   // Build absolute thumbnail URL for OG
   let ogImage = `${SITE_URL}/stage-logo.png`
   if (story.thumbnailUrl) {
-    ogImage = story.thumbnailUrl.startsWith('http')
+    let thumbUrl = story.thumbnailUrl.startsWith('http')
       ? story.thumbnailUrl
       : `${SITE_URL}${story.thumbnailUrl}`
+    // Presign S3 thumbnail URLs so they're accessible
+    if (thumbUrl.includes('.s3.') || thumbUrl.includes('amazonaws.com')) {
+      try {
+        const { getPresignedUrl } = require('../../lib/s3-storage')
+        thumbUrl = getPresignedUrl(thumbUrl)
+      } catch (e) { /* fallback to logo */ }
+    }
+    ogImage = thumbUrl
   }
 
   const ogData = {
