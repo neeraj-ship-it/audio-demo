@@ -55,14 +55,16 @@
 
 ### Auto-Generation Pipeline (Daily Cron)
 ```
-vercel.json cron:
-├── 2:00 AM IST  → /api/auto-generate-multi-dialect (4 dialect stories)
+vercel.json cron (Hobby plan = max 2 jobs):
 ├── 9:00 AM IST  → /api/auto-generate-story (1 random category/dialect)
-└── 10:00 AM IST → /api/publish-scheduled (publish scheduled content)
+└── 9:00 PM IST  → /api/auto-generate-story (1 random category/dialect)
+= 2 new stories per day, fully automated
 ```
 
+**CRITICAL env var issue:** All Vercel env vars have trailing `\n` - always `.trim()` them!
+
 **Flow for each story:**
-1. Gemini AI generates Hindi/dialect story script (500-700 words, 5-7 min narration)
+1. Gemini AI generates Hindi/dialect story script (300-400 words, 3-5 min narration)
 2. ElevenLabs generates voice audio (eleven_multilingual_v2 model)
 3. Audio uploaded to S3 (`audio/` prefix)
 4. Story description → visual scene prompt → Gemini image generation → S3 thumbnail
@@ -119,8 +121,13 @@ vercel.json cron:
 - Vercel serverless FS is ephemeral - never rely on runtime file writes
 - HeroCarousel heroIndex needs bounds guard when stories array changes
 - storyRatings returns {average, total} OBJECT - never render directly in JSX
-- stories.json has 11 total entries but only 3 are published (have audio)
-- Multi-dialect stories have pre-scripted content in multi-dialect-stories.js
+- stories.json has 11 static stories (all published with audio + AI thumbnails)
+- S3 stories-live.json has auto-generated stories (cron adds 2/day)
+- All Vercel env vars have trailing `\n` - ALWAYS use `.trim()`
+- S3 bucket has Block Public Access ON - no ACLs, use presigned URLs
+- Gemini model: `gemini-2.0-flash` (1.5-flash deprecated)
+- Hobby plan: 60s function timeout, 2 cron jobs max
+- Cron auto-gen skips thumbnail (timeout), uses category fallback
 
 ## BMAD Backlog (Remaining)
 - EPIC-5.2: Sound effects system
