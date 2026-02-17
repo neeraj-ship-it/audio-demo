@@ -4,7 +4,7 @@ export default function ShareModal({ story, onClose }) {
   const [copied, setCopied] = useState(false)
 
   const shareUrl = typeof window !== 'undefined'
-    ? `${window.location.origin}/?story=${story.id}`
+    ? `${window.location.origin}/story/${story.id}`
     : ''
   const shareText = `Check out "${story.title}" on STAGE fm! ${story.emoji} ${story.category}`
 

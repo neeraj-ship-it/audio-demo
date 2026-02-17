@@ -1,32 +1,91 @@
 import { useState, useEffect } from 'react'
 import { useRouter } from 'next/router'
 import Head from 'next/head'
+import fs from 'fs'
+import path from 'path'
+import ShareModal from '../../components/ShareModal'
 
-export default function StoryDetails() {
+const SITE_URL = 'https://audio-demo-eight.vercel.app'
+
+export async function getServerSideProps({ params }) {
+  const { id } = params
+
+  // Read static stories
+  const dbPath = path.join(process.cwd(), 'data', 'stories.json')
+  const data = JSON.parse(await fs.promises.readFile(dbPath, 'utf8'))
+  const allStories = data.stories || []
+
+  // Also try S3 live stories
+  let liveStories = []
+  try {
+    const { readLiveStories } = require('../../lib/s3-storage')
+    liveStories = await readLiveStories()
+  } catch (e) { /* ignore */ }
+
+  const merged = [...liveStories, ...allStories]
+  const story = merged.find(s => String(s.id) === String(id)) || null
+
+  if (!story) {
+    return { props: { story: null, ogData: null } }
+  }
+
+  // Build absolute thumbnail URL for OG
+  let ogImage = `${SITE_URL}/stage-logo.png`
+  if (story.thumbnailUrl) {
+    ogImage = story.thumbnailUrl.startsWith('http')
+      ? story.thumbnailUrl
+      : `${SITE_URL}${story.thumbnailUrl}`
+  }
+
+  const ogData = {
+    title: `${story.title} - STAGE fm`,
+    description: (story.description || '').substring(0, 200),
+    image: ogImage,
+    url: `${SITE_URL}/story/${id}`,
+    category: story.category || '',
+    dialect: story.dialect || ''
+  }
+
+  // Serialize only what client needs (strip huge script field)
+  const clientStory = {
+    id: story.id,
+    title: story.title,
+    description: story.description,
+    category: story.category,
+    language: story.language,
+    dialect: story.dialect,
+    emoji: story.emoji,
+    duration: story.duration,
+    audioUrl: story.audioUrl || story.audioPath,
+    thumbnailUrl: story.thumbnailUrl,
+    generated: story.generated,
+    generatedAt: story.generatedAt
+  }
+
+  return { props: { story: clientStory, ogData } }
+}
+
+export default function StoryDetails({ story: serverStory, ogData }) {
   const router = useRouter()
   const { id } = router.query
 
-  const [story, setStory] = useState(null)
+  const [story, setStory] = useState(serverStory)
   const [relatedStories, setRelatedStories] = useState([])
   const [ratings, setRatings] = useState({ average: 0, total: 0, reviews: [] })
-  const [loading, setLoading] = useState(true)
-  const [showShareMenu, setShowShareMenu] = useState(false)
+  const [loading, setLoading] = useState(!serverStory)
+  const [showShareModal, setShowShareModal] = useState(false)
 
   useEffect(() => {
     if (!id) return
 
-    setLoading(true)
-
-    // Fetch story details
+    // Fetch full story data from API (includes presigned audio URLs)
     fetch('/api/content/published')
       .then(res => res.json())
       .then(data => {
         if (data.success) {
-          const foundStory = data.content.find(s => s.id === parseInt(id))
-          setStory(foundStory)
-
-          // Get related stories (same category, different id)
+          const foundStory = data.content.find(s => String(s.id) === String(id))
           if (foundStory) {
+            setStory(foundStory)
             const related = data.content
               .filter(s => s.category === foundStory.category && s.id !== foundStory.id)
               .slice(0, 4)
@@ -44,40 +103,38 @@ export default function StoryDetails() {
     fetch(`/api/ratings/${id}`)
       .then(res => res.json())
       .then(data => {
-        if (data.success) {
-          setRatings(data.ratings)
-        }
+        if (data.success) setRatings(data.ratings)
       })
       .catch(err => console.error('Error loading ratings:', err))
   }, [id])
 
-  const formatDuration = (seconds) => {
-    if (!seconds) return '5-15 min'
-    const mins = Math.floor(seconds / 60)
+  const formatDuration = (dur) => {
+    if (!dur) return '5-15 min'
+    if (typeof dur === 'string') return dur
+    const mins = Math.floor(dur / 60)
     return `${mins} min`
   }
 
-  const shareStory = (platform) => {
-    const url = `${window.location.origin}/story/${story.id}`
-    const text = `Check out this story: ${story.title}`
+  const handleShare = async () => {
+    const url = `${SITE_URL}/story/${story.id}`
+    const text = `${story.emoji} "${story.title}" - ${story.category} | STAGE fm`
 
-    const shareUrls = {
-      twitter: `https://twitter.com/intent/tweet?text=${encodeURIComponent(text)}&url=${encodeURIComponent(url)}`,
-      facebook: `https://www.facebook.com/sharer/sharer.php?u=${encodeURIComponent(url)}`,
-      whatsapp: `https://wa.me/?text=${encodeURIComponent(text + ' ' + url)}`,
-      copy: url
+    // Try native Web Share API first (mobile)
+    if (typeof navigator !== 'undefined' && navigator.share) {
+      try {
+        await navigator.share({ title: story.title, text, url })
+        return
+      } catch (e) {
+        // User cancelled or not supported, fall through to modal
+        if (e.name === 'AbortError') return
+      }
     }
 
-    if (platform === 'copy') {
-      navigator.clipboard.writeText(url)
-      alert('Link copied to clipboard!')
-    } else {
-      window.open(shareUrls[platform], '_blank', 'width=600,height=400')
-    }
-    setShowShareMenu(false)
+    // Fallback: show ShareModal (desktop)
+    setShowShareModal(true)
   }
 
-  if (loading) {
+  if (loading && !story) {
     return (
       <div style={{
         minHeight: '100vh',
@@ -135,8 +192,22 @@ export default function StoryDetails() {
   return (
     <>
       <Head>
-        <title>{story.title} - STAGE fm</title>
-        <meta name="description" content={story.description || story.prompt} />
+        <title>{ogData?.title || `${story.title} - STAGE fm`}</title>
+        <meta name="description" content={ogData?.description || story.description} />
+        <link rel="canonical" href={ogData?.url || `${SITE_URL}/story/${story.id}`} />
+
+        {/* OG Tags */}
+        <meta property="og:title" content={ogData?.title || story.title} />
+        <meta property="og:description" content={ogData?.description || story.description} />
+        <meta property="og:image" content={ogData?.image || `${SITE_URL}/stage-logo.png`} />
+        <meta property="og:url" content={ogData?.url || `${SITE_URL}/story/${story.id}`} />
+        <meta property="og:type" content="article" />
+
+        {/* Twitter Card */}
+        <meta name="twitter:card" content="summary_large_image" />
+        <meta name="twitter:title" content={ogData?.title || story.title} />
+        <meta name="twitter:description" content={ogData?.description || story.description} />
+        <meta name="twitter:image" content={ogData?.image || `${SITE_URL}/stage-logo.png`} />
       </Head>
 
       <div style={{
@@ -147,7 +218,7 @@ export default function StoryDetails() {
       }}>
         {/* Header */}
         <div style={{
-          padding: '15px 40px',
+          padding: '15px 20px',
           background: 'rgba(0,0,0,0.9)',
           borderBottom: '1px solid #333',
           display: 'flex',
@@ -186,15 +257,17 @@ export default function StoryDetails() {
           }}>
             🎵 STAGE fm
           </h1>
-          <div style={{width: '80px'}} /> {/* Spacer for centering */}
+          <div style={{width: '80px'}} />
         </div>
 
-        {/* Hero Section */}
+        {/* Hero Section - Full Width */}
         <div style={{
           position: 'relative',
-          height: '400px',
+          width: '100%',
+          minHeight: '50vh',
+          maxHeight: '500px',
           background: story.thumbnailUrl
-            ? `url(${story.thumbnailUrl}) center/cover`
+            ? `url(${story.thumbnailUrl}) center/cover no-repeat`
             : `linear-gradient(135deg, #${((story.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((story.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
           display: 'flex',
           alignItems: 'flex-end'
@@ -203,46 +276,65 @@ export default function StoryDetails() {
           <div style={{
             position: 'absolute',
             inset: 0,
-            background: 'linear-gradient(to top, rgba(0,0,0,0.95) 0%, transparent 100%)'
+            background: 'linear-gradient(to top, #0a0a0a 0%, rgba(10,10,10,0.6) 50%, transparent 100%)'
           }} />
 
           {/* Story Info */}
           <div style={{
             position: 'relative',
             zIndex: 1,
-            padding: '40px',
-            width: '100%'
+            padding: 'clamp(20px, 5vw, 40px)',
+            width: '100%',
+            maxWidth: '1200px',
+            margin: '0 auto'
           }}>
-            <div style={{
-              display: 'inline-block',
-              background: 'rgba(102, 126, 234, 0.3)',
-              border: '1px solid #667eea',
-              borderRadius: '20px',
-              padding: '6px 14px',
-              fontSize: '12px',
-              fontWeight: 'bold',
-              color: '#667eea',
-              marginBottom: '12px'
-            }}>
-              {story.category}
+            <div style={{display: 'flex', gap: '8px', flexWrap: 'wrap', marginBottom: '12px'}}>
+              <span style={{
+                display: 'inline-block',
+                background: 'rgba(102, 126, 234, 0.3)',
+                border: '1px solid #667eea',
+                borderRadius: '20px',
+                padding: '6px 14px',
+                fontSize: '12px',
+                fontWeight: 'bold',
+                color: '#667eea'
+              }}>
+                {story.category}
+              </span>
+              {story.dialect && (
+                <span style={{
+                  display: 'inline-block',
+                  background: 'rgba(251, 191, 36, 0.2)',
+                  border: '1px solid #fbbf24',
+                  borderRadius: '20px',
+                  padding: '6px 14px',
+                  fontSize: '12px',
+                  fontWeight: 'bold',
+                  color: '#fbbf24'
+                }}>
+                  {story.language || story.dialect}
+                </span>
+              )}
             </div>
 
             <h1 style={{
-              fontSize: '48px',
+              fontSize: 'clamp(28px, 6vw, 48px)',
               fontWeight: 'bold',
               margin: '0 0 16px 0',
-              textShadow: '0 4px 12px rgba(0,0,0,0.8)'
+              textShadow: '0 4px 12px rgba(0,0,0,0.8)',
+              lineHeight: 1.2
             }}>
               {story.emoji} {story.title}
             </h1>
 
             <div style={{
               display: 'flex',
-              gap: '24px',
+              gap: '16px',
               alignItems: 'center',
               fontSize: '14px',
               color: '#aaa',
-              marginBottom: '20px'
+              marginBottom: '20px',
+              flexWrap: 'wrap'
             }}>
               <span style={{display: 'flex', alignItems: 'center', gap: '6px'}}>
                 ⏱️ {formatDuration(story.duration)}
@@ -299,119 +391,27 @@ export default function StoryDetails() {
                 onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
                 onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
               >
-                ❤️ Add to Favorites
+                ❤️ Favorites
               </button>
 
-              <div style={{position: 'relative'}}>
-                <button
-                  onClick={() => setShowShareMenu(!showShareMenu)}
-                  style={{
-                    background: 'rgba(255,255,255,0.1)',
-                    border: '1px solid rgba(255,255,255,0.3)',
-                    borderRadius: '25px',
-                    padding: '12px 24px',
-                    fontSize: '16px',
-                    fontWeight: 'bold',
-                    color: 'white',
-                    cursor: 'pointer',
-                    transition: 'all 0.2s'
-                  }}
-                  onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
-                  onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                >
-                  📤 Share
-                </button>
-
-                {/* Share Menu */}
-                {showShareMenu && (
-                  <div style={{
-                    position: 'absolute',
-                    top: '100%',
-                    left: 0,
-                    marginTop: '8px',
-                    background: 'rgba(17, 24, 39, 0.98)',
-                    borderRadius: '12px',
-                    padding: '8px',
-                    minWidth: '160px',
-                    boxShadow: '0 8px 24px rgba(0,0,0,0.5)',
-                    border: '1px solid rgba(255,255,255,0.1)',
-                    zIndex: 1000
-                  }}>
-                    <button
-                      onClick={() => shareStory('whatsapp')}
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: 'none',
-                        padding: '10px',
-                        textAlign: 'left',
-                        color: 'white',
-                        cursor: 'pointer',
-                        borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
-                      💬 WhatsApp
-                    </button>
-                    <button
-                      onClick={() => shareStory('twitter')}
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: 'none',
-                        padding: '10px',
-                        textAlign: 'left',
-                        color: 'white',
-                        cursor: 'pointer',
-                        borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
-                      🐦 Twitter
-                    </button>
-                    <button
-                      onClick={() => shareStory('facebook')}
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: 'none',
-                        padding: '10px',
-                        textAlign: 'left',
-                        color: 'white',
-                        cursor: 'pointer',
-                        borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
-                      📘 Facebook
-                    </button>
-                    <button
-                      onClick={() => shareStory('copy')}
-                      style={{
-                        width: '100%',
-                        background: 'transparent',
-                        border: 'none',
-                        padding: '10px',
-                        textAlign: 'left',
-                        color: 'white',
-                        cursor: 'pointer',
-                        borderRadius: '6px',
-                        fontSize: '14px'
-                      }}
-                      onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
-                      onMouseLeave={(e) => e.currentTarget.style.background = 'transparent'}
-                    >
-                      📋 Copy Link
-                    </button>
-                  </div>
-                )}
-              </div>
+              <button
+                onClick={handleShare}
+                style={{
+                  background: 'rgba(255,255,255,0.1)',
+                  border: '1px solid rgba(255,255,255,0.3)',
+                  borderRadius: '25px',
+                  padding: '12px 24px',
+                  fontSize: '16px',
+                  fontWeight: 'bold',
+                  color: 'white',
+                  cursor: 'pointer',
+                  transition: 'all 0.2s'
+                }}
+                onMouseEnter={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.2)'}
+                onMouseLeave={(e) => e.currentTarget.style.background = 'rgba(255,255,255,0.1)'}
+              >
+                📤 Share
+              </button>
             </div>
           </div>
         </div>
@@ -420,13 +420,13 @@ export default function StoryDetails() {
         <div style={{
           maxWidth: '1200px',
           margin: '0 auto',
-          padding: '40px 40px 120px'
+          padding: 'clamp(20px, 5vw, 40px) clamp(16px, 5vw, 40px) 120px'
         }}>
           {/* Description Section */}
           <div style={{
             background: 'rgba(255,255,255,0.05)',
             borderRadius: '16px',
-            padding: '32px',
+            padding: 'clamp(20px, 4vw, 32px)',
             marginBottom: '40px',
             border: '1px solid rgba(255,255,255,0.1)'
           }}>
@@ -439,17 +439,17 @@ export default function StoryDetails() {
             </h2>
             <p style={{
               fontSize: '16px',
-              lineHeight: '1.6',
+              lineHeight: '1.8',
               color: '#ccc'
             }}>
-              {story.description || story.prompt || 'A captivating audio story that will keep you engaged from start to finish.'}
+              {story.description || 'A captivating audio story that will keep you engaged from start to finish.'}
             </p>
 
             {/* Story Stats */}
             <div style={{
               display: 'grid',
-              gridTemplateColumns: 'repeat(auto-fit, minmax(150px, 1fr))',
-              gap: '20px',
+              gridTemplateColumns: 'repeat(auto-fit, minmax(140px, 1fr))',
+              gap: '16px',
               marginTop: '32px'
             }}>
               <div style={{
@@ -523,8 +523,8 @@ export default function StoryDetails() {
 
               <div style={{
                 display: 'grid',
-                gridTemplateColumns: 'repeat(auto-fill, minmax(220px, 1fr))',
-                gap: '20px'
+                gridTemplateColumns: 'repeat(auto-fill, minmax(200px, 1fr))',
+                gap: '16px'
               }}>
                 {relatedStories.map(relatedStory => (
                   <div
@@ -538,38 +538,41 @@ export default function StoryDetails() {
                       background: 'rgba(255,255,255,0.05)',
                       border: '1px solid rgba(255,255,255,0.1)'
                     }}
-                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.05)'}
+                    onMouseEnter={(e) => e.currentTarget.style.transform = 'scale(1.03)'}
                     onMouseLeave={(e) => e.currentTarget.style.transform = 'scale(1)'}
                   >
                     <div style={{
                       width: '100%',
-                      height: '280px',
+                      height: '240px',
                       background: relatedStory.thumbnailUrl
                         ? `url(${relatedStory.thumbnailUrl}) center/cover`
                         : `linear-gradient(135deg, #${((relatedStory.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((relatedStory.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`,
                       display: 'flex',
                       alignItems: 'center',
                       justifyContent: 'center',
-                      fontSize: '80px'
+                      fontSize: '60px'
                     }}>
                       {!relatedStory.thumbnailUrl && relatedStory.emoji}
                     </div>
-                    <div style={{padding: '16px'}}>
+                    <div style={{padding: '14px'}}>
                       <div style={{
                         fontWeight: 'bold',
-                        fontSize: '16px',
-                        marginBottom: '8px',
+                        fontSize: '15px',
+                        marginBottom: '6px',
                         whiteSpace: 'nowrap',
                         overflow: 'hidden',
                         textOverflow: 'ellipsis'
                       }}>
-                        {relatedStory.title}
+                        {relatedStory.emoji} {relatedStory.title}
                       </div>
                       <div style={{
-                        fontSize: '13px',
-                        color: '#aaa'
+                        fontSize: '12px',
+                        color: '#aaa',
+                        display: 'flex',
+                        justifyContent: 'space-between'
                       }}>
-                        {relatedStory.category}
+                        <span>{relatedStory.category}</span>
+                        <span>{relatedStory.dialect}</span>
                       </div>
                     </div>
                   </div>
@@ -579,6 +582,11 @@ export default function StoryDetails() {
           )}
         </div>
       </div>
+
+      {/* ShareModal Fallback (desktop) */}
+      {showShareModal && (
+        <ShareModal story={story} onClose={() => setShowShareModal(false)} />
+      )}
     </>
   )
 }
