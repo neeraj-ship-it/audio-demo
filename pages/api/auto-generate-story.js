@@ -26,20 +26,18 @@ export default async function handler(req, res) {
     const category = categories[Math.floor(Math.random() * categories.length)]
     const dialect = dialects[Math.floor(Math.random() * dialects.length)]
 
-    // Step 1: Generate story script with Gemini
+    // Step 1: Generate story script with Gemini (~5s)
     console.log(`📝 Generating ${category} story in ${dialect}...`)
     const storyScript = await generateScript(category, dialect)
     console.log('✅ Script:', storyScript.title)
 
-    // Step 2: Generate audio with ElevenLabs → upload to S3
+    // Step 2: Generate audio with ElevenLabs → upload to S3 (~30s)
     console.log('🎙️ Generating audio...')
     const audioUrl = await generateAndUploadAudio(storyScript.script, storyScript.title)
     console.log('✅ Audio:', audioUrl)
 
-    // Step 3: Generate AI thumbnail from story description (Gemini → S3)
-    console.log('🎨 Generating thumbnail from story content...')
-    const thumbnailUrl = await generateAIThumbnail(storyScript.title, category, storyScript.description)
-    console.log('✅ Thumbnail:', thumbnailUrl)
+    // Step 3: Thumbnail - use fallback (Gemini image gen takes ~15s, causes timeout on Hobby plan)
+    const thumbnailUrl = getFallbackThumbnail(category)
 
     // Step 4: Save to S3 persistent storage
     const newStory = await addLiveStory({
@@ -98,7 +96,7 @@ async function generateScript(category, dialect) {
   const prompt = `Write ${categoryPrompts[category]} in ${dialectInstructions[dialect]}.
 
 Requirements:
-- Duration: 5-7 minutes when narrated (500-700 words)
+- Duration: 3-5 minutes when narrated (300-400 words)
 - Start with a catchy Hindi title on the first line
 - Write the full narration script after the title
 - Make it emotional, engaging, and natural for audio listening
