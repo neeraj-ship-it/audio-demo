@@ -20,9 +20,9 @@ export default async function handler(req, res) {
   try {
     console.log('🤖 Starting auto story generation...')
 
-    // Pick random category and dialect
-    const categories = ['Romance', 'Horror', 'Thriller', 'Comedy', 'Spiritual', 'Motivation']
-    const dialects = ['Hindi', 'Bhojpuri', 'Gujarati', 'Haryanvi', 'Rajasthani']
+    // Pick random category and dialect (regional dialects only, no plain Hindi)
+    const categories = ['Romance', 'Horror', 'Thriller', 'Comedy', 'Spiritual', 'Motivation', 'Drama', 'Culture', 'Family']
+    const dialects = ['Bhojpuri', 'Gujarati', 'Haryanvi', 'Rajasthani']
     const category = categories[Math.floor(Math.random() * categories.length)]
     const dialect = dialects[Math.floor(Math.random() * dialects.length)]
 
@@ -96,7 +96,7 @@ async function generateScript(category, dialect) {
   const prompt = `Write ${categoryPrompts[category]} in ${dialectInstructions[dialect]}.
 
 Requirements:
-- Duration: 3-5 minutes when narrated (300-400 words)
+- Duration: 5-7 minutes when narrated (500-700 words)
 - Start with a catchy Hindi title on the first line
 - Write the full narration script after the title
 - Make it emotional, engaging, and natural for audio listening
