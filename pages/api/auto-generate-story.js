@@ -12,7 +12,8 @@ export default async function handler(req, res) {
 
   // Security: Check cron secret (Vercel sends it automatically)
   const { authorization } = req.headers
-  if (authorization !== `Bearer ${process.env.CRON_SECRET}`) {
+  const cronSecret = (process.env.CRON_SECRET || '').trim()
+  if (!cronSecret || authorization !== `Bearer ${cronSecret}`) {
     return res.status(401).json({ error: 'Unauthorized' })
   }
 
