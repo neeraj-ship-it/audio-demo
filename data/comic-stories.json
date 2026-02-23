@@ -1,0 +1,636 @@
+{
+  "comics": [
+    {
+      "id": "comic_horror_001",
+      "title": "भूतिया गली - The Haunted Street",
+      "category": "Horror",
+      "language": "Hindi",
+      "dialect": "hindi",
+      "description": "दिल्ली की एक पुरानी गली में रात को अजीब चीज़ें होती हैं। राहुल को पता नहीं था कि आज रात उसकी ज़िंदगी बदल जाएगी।",
+      "emoji": "👻",
+      "thumbnailUrl": "/comics/comic_horror_001/panel_1.jpg",
+      "totalPanels": 8,
+      "estimatedTime": "3-5 min",
+      "artStyle": "cinematic-bollywood",
+      "hasAudio": false,
+      "characters": [
+        {
+          "name": "राहुल",
+          "description": "Young Indian man, blue jacket, short black hair, scared expression",
+          "color": "#667eea"
+        },
+        {
+          "name": "भूत",
+          "description": "Ghostly woman in white saree, long black hair covering face, floating",
+          "color": "#ef4444"
+        }
+      ],
+      "createdAt": "2026-02-23T00:00:00.000Z",
+      "panels": [
+        {
+          "id": "panel_1",
+          "order": 1,
+          "imageUrl": "/comics/comic_horror_001/panel_1.jpg",
+          "imagePrompt": "Dark narrow old Delhi street at night, dim street light, fog, cinematic Bollywood horror style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "रात के 2 बजे... दिल्ली की पुरानी गली...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "रात के दो बजे हैं। दिल्ली की एक पुरानी गली में सन्नाटा छाया हुआ है।"
+        },
+        {
+          "id": "panel_2",
+          "order": 2,
+          "imageUrl": "/comics/comic_horror_001/panel_2.jpg",
+          "imagePrompt": "Young Indian man in blue jacket walking alone through foggy old Delhi street at night, looking at phone, cinematic Bollywood style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "राहुल",
+              "text": "यार, Google Maps भी गलत रास्ता दिखा रहा है!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "राहुल पार्टी से लौट रहा था। रास्ता भटक गया था।"
+        },
+        {
+          "id": "panel_3",
+          "order": 3,
+          "imageUrl": "/comics/comic_horror_001/panel_3.jpg",
+          "imagePrompt": "Phone screen showing no signal in dark alley, Indian man's hand holding phone, dramatic lighting, horror atmosphere",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "अचानक फ़ोन का सिग्नल चला गया...",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "राहुल",
+              "text": "अरे! नो सिग्नल? यहाँ तो Jio भी नहीं चलता!",
+              "position": "top-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "फ़ोन का सिग्नल अचानक गायब हो गया। राहुल की धड़कन तेज़ हो गई।"
+        },
+        {
+          "id": "panel_4",
+          "order": 4,
+          "imageUrl": "/comics/comic_horror_001/panel_4.jpg",
+          "imagePrompt": "Ghostly woman in white saree standing at end of dark alley, long black hair covering face, street light flickering behind her, Indian horror cinematic style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "गली के आख़िर में कोई खड़ा था...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "गली के अंत में एक सफ़ेद साड़ी में कोई खड़ा था। बिल्कुल स्थिर।"
+        },
+        {
+          "id": "panel_5",
+          "order": 5,
+          "imageUrl": "/comics/comic_horror_001/panel_5.jpg",
+          "imagePrompt": "Close up of scared young Indian man's face, wide eyes, sweat drops, blue jacket, dark background, cinematic horror lighting",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "राहुल",
+              "text": "ए-एक्सक्यूज़ मी... आंटी? रास्ता बता दो ना...",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "राहुल ने हिम्मत करके आवाज़ लगाई। पर जवाब नहीं आया।"
+        },
+        {
+          "id": "panel_6",
+          "order": 6,
+          "imageUrl": "/comics/comic_horror_001/panel_6.jpg",
+          "imagePrompt": "Ghost woman's face revealed, white eyes, cracked smile, hair parting to show terrifying face, extreme close up, Indian horror movie style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "वो मुड़ी... और राहुल का खून जम गया!",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "भूत",
+              "text": "तू भी यहीं रहेगा... हमेशा...",
+              "position": "top-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "औरत मुड़ी। उसकी आँखें सफ़ेद थीं। मुँह से खून टपक रहा था।"
+        },
+        {
+          "id": "panel_7",
+          "order": 7,
+          "imageUrl": "/comics/comic_horror_001/panel_7.jpg",
+          "imagePrompt": "Young Indian man running desperately through dark narrow alley, looking back in terror, motion blur, dramatic cinematic angle, Bollywood horror",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "राहुल भागा... जान बचाकर!",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "राहुल",
+              "text": "बचाओ! कोई है?!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "राहुल ज़ोर से चीखा और भागने लगा। पर गली ख़त्म ही नहीं हो रही थी।"
+        },
+        {
+          "id": "panel_8",
+          "order": 8,
+          "imageUrl": "/comics/comic_horror_001/panel_8.jpg",
+          "imagePrompt": "Empty old Delhi street at dawn, morning light, a blue jacket lying on the ground, no person, eerie calm, cinematic wide shot",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "सुबह जब लोगों ने देखा... गली में सिर्फ़ एक नीली जैकेट पड़ी थी। राहुल कभी नहीं मिला।",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "अगली सुबह पुलिस आई। गली में सिर्फ़ राहुल की जैकेट मिली। राहुल आज तक नहीं मिला।"
+        }
+      ]
+    },
+    {
+      "id": "comic_romance_001",
+      "title": "चाय वाली मोहब्बत - Tea Stall Love",
+      "category": "Romance",
+      "language": "Hindi",
+      "dialect": "hindi",
+      "description": "मुंबई की भीड़ में दो अजनबी, एक चाय की टपरी, और बारिश। कुछ कहानियाँ चाय की तरह होती हैं - गर्म और यादगार।",
+      "emoji": "💕",
+      "thumbnailUrl": "/comics/comic_romance_001/panel_1.jpg",
+      "totalPanels": 8,
+      "estimatedTime": "3-5 min",
+      "artStyle": "warm-romantic-bollywood",
+      "hasAudio": false,
+      "characters": [
+        {
+          "name": "आरव",
+          "description": "Young Indian man, white shirt, glasses, messy hair, warm smile",
+          "color": "#667eea"
+        },
+        {
+          "name": "मीरा",
+          "description": "Young Indian woman, yellow kurti, long hair with flowers, bright eyes",
+          "color": "#ec4899"
+        }
+      ],
+      "createdAt": "2026-02-22T00:00:00.000Z",
+      "panels": [
+        {
+          "id": "panel_1",
+          "order": 1,
+          "imageUrl": "/comics/comic_romance_001/panel_1.jpg",
+          "imagePrompt": "Busy Mumbai street in monsoon rain, colorful umbrellas, chai stall with steam rising, warm golden lighting, romantic Bollywood cinematic style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "मुंबई... बारिश... और चाय की महक...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "मुंबई की बारिश में एक छोटी सी चाय की टपरी। हर रोज़ की तरह भीड़ थी।"
+        },
+        {
+          "id": "panel_2",
+          "order": 2,
+          "imageUrl": "/comics/comic_romance_001/panel_2.jpg",
+          "imagePrompt": "Young Indian man with glasses and white shirt running in Mumbai rain, holding newspaper over head, splashing through puddles, cinematic warm tones",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "आरव",
+              "text": "भाई एक कटिंग चाय! जल्दी!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "आरव भीगता हुआ टपरी पर पहुँचा। इंटरव्यू के लिए लेट हो रहा था।"
+        },
+        {
+          "id": "panel_3",
+          "order": 3,
+          "imageUrl": "/comics/comic_romance_001/panel_3.jpg",
+          "imagePrompt": "Two hands reaching for the same cutting chai glass at a Mumbai tea stall, one male one female, rain in background, close up shot, romantic Bollywood style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "दोनों का हाथ एक ही चाय की तरफ बढ़ा...",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "और फिर वो पल आया। दोनों का हाथ एक ही गिलास पर।"
+        },
+        {
+          "id": "panel_4",
+          "order": 4,
+          "imageUrl": "/comics/comic_romance_001/panel_4.jpg",
+          "imagePrompt": "Young Indian woman in yellow kurti laughing, long hair with flowers, bright eyes, rain drops on face, chai stall background, warm romantic lighting",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "मीरा",
+              "text": "अरे! ये मेरी चाय है!",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "आरव",
+              "text": "सॉरी सॉरी! आप पहले... मैं तो बस...",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "मीरा हँसी। आरव शर्मा गया। चाय वाले ने दोनों को देखकर मुस्कुराया।"
+        },
+        {
+          "id": "panel_5",
+          "order": 5,
+          "imageUrl": "/comics/comic_romance_001/panel_5.jpg",
+          "imagePrompt": "Young Indian couple standing under small tea stall shade, sharing chai, Mumbai rain falling around them, warm golden light, romantic Bollywood atmosphere",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "बारिश रुकने का नाम नहीं ले रही थी... और बातें ख़त्म नहीं हो रहीं थीं",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "बारिश रुकने का इंतज़ार करते हुए बातें शुरू हो गईं। और रुकने का नाम नहीं ले रहीं थीं।"
+        },
+        {
+          "id": "panel_6",
+          "order": 6,
+          "imageUrl": "/comics/comic_romance_001/panel_6.jpg",
+          "imagePrompt": "Young Indian man showing his phone contact screen to young woman, both smiling shyly, tea stall background, soft romantic lighting, Bollywood style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "आरव",
+              "text": "वो... नंबर मिल सकता है? बारिश के बहाने... मतलब चाय के बहाने...",
+              "position": "top-right",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "मीरा",
+              "text": "हाँ... चाय के बहाने ही सही 😊",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "आरव ने हिम्मत जुटाई। मीरा ने मुस्कुराकर नंबर दे दिया।"
+        },
+        {
+          "id": "panel_7",
+          "order": 7,
+          "imageUrl": "/comics/comic_romance_001/panel_7.jpg",
+          "imagePrompt": "Split panel: left side shows man texting with smile, right side shows woman texting with smile, both in their homes at night, warm cozy lighting, Bollywood romance style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "उस रात... दोनों के फ़ोन की बैटरी 2% पर आ गई",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "आरव",
+              "text": "Good night ☕",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "मीरा",
+              "text": "Good night 🌧️",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "रात भर मैसेज चलते रहे। दोनों के फ़ोन की बैटरी ख़त्म हो गई, पर बातें नहीं।"
+        },
+        {
+          "id": "panel_8",
+          "order": 8,
+          "imageUrl": "/comics/comic_romance_001/panel_8.jpg",
+          "imagePrompt": "Same Mumbai chai stall one year later, decorated with fairy lights, young Indian couple (man in white shirt, woman in yellow) sitting together drinking chai, wedding rings visible, warm sunset, romantic Bollywood ending",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "1 साल बाद... उसी टपरी पर... अब हर रोज़ दो कटिंग चाय का ऑर्डर आता है 💕",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "आरव",
+              "text": "आज भी वही चाय... वही बारिश...",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "मीरा",
+              "text": "पर अब अकेले नहीं ☕",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "एक साल बाद, वही टपरी, वही चाय। बस अब साथ में ज़िंदगी भर का वादा भी था।"
+        }
+      ]
+    },
+    {
+      "id": "comic_comedy_001",
+      "title": "म्हारो WhatsApp - Rajasthani WhatsApp Comedy",
+      "category": "Comedy",
+      "language": "Hindi",
+      "dialect": "Rajasthani",
+      "description": "जब दादाजी को पहली बार स्मार्टफ़ोन मिला, तो पूरे गाँव में हँसी का तूफ़ान आ गया। WhatsApp पर दादाजी की कारस्तानी!",
+      "emoji": "😂",
+      "thumbnailUrl": "/comics/comic_comedy_001/panel_1.jpg",
+      "totalPanels": 8,
+      "estimatedTime": "3-5 min",
+      "artStyle": "colorful-rajasthani-cartoon",
+      "hasAudio": false,
+      "characters": [
+        {
+          "name": "दादाजी",
+          "description": "Elderly Rajasthani man, big white mustache, colorful turban, kurta pajama, reading glasses on nose tip",
+          "color": "#f59e0b"
+        },
+        {
+          "name": "बंटी",
+          "description": "Young Indian boy, college student, jeans and t-shirt, always on phone",
+          "color": "#10b981"
+        }
+      ],
+      "createdAt": "2026-02-21T00:00:00.000Z",
+      "panels": [
+        {
+          "id": "panel_1",
+          "order": 1,
+          "imageUrl": "/comics/comic_comedy_001/panel_1.jpg",
+          "imagePrompt": "Colorful Rajasthani village scene, old man with big white mustache and colorful turban receiving a new smartphone as gift, family gathered around, bright festive colors, cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "दादाजी को जन्मदिन पर स्मार्टफ़ोन मिला...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "ये के है भई? टीवी है के रेडियो?",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दादाजी के 75वें जन्मदिन पर बंटी ने उन्हें स्मार्टफ़ोन गिफ़्ट किया।"
+        },
+        {
+          "id": "panel_2",
+          "order": 2,
+          "imageUrl": "/comics/comic_comedy_001/panel_2.jpg",
+          "imagePrompt": "Young Indian boy teaching elderly Rajasthani grandfather how to use smartphone, grandfather holding phone upside down, confused expression, colorful room, comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "बंटी",
+              "text": "दादाजी, ये WhatsApp है! इसमें मैसेज भेज सकते हो!",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "दादाजी",
+              "text": "व्हाट्स-अप? ऊपर के क्या है? भगवान?",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "बंटी ने दादाजी को WhatsApp सिखाना शुरू किया। ये कहानी यहीं से मज़ेदार हो गई।"
+        },
+        {
+          "id": "panel_3",
+          "order": 3,
+          "imageUrl": "/comics/comic_comedy_001/panel_3.jpg",
+          "imagePrompt": "Elderly Rajasthani man sending voice message on phone while shouting loudly, entire family covering ears, phone screen showing WhatsApp, comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "दादाजी ने पहला वॉइस मैसेज भेजा...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "हेलो! सुन रह्या है के?! म्हारी आवाज़ आ रही है के?! ज़ोर से बोलूं?!",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दादाजी ने वॉइस मैसेज भेजा - इतनी ज़ोर से चिल्लाए कि पड़ोसी ने पुलिस बुला ली।"
+        },
+        {
+          "id": "panel_4",
+          "order": 4,
+          "imageUrl": "/comics/comic_comedy_001/panel_4.jpg",
+          "imagePrompt": "WhatsApp family group chat screenshot showing old man sending good morning messages with flowers and religious images at 4am, multiple family members reacting angry, phone screen mockup, comedy style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "सुबह 4 बजे... फ़ैमिली ग्रुप में...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "सुप्रभात! जय श्री राम! 🌺🙏🌸 ये 47 फ़ोटो भेज रह्या हूँ सबको!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दादाजी को Good Morning मैसेज भेजने की लत लग गई। सुबह 4 बजे से शुरू। 47 फ़ोटो रोज़।"
+        },
+        {
+          "id": "panel_5",
+          "order": 5,
+          "imageUrl": "/comics/comic_comedy_001/panel_5.jpg",
+          "imagePrompt": "Elderly Rajasthani man accidentally video calling someone while in bathroom, shocked expression, holding phone away from face, comedy cartoon style, censored appropriately",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "और फिर वो हादसा हुआ...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "अरे बाप रे! ये कैमरा कद चालू हो गयो?! बंटी!!!!",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दादाजी से गलती से वीडियो कॉल हो गई सरपंच जी को। बाथरूम से। बस इतना कहना काफ़ी है।"
+        },
+        {
+          "id": "panel_6",
+          "order": 6,
+          "imageUrl": "/comics/comic_comedy_001/panel_6.jpg",
+          "imagePrompt": "Elderly Rajasthani man sitting in village courtyard using phone confidently, ordering online shopping, packages arriving, surprised family watching, colorful comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "2 हफ़्ते बाद... दादाजी Pro Level पर पहुँच गए!",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "बंटी! म्हारो Amazon का पार्सल आयो के? 3 कुर्ते और 1 BP मशीन ऑर्डर करी थी!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दो हफ़्ते में दादाजी ने Amazon, Flipkart, और YouTube सब सीख लिया। अब बंटी से ज़्यादा ऑनलाइन रहते हैं।"
+        },
+        {
+          "id": "panel_7",
+          "order": 7,
+          "imageUrl": "/comics/comic_comedy_001/panel_7.jpg",
+          "imagePrompt": "Elderly Rajasthani man making YouTube video tutorial on farming, ring light setup, professional looking, grandson shocked in background, colorful comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "नमस्कार दोस्तों! स्वागत है म्हारे चैनल 'दादाजी के नुस्खे' पर! Like और Subscribe करो!",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "बंटी",
+              "text": "दादाजी के 50K subscribers हो गए?! मेरे तो 200 भी नहीं!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दादाजी ने YouTube चैनल शुरू कर दिया। 50 हज़ार सब्सक्राइबर्स! बंटी को जलन हो रही है।"
+        },
+        {
+          "id": "panel_8",
+          "order": 8,
+          "imageUrl": "/comics/comic_comedy_001/panel_8.jpg",
+          "imagePrompt": "Elderly Rajasthani man sitting like a king on cot, wearing glasses, scrolling phone with one hand, family gathered around asking him tech questions, role reversal, colorful happy cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "अब पूरा गाँव दादाजी से फ़ोन सीखने आता है। बंटी को कोई नहीं पूछता! 😂",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "दादाजी",
+              "text": "बंटी बेटा, तू म्हारो Instagram चला दे... म्हारे को Reels बनानी है!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "दादाजी अब गाँव के टेक गुरु बन गए हैं। बंटी उनका असिस्टेंट है। कहानी का moral - बड़ों को कभी underestimate मत करो!"
+        }
+      ]
+    }
+  ]
+}

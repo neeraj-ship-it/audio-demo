@@ -21,7 +21,9 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
 
   const backgroundImage = currentStory?.thumbnailUrl
     ? `url(${currentStory.thumbnailUrl})`
-    : `linear-gradient(135deg, #${((currentStory?.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((currentStory?.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`;
+    : currentStory?.id != null
+      ? `linear-gradient(135deg, #${((currentStory.id * 123456) % 0xFFFFFF).toString(16).padStart(6, '0')}, #${((currentStory.id * 654321) % 0xFFFFFF).toString(16).padStart(6, '0')})`
+      : 'linear-gradient(135deg, #1a1a2e, #16213e)';
 
   return (
     <div
@@ -72,20 +74,22 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
       >
         {/* Badges row */}
         <div className="hero-badges" style={{ display: 'flex', alignItems: 'center', gap: '10px', marginBottom: 'clamp(8px, 2vw, 16px)', flexWrap: 'wrap' }}>
-          <span
-            style={{
-              backgroundColor: '#e50914',
-              color: '#fff',
-              padding: '4px 10px',
-              borderRadius: '4px',
-              fontSize: 'clamp(10px, 1.5vw, 12px)',
-              fontWeight: 'bold',
-              textTransform: 'uppercase',
-              letterSpacing: '1px',
-            }}
-          >
-            NEW
-          </span>
+          {currentStory?.new && (
+            <span
+              style={{
+                backgroundColor: '#e50914',
+                color: '#fff',
+                padding: '4px 10px',
+                borderRadius: '4px',
+                fontSize: 'clamp(10px, 1.5vw, 12px)',
+                fontWeight: 'bold',
+                textTransform: 'uppercase',
+                letterSpacing: '1px',
+              }}
+            >
+              NEW
+            </span>
+          )}
           {rating !== null && (
             <span
               style={{
@@ -125,7 +129,9 @@ export default function HeroCarousel({ stories, heroIndex, setHeroIndex, storyRa
                 fontWeight: '500',
               }}
             >
-              {currentStory.duration}
+              {typeof currentStory.duration === 'number'
+                ? `${Math.round(currentStory.duration / 60)} min`
+                : currentStory.duration}
             </span>
           )}
         </div>

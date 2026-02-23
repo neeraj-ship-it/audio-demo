@@ -383,6 +383,66 @@ export default function AudioFlix() {
           </nav>
         </div>
         <div className="header-right" style={{display:'flex',gap:'clamp(8px, 1.5vw, 15px)',alignItems:'center',flexShrink:0}}>
+          {/* Interactive Stories button */}
+          <button
+            onClick={() => router.push('/interactive')}
+            aria-label="Interactive Stories"
+            style={{
+              background: 'linear-gradient(135deg, #667eea, #764ba2)',
+              color: 'white',
+              border: 'none',
+              padding: '8px 18px',
+              borderRadius: '25px',
+              fontSize: '13px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s ease',
+              minHeight: '44px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)'
+              e.currentTarget.style.boxShadow = '0 2px 12px rgba(102,126,234,0.4)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            <span>🎮</span> <span className="interactive-btn-text">Interactive</span>
+          </button>
+          {/* Comics button */}
+          <button
+            onClick={() => router.push('/comics')}
+            aria-label="Visual Comics"
+            style={{
+              background: 'linear-gradient(135deg, #ec4899, #f59e0b)',
+              color: 'white',
+              border: 'none',
+              padding: '8px 18px',
+              borderRadius: '25px',
+              fontSize: '13px',
+              fontWeight: 'bold',
+              cursor: 'pointer',
+              display: 'flex',
+              alignItems: 'center',
+              gap: '6px',
+              transition: 'all 0.2s ease',
+              minHeight: '44px',
+            }}
+            onMouseEnter={(e) => {
+              e.currentTarget.style.transform = 'scale(1.05)'
+              e.currentTarget.style.boxShadow = '0 2px 12px rgba(236,72,153,0.4)'
+            }}
+            onMouseLeave={(e) => {
+              e.currentTarget.style.transform = 'scale(1)'
+              e.currentTarget.style.boxShadow = 'none'
+            }}
+          >
+            <span>📚</span> <span className="comics-btn-text">Comics</span>
+          </button>
           {/* Categories button - Hidden for now */}
           {false && (
             <button onClick={() => {

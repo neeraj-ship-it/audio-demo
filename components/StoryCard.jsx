@@ -181,8 +181,9 @@ export default function StoryCard({
             marginBottom: '5px',
             lineHeight: '1.3',
             overflow: 'hidden',
-            textOverflow: 'ellipsis',
-            whiteSpace: 'nowrap',
+            display: '-webkit-box',
+            WebkitLineClamp: 2,
+            WebkitBoxOrient: 'vertical',
           }}>
             {story.title}
           </div>
@@ -216,7 +217,9 @@ export default function StoryCard({
                 background: '#10b981',
                 display: 'inline-block',
               }} />
-              {story.duration || '5-15 min'}
+              {typeof story.duration === 'number'
+                ? `${Math.round(story.duration / 60)} min`
+                : story.duration || '5-15 min'}
             </span>
           </div>
 
