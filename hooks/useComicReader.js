@@ -297,6 +297,22 @@ export default function useComicReader() {
     }
   }, [state.currentPanel, state.comic])
 
+  // Preload next/prev panel images for smoother transitions
+  useEffect(() => {
+    if (!state.comic?.panels) return
+    const panels = state.comic.panels
+    const curr = state.currentPanel
+
+    const toPreload = [curr - 1, curr + 1, curr + 2].filter(
+      i => i >= 0 && i < panels.length && panels[i]?.imageUrl
+    )
+
+    toPreload.forEach(i => {
+      const img = new Image()
+      img.src = panels[i].imageUrl
+    })
+  }, [state.currentPanel, state.comic])
+
   // View mode & UI toggles
   const setViewMode = useCallback((mode) => {
     dispatch({ type: ACTIONS.SET_VIEW_MODE, payload: mode })

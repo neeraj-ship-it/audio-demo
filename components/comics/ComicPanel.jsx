@@ -32,9 +32,10 @@ export default function ComicPanel({ panel, characters = [], isActive = true, on
       {/* Background Image */}
       {hasImage ? (
         <img
+          key={panel.id || `panel-${panel.order}`}
           src={panel.imageUrl}
           alt={panel.narrationText || `Panel ${panel.order}`}
-          loading={isActive ? 'eager' : 'lazy'}
+          loading="eager"
           style={{
             position: 'absolute',
             top: 0,

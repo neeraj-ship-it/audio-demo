@@ -631,6 +631,623 @@
           "narrationText": "दादाजी अब गाँव के टेक गुरु बन गए हैं। बंटी उनका असिस्टेंट है। कहानी का moral - बड़ों को कभी underestimate मत करो!"
         }
       ]
+    },
+    {
+      "id": "comic_thriller_001",
+      "title": "आख़िरी ट्रेन - The Last Train",
+      "category": "Thriller",
+      "language": "Hindi",
+      "dialect": "hindi",
+      "description": "रात की आख़िरी लोकल ट्रेन। एक खाली डिब्बा। और एक अजनबी जो कुछ ज़्यादा ही जानता है तुम्हारे बारे में।",
+      "emoji": "🚂",
+      "thumbnailUrl": "/comics/comic_thriller_001/panel_1.jpg",
+      "totalPanels": 8,
+      "estimatedTime": "3-5 min",
+      "artStyle": "dark-cinematic-noir",
+      "hasAudio": false,
+      "characters": [
+        {
+          "name": "विक्रम",
+          "description": "Young Indian office worker, loose tie, tired face, holding laptop bag, late 20s",
+          "color": "#3b82f6"
+        },
+        {
+          "name": "अजनबी",
+          "description": "Middle-aged Indian man in black coat, hat, dark piercing eyes, mysterious smile",
+          "color": "#dc2626"
+        }
+      ],
+      "createdAt": "2026-02-23T06:00:00.000Z",
+      "panels": [
+        {
+          "id": "panel_1",
+          "order": 1,
+          "imageUrl": "/comics/comic_thriller_001/panel_1.jpg",
+          "imagePrompt": "Empty Mumbai local train platform at midnight, single flickering fluorescent light, fog rolling in, distant train headlight approaching, dark noir cinematic style, deep blue and black tones",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "रात 12:47... चर्चगेट स्टेशन... आख़िरी लोकल।",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "चर्चगेट स्टेशन। रात के पौने एक। प्लेटफ़ॉर्म पर सन्नाटा। आख़िरी लोकल ट्रेन आ रही थी।"
+        },
+        {
+          "id": "panel_2",
+          "order": 2,
+          "imageUrl": "/comics/comic_thriller_001/panel_2.jpg",
+          "imagePrompt": "Tired young Indian office worker with loose tie entering empty Mumbai local train compartment at night, harsh overhead light, eerie emptiness, noir thriller atmosphere",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "विक्रम",
+              "text": "चलो, खाली डिब्बा मिल गया। अब चैन से सो सकता हूँ।",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "विक्रम ऑफ़िस से देर से निकला था। खाली डिब्बा देखकर खुश हो गया। पर खुशी ज़्यादा देर नहीं टिकी।"
+        },
+        {
+          "id": "panel_3",
+          "order": 3,
+          "imageUrl": "/comics/comic_thriller_001/panel_3.jpg",
+          "imagePrompt": "Mysterious middle-aged Indian man in black coat and hat sitting in corner of empty Mumbai local train, dark piercing eyes, dim overhead light casting sharp shadows, thriller noir style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "डिब्बे में एक और शख़्स बैठा था...",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "अजनबी",
+              "text": "विक्रम... बैठो। तुम्हारा इंतज़ार था।",
+              "position": "top-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "कोने में एक आदमी बैठा था। काला कोट, टोपी। उसने विक्रम का नाम लिया।"
+        },
+        {
+          "id": "panel_4",
+          "order": 4,
+          "imageUrl": "/comics/comic_thriller_001/panel_4.jpg",
+          "imagePrompt": "Close up of shocked young Indian man's face in train, eyes wide, sweat drops, harsh overhead fluorescent light, dramatic shadows, thriller suspense mood",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "विक्रम",
+              "text": "आ-आप मुझे कैसे जानते हैं?! कौन हैं आप?",
+              "position": "top-right",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "अजनबी",
+              "text": "मैं सब जानता हूँ। तुम्हारा प्रमोशन... तुम्हारी बीवी... और वो गलती जो तुमने आज की।",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "विक्रम काँप गया। इस आदमी को उसका नाम, उसकी ज़िंदगी, सब कैसे पता?"
+        },
+        {
+          "id": "panel_5",
+          "order": 5,
+          "imageUrl": "/comics/comic_thriller_001/panel_5.jpg",
+          "imagePrompt": "Train window view showing city lights blurring past at high speed, reflection of scared man and mysterious stranger in glass, dramatic noir lighting, rain drops on window",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "ट्रेन तेज़ भाग रही थी... पर स्टेशन कोई नहीं आ रहा था।",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "विक्रम",
+              "text": "ये ट्रेन रुक क्यों नहीं रही?! अंधेरी तो कब का जाना चाहिए था!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "ट्रेन रुकने का नाम नहीं ले रही थी। खिड़की से बाहर सिर्फ़ अंधेरा था। कोई स्टेशन नहीं आ रहा था।"
+        },
+        {
+          "id": "panel_6",
+          "order": 6,
+          "imageUrl": "/comics/comic_thriller_001/panel_6.jpg",
+          "imagePrompt": "Mysterious man leaning forward in dark train, revealing a old pocket watch, glowing eerily, face half in shadow half in light, intense thriller atmosphere, cinematic close up",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "अजनबी",
+              "text": "तुम्हारे पास 3 मिनट हैं, विक्रम। एक सवाल का जवाब दो... वरना ये ट्रेन कभी नहीं रुकेगी।",
+              "position": "top-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "अजनबी ने एक पुरानी जेब घड़ी निकाली। उसकी आँखों में कुछ अजीब चमक थी।"
+        },
+        {
+          "id": "panel_7",
+          "order": 7,
+          "imageUrl": "/comics/comic_thriller_001/panel_7.jpg",
+          "imagePrompt": "Young Indian man grabbing emergency chain in train desperately, train sparks flying outside window, dramatic motion blur, intense thriller climax, cinematic angle from below",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "विक्रम ने चेन खींची... पर ट्रेन और तेज़ हो गई!",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "विक्रम",
+              "text": "ठीक है! बताओ! क्या सवाल है?!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "अजनबी",
+              "text": "सोचो... आज सुबह तुमने क्या किया जो नहीं करना चाहिए था?",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "विक्रम ने इमरजेंसी चेन खींची। कुछ नहीं हुआ। ट्रेन और तेज़ हो गई।"
+        },
+        {
+          "id": "panel_8",
+          "order": 8,
+          "imageUrl": "/comics/comic_thriller_001/panel_8.jpg",
+          "imagePrompt": "Mumbai local train standing still at a normal station at morning, crowd boarding, young Indian office worker sitting inside looking dazed and confused, sunlight streaming in, surreal contrast to dark thriller, is it a dream",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "विक्रम की आँख खुली। सुबह 7:30 थी। वो ट्रेन में सो गया था। पर उसकी जेब में एक पुरानी घड़ी थी... जो रात को नहीं थी।",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "विक्रम चौंककर उठा। सुबह हो चुकी थी। ट्रेन अंधेरी स्टेशन पर खड़ी थी। सपना था? पर जेब में वो घड़ी कहाँ से आई?"
+        }
+      ]
+    },
+    {
+      "id": "comic_bhojpuri_comedy_001",
+      "title": "ससुराल में WiFi - Sasural Mein WiFi",
+      "category": "Comedy",
+      "language": "Hindi",
+      "dialect": "Bhojpuri",
+      "description": "जब गाँव के लड़के ने ससुराल में WiFi लगवा दिया, तो पूरे मोहल्ले में तूफ़ान आ गया! भोजपुरी कॉमेडी जो हँसा-हँसाकर पागल कर दे!",
+      "emoji": "📶",
+      "thumbnailUrl": "/comics/comic_bhojpuri_comedy_001/panel_1.jpg",
+      "totalPanels": 8,
+      "estimatedTime": "3-5 min",
+      "artStyle": "vibrant-indian-cartoon",
+      "hasAudio": false,
+      "characters": [
+        {
+          "name": "मुन्ना",
+          "description": "Young Bhojpuri village man, muscular, colorful gamcha on shoulder, big smile, smartphone always in hand",
+          "color": "#22c55e"
+        },
+        {
+          "name": "ससुर जी",
+          "description": "Elderly Bhojpuri village patriarch, dhoti kurta, thick glasses, stern face that breaks into confusion, bald head",
+          "color": "#f97316"
+        }
+      ],
+      "createdAt": "2026-02-23T07:00:00.000Z",
+      "panels": [
+        {
+          "id": "panel_1",
+          "order": 1,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_1.jpg",
+          "imagePrompt": "Traditional Bhojpuri village house exterior with a brand new WiFi router mounted outside on the wall, confused villagers staring at it, bright sunny Indian village, colorful cartoon comedy style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "गाँव में आज तहलका मच गया...",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "मुन्ना",
+              "text": "ससुर जी! WiFi लगवा दिए हम! अब गाँव में 5G चलेगा!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "मुन्ना शहर से ससुराल आया तो साथ में WiFi राउटर ले आया। ससुर जी को लगा कोई नया भगवान का यंत्र है।"
+        },
+        {
+          "id": "panel_2",
+          "order": 2,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_2.jpg",
+          "imagePrompt": "Elderly Indian village man in dhoti and thick glasses examining WiFi router closely like its an alien device, turning it upside down, antennas sticking out, confused expression, bright colorful Indian village room, comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "ससुर जी",
+              "text": "ई का बवाल लगा दिहs? इसमें से निकले वाला सुई-फ़ुई तो नाहीं लागी हमका?",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "मुन्ना",
+              "text": "अरे ससुर जी! ई WiFi है! इससे इंटरनेट चलत है!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "ससुर जी ने राउटर को उल्टा-पल्टा कर देखा। एंटीना को सुई समझ बैठे।"
+        },
+        {
+          "id": "panel_3",
+          "order": 3,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_3.jpg",
+          "imagePrompt": "Entire Indian village crowd with smartphones in hands rushing towards one house, stampede comedy scene, old women in sarees running with phones, children with tablets, colorful village chaos, bright comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "जैसे ही WiFi का पासवर्ड फैला... पूरा मोहल्ला टूट पड़ा!",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "WiFi का पासवर्ड 10 मिनट में पूरे मोहल्ले को पता चल गया। 47 लोग कनेक्ट हो गए।"
+        },
+        {
+          "id": "panel_4",
+          "order": 4,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_4.jpg",
+          "imagePrompt": "Old Indian village woman in saree sitting on cot watching YouTube cooking videos on phone, old man watching cricket on tablet, child playing mobile game, buffalo looking at phone screen too, comedy chaos in village courtyard, colorful cartoon style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "ससुर जी",
+              "text": "अरे! काकी YouTube पर खाना बनाना सीख रही हैं! 50 साल से बना रही हैं!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "मुन्ना",
+              "text": "ससुर जी, आप भी तो IPL देख रहे हैं बिना बताए!",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "काकी YouTube पर रेसिपी देख रही हैं, ससुर जी छुपकर IPL देख रहे हैं, भैंस भी फ़ोन की तरफ़ देख रही है।"
+        },
+        {
+          "id": "panel_5",
+          "order": 5,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_5.jpg",
+          "imagePrompt": "WiFi router overheating and smoking, Indian village man desperately pouring water on it to cool it down, sparks flying, other villagers panicking, fire extinguisher someone holding, colorful comedy chaos, cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "47 लोगों का लोड... बेचारा राउटर!",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "मुन्ना",
+              "text": "अरे बापरे! राउटर से धुआँ निकल रहा है! पानी मत डालो!!!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "47 लोगों का लोड! बेचारा राउटर गरम होकर धुआँ देने लगा। ससुर जी ने ठंडा करने के लिए पानी डाल दिया।"
+        },
+        {
+          "id": "panel_6",
+          "order": 6,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_6.jpg",
+          "imagePrompt": "Indian village people protesting outside a house with signs demanding WiFi back, angry mob with smartphones raised, village panchayat style gathering, old man on chair like a judge, comedy protest scene, bright colorful cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "WiFi बंद हुआ तो मोहल्ले में आंदोलन शुरू!",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "ससुर जी",
+              "text": "अरे भई! WiFi बंद भई तो लोग ऐसे रो रहे हैं जैसे बिजली गई हो!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "WiFi बंद हुआ तो पूरे मोहल्ले में आंदोलन! लोग प्लेकार्ड लेकर आ गए: 'WiFi वापस लाओ!'"
+        },
+        {
+          "id": "panel_7",
+          "order": 7,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_7.jpg",
+          "imagePrompt": "Elderly Indian village man in dhoti secretly hiding inside a room watching reels on smartphone with headphones, caught by grandson who opens door, embarrassed expression, dim room with phone glow on face, comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "मुन्ना",
+              "text": "ससुर जी! आप तो कहते थे WiFi बेकार है! ये क्या देख रहे हैं?!",
+              "position": "top-left",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "ससुर जी",
+              "text": "कुछ नाहीं! बस ई... भजन... हाँ भजन देख रहे थे! बंद करो दरवाज़ा!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "रात को मुन्ना ने देखा ससुर जी कमरे में बंद होकर Reels देख रहे हैं! भजन बता रहे हैं!"
+        },
+        {
+          "id": "panel_8",
+          "order": 8,
+          "imageUrl": "/comics/comic_bhojpuri_comedy_001/panel_8.jpg",
+          "imagePrompt": "Indian village house with a huge professional satellite dish and multiple WiFi antennas on roof, entire village gathered outside taking selfies, elderly man proudly standing on roof like a king, young man facepalming below, bright sunny comedy cartoon style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "अब ससुर जी ने ख़ुद Jio Fiber लगवा लिया! बोले - 'WiFi तो ज़रूरत है भई, भजन सुनने के लिए!' 😂",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "ससुर जी",
+              "text": "मुन्ना! पासवर्ड बदल दो! सिर्फ़ हमारे घर वालों को बताना! और हाँ... Hotstar का सब्सक्रिप्शन भी ले लो!",
+              "position": "top-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "ससुर जी ने ख़ुद Jio Fiber का कनेक्शन लगवा लिया! अब रोज़ रात को Reels देखते हैं। भजन वाली। ज़ाहिर है।"
+        }
+      ]
+    },
+    {
+      "id": "comic_motivation_001",
+      "title": "10 रुपये की चाय - 10 Rupees Chai",
+      "category": "Motivation",
+      "language": "Hindi",
+      "dialect": "hindi",
+      "description": "एक छोटे चाय वाले की कहानी जिसने सपनों को उबलने दिया और 10 रुपये की चाय से करोड़ों का साम्राज्य खड़ा कर दिया।",
+      "emoji": "☕",
+      "thumbnailUrl": "/comics/comic_motivation_001/panel_1.jpg",
+      "totalPanels": 8,
+      "estimatedTime": "3-5 min",
+      "artStyle": "warm-inspirational-cinematic",
+      "hasAudio": false,
+      "characters": [
+        {
+          "name": "अर्जुन",
+          "description": "Young poor Indian boy growing into successful man, starts with torn clothes, ends in business suit, determined eyes",
+          "color": "#f59e0b"
+        },
+        {
+          "name": "माँ",
+          "description": "Simple Indian village mother in cotton saree, tired but loving eyes, gray hair, working hands",
+          "color": "#ec4899"
+        }
+      ],
+      "createdAt": "2026-02-23T08:00:00.000Z",
+      "panels": [
+        {
+          "id": "panel_1",
+          "order": 1,
+          "imageUrl": "/comics/comic_motivation_001/panel_1.jpg",
+          "imagePrompt": "Small roadside chai stall in Indian city at dawn, a young poor boy of 14 making tea on a small stove, steam rising, early morning golden light, humble setting, torn but clean clothes, determined expression, cinematic warm tones, inspirational mood",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "अर्जुन। 14 साल। 10 रुपये की चाय बेचता है।",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "अर्जुन सिर्फ़ 14 साल का था जब उसने अपनी पहली चाय बेची। 10 रुपये। वो 10 रुपये उसकी ज़िंदगी बदलने वाले थे।"
+        },
+        {
+          "id": "panel_2",
+          "order": 2,
+          "imageUrl": "/comics/comic_motivation_001/panel_2.jpg",
+          "imagePrompt": "Young Indian boy counting coins on a charpai at night, his mother sleeping tired in background, single dim bulb, small cramped room, emotional scene, warm but melancholic lighting, cinematic inspirational style",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "अर्जुन",
+              "text": "माँ, एक दिन मैं इतनी चाय बेचूँगा कि तुम्हें कभी काम नहीं करना पड़ेगा।",
+              "position": "top-right",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "माँ",
+              "text": "बेटा, पहले पढ़ाई करो...",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "रात को सिक्के गिनता था। माँ थककर सो जाती थीं। अर्जुन ने तय किया - ये ज़िंदगी बदलनी है।"
+        },
+        {
+          "id": "panel_3",
+          "order": 3,
+          "imageUrl": "/comics/comic_motivation_001/panel_3.jpg",
+          "imagePrompt": "Young Indian boy studying under street light at night with open books, tea stall closed beside him, stray dog sleeping nearby, determination in eyes, cinematic warm lighting, inspiring scene of poverty and ambition",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "दिन में चाय बेचो। रात में पढ़ो। सोना बाद में।",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "दिन में चाय बेचता, रात में स्ट्रीट लाइट के नीचे पढ़ता। नींद आती तो ठंडे पानी से मुँह धोकर फिर बैठ जाता।"
+        },
+        {
+          "id": "panel_4",
+          "order": 4,
+          "imageUrl": "/comics/comic_motivation_001/panel_4.jpg",
+          "imagePrompt": "Young Indian man being laughed at and mocked by rich businessmen in suits outside a bank, he is holding a loan application, rejection letter visible, humiliation scene, dramatic cinematic lighting, determination in his eyes despite mockery",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "अर्जुन",
+              "text": "रुको। एक दिन यही लोग मेरे ब्रांड की चाय पीयेंगे।",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "बैंक से लोन नहीं मिला। लोगों ने मज़ाक उड़ाया। चाय वाला क्या बिज़नेस करेगा? पर अर्जुन ने हार नहीं मानी।"
+        },
+        {
+          "id": "panel_5",
+          "order": 5,
+          "imageUrl": "/comics/comic_motivation_001/panel_5.jpg",
+          "imagePrompt": "Small but clean chai shop with a young Indian man proudly serving special chai to customers, hand-painted signboard, customers smiling, warm golden interior lighting, growing business, cinematic inspirational style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "5 साल बाद... पहली दुकान।",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [
+            {
+              "character": "अर्जुन",
+              "text": "स्पेशल मसाला चाय! सीक्रेट रेसिपी! एक बार पीओगे तो बार-बार आओगे!",
+              "position": "bottom-right",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "5 साल में छोटी सी दुकान खोली। उसकी मसाला चाय की रेसिपी ख़ास थी। लोगों की लाइन लगने लगी।"
+        },
+        {
+          "id": "panel_6",
+          "order": 6,
+          "imageUrl": "/comics/comic_motivation_001/panel_6.jpg",
+          "imagePrompt": "Multiple chai shop branches shown in a montage style across Indian cities, same brand logo on all, young Indian businessman in simple but neat clothes looking at his growing empire, city skyline, warm sunset, success montage, cinematic inspirational",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "1 दुकान... 5... 20... 100 शहरों में।",
+              "position": "top",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "एक दुकान से पाँच। पाँच से बीस। बीस से सौ शहरों में। अर्जुन की चाय ब्रांड बन गई।"
+        },
+        {
+          "id": "panel_7",
+          "order": 7,
+          "imageUrl": "/comics/comic_motivation_001/panel_7.jpg",
+          "imagePrompt": "Elderly Indian mother in simple cotton saree crying happy tears, her successful young son in business suit touching her feet respectfully, beautiful new house in background, emotional Indian family moment, golden warm lighting, cinematic",
+          "layout": "full",
+          "textOverlays": [],
+          "dialogue": [
+            {
+              "character": "अर्जुन",
+              "text": "माँ, अब तुम्हें कभी काम नहीं करना पड़ेगा। वादा पूरा हुआ।",
+              "position": "top-right",
+              "style": "speech-bubble"
+            },
+            {
+              "character": "माँ",
+              "text": "बेटा... तू मेरी सबसे बड़ी कमाई है।",
+              "position": "bottom-left",
+              "style": "speech-bubble"
+            }
+          ],
+          "audioUrl": "",
+          "narrationText": "माँ की आँखों में आँसू थे। खुशी के। बेटे ने वो वादा पूरा किया जो 14 साल की उम्र में किया था।"
+        },
+        {
+          "id": "panel_8",
+          "order": 8,
+          "imageUrl": "/comics/comic_motivation_001/panel_8.jpg",
+          "imagePrompt": "Split image: left side shows 14 year old poor boy making chai on roadside stove, right side shows same person now successful in office with chai cup in hand, same determined eyes, before and after transformation, warm golden tones, inspirational cinematic style",
+          "layout": "full",
+          "textOverlays": [
+            {
+              "type": "narration",
+              "text": "10 रुपये की चाय से शुरू हुई कहानी। करोड़ों तक पहुँची। सपने छोटे नहीं होते... हौसले बड़े होने चाहिए।",
+              "position": "bottom",
+              "style": "caption"
+            }
+          ],
+          "dialogue": [],
+          "audioUrl": "",
+          "narrationText": "10 रुपये की चाय से करोड़ों का सफ़र। अर्जुन ने साबित किया - शुरुआत चाहे कितनी भी छोटी हो, सपने बड़े रखो।"
+        }
+      ]
     }
   ]
 }
