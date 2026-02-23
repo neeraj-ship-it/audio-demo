@@ -25,9 +25,17 @@ const nextConfig = {
     unoptimized: true, // For Vercel free tier
   },
 
-  // API routes configuration
+  // Headers configuration
   async headers() {
     return [
+      {
+        // Prevent browser caching of HTML pages
+        source: '/:path*',
+        headers: [
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
+          { key: 'Pragma', value: 'no-cache' },
+        ],
+      },
       {
         source: '/api/:path*',
         headers: [
@@ -35,6 +43,7 @@ const nextConfig = {
           { key: 'Access-Control-Allow-Origin', value: '*' },
           { key: 'Access-Control-Allow-Methods', value: 'GET,POST,PUT,DELETE,OPTIONS' },
           { key: 'Access-Control-Allow-Headers', value: 'X-Requested-With, Accept, Content-Type, Authorization' },
+          { key: 'Cache-Control', value: 'no-cache, no-store, must-revalidate' },
         ],
       },
     ];
